@@ -506,6 +506,7 @@
           if (!vis[sk]) return;
           var v = se.data[i] || 0;
           var col = (spec.highlight != null && k === 1) ? (i === spec.highlight ? color(se.color) : css('--line-strong')) : color(se.color);
+          if (spec.colors && k === 1 && spec.colors[i]) col = color(spec.colors[i]);
           var by = top + (rowH - barH * k) / 2 + idx * barH;
           s += '<rect x="' + labW + '" y="' + by.toFixed(1) + '" width="' + Math.max(1, xv(v) - labW).toFixed(1) + '" height="' + (barH - (k > 1 ? 2 : 0)) + '" rx="3" fill="' + col + '"/>';
           s += '<text x="' + (xv(v) + 6).toFixed(1) + '" y="' + (by + barH / 2 + 4).toFixed(1) + '" font-size="12" fill="' + C.text + '">' + esc(fmt(v)) + '</text>';
@@ -550,7 +551,8 @@
       }
       var rows = series.map(function (se, k) {
         if (vals[k] == null) return '';
-        return '<div class="row"><span class="sw" style="background:' + color(se.color) + '"></span>' + esc(se.name) + '<b>' + esc(fmt(vals[k])) + '</b></div>';
+        var swc = (geo.kind === 'hbar' && spec.colors && spec.colors[i]) ? color(spec.colors[i]) : color(se.color);
+        return '<div class="row"><span class="sw" style="background:' + swc + '"></span>' + esc(se.name) + '<b>' + esc(fmt(vals[k])) + '</b></div>';
       }).join('');
       if (geo.stacked && shown.length > 1) rows += '<div class="row">' + T.sum + '<b>' + esc(fmt(shown.reduce(function (a, v) { return a + v; }, 0))) + '</b></div>';
       tip.innerHTML = '<div>' + esc(tipLabels[i]) + '</div>' + rows;
