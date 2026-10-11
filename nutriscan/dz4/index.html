@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ДЗ №4. Базовий план · NutriScan MVP</title>
+<meta name="description" content="ДЗ №4 проєкту NutriScan MVP: діаграма Ганта, віхи й буфери, роадмапа.">
+<meta name="robots" content="noindex">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ДЗ №4. Базовий план · NutriScan MVP">
+<meta property="og:description" content="ДЗ №4 проєкту NutriScan MVP: діаграма Ганта, віхи й буфери, роадмапа.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23448361' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Ccircle cx='12' cy='12' r='5'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="../../assets/case.css">
+<script>try{var t=localStorage.getItem("case-theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<script defer src="../../assets/case.js"></script>
+</head>
+<body>
+<header class="topbar">
+  <nav class="crumbs" aria-label="Навігація"><a href="../">NutriScan MVP</a><span class="sep">/</span><span aria-current="page">ДЗ №4. Базовий план</span></nav>
+  <button class="icon-btn" type="button" data-theme-toggle aria-label="Темна тема"></button>
+</header>
+
+<main class="page layout sub">
+  <div class="page-head">
+    <div class="page-icon c-orange" data-icon="calendar"></div>
+    <div class="page-eyebrow">Домашнє завдання 4 з 4</div>
+    <h1 class="page-title">Базовий план</h1>
+    <dl class="props"><div class="prop"><dt><i data-icon="doc"></i>Проєкт</dt><dd><a href="../">NutriScan MVP</a></dd></div><div class="prop"><dt><i data-icon="building"></i>Курс</dt><dd>DAO PM UA 027</dd></div></dl>
+  </div>
+  <div class="layout-grid">
+    <aside class="side" aria-label="Навігація проєктом">
+      <div class="side-title">NutriScan MVP</div>
+      <nav class="pages"><a href="../">Огляд</a><a href="../dz1/">ДЗ №1. Ініціація</a><a href="../dz2/">ДЗ №2. Структура проєкту</a><a href="../dz3/">ДЗ №3. Вимоги</a><a href="../dz4/" aria-current="page">ДЗ №4. Базовий план</a></nav>
+      <div class="side-title">На сторінці</div>
+      <nav class="toc"></nav>
+    </aside>
+    <article class="page-body">
+    <nav class="toc" aria-label="Зміст"></nav>
+    <div class="callout">
+      <span class="callout-icon" data-icon="idea"></span>
+      <div class="callout-body">
+        <p><b>Коротко.</b> Курс дав оцінки команди в годинах, ставки й доступність людей. Нам треба було перетворити їх на керований план: WBS, розклад із критичним шляхом, бюджет у межах NTE $50k, віхи, буфери та роадмапу до beta і демо.</p>
+        <ul><li>Склали розклад із 14 робіт, критичний шлях іде через OCR/ML-парсинг, екран результату й Daily Log.</li><li>Розставили 7 віх і 3 буфери: code freeze наприкінці 11-го тижня, closed beta на 12-му, демо на 13-му.</li><li>Роадмапа ділить проєкт на чотири етапи: основа, сканування, завершення і демо.</li></ul>
+      </div>
+    </div>
+    <details class="task"><summary>Завдання курсу<span class="tag">курс</span></summary><div class="toggle-body" data-verbatim><p><b>Наскрізний проєкт NutriScan</b></p>
+<p><b>Що тренуємо:</b> перетворити <b>оцінку від команди</b> на реалістичний план — WBS, PERT, розклад із залежностями, розподіл ресурсів за capacity, critical path, milestones, буфери та roadmap.</p>
+<p><b>Головне:</b> ви <b>не визначаєте</b>, скільки годин потрібно Mobile / Backend / OCR-ML.<br>Ви берете <b>Estimation Snapshot від команди</b> (Артефакт 01) і перетворюєте його на план.<br>Години — задані; ваша робота — <b>план, залежності, capacity, бюджет, ризики</b>.</p>
+<p><b>Ситуація в проєкті</b></p>
+<p>Привіт! Вимоги описані (ДЗ №3), scope підтверджено. Крок 4 — перетворити задум на <b>керований базовий план</b> і верхньорівневу дорожню карту NutriScan.</p>
+<p><b>Матеріали (обов'язкові вхідні дані)</b></p>
+<ul><li><b>Артефакт 01 — Estimation Snapshot (3-point від команди)</b> — оцінки O / ML / P по work packages, ставки, non-labor, NTE.</li>
+<li><b>Артефакт 02 — Team Roles, Rates &amp; Capacity</b> — склад команди, ставки, доступність (capacity), таймзони.</li>
+<li><b>Артефакт 03 — Schedule Constraints &amp; Approved MVP Scope v1</b> — підтверджений scope + графічні обмеження (beta до 12-го тижня).</li>
+<li><b>Canonical Project Snapshot</b> — для звірки scope (source of truth).</li></ul>
+<p><b>Core — schedule baseline (обов'язково)</b></p>
+<p><b>Baseline ≠ лише Gantt.</b><br>Мінімальний baseline-пакет: <b>WBS → Gantt → resources/cost → milestones → buffers</b>.</p>
+<ol><li><b>WBS.</b> Побудуйте WBS зі scope (Approved MVP Scope v1) і <b>покажіть її перед Gantt</b> — це окремий результат.</li>
+<li><b>Оцінка (PERT).</b> Для кожного work package порахуйте <b>PERT expected E = (O + 4·ML + P) / 6</b> з Estimation Snapshot; отримайте години та вартість (E × ставка ролі).</li>
+<li><b>Розклад (Gantt).</b> Календарний план: задачі, <b>залежності</b>, призначені ресурси; визначте <b>critical path</b>.</li>
+<li><b>Resources / cost.</b> Розподіліть завантаження за <b>capacity</b> (без перевантаження понад доступність). Порахуйте labor cost + non-labor = <b>base</b>; <b>contingency = NTE − base</b>.</li>
+<li><b>Milestones + buffers.</b> Віхи проєкту та <b>буфери</b> під ризики/невизначеність.</li></ol>
+<p><b>Roadmap (окремо від Gantt)</b></p>
+<p>Зробіть <b>верхньорівневу roadmap</b> із етапами/milestones і логікою руху до <b>beta (12-й тиждень) / demo</b>, + анотація ≤ 1 стор. з аргументацією строків і витрат на певні milestones.</p>
+<ul><li><b>Критерій:</b> Roadmap <b>не дублює</b> Gantt. Gantt = задачі, залежності, ресурси, календар. Roadmap = верхньорівневі етапи/milestones + логіка руху до beta/demo (без задач і залежностей).</li></ul>
+<p><b>Що здати</b></p>
+<ul><li><b>WBS</b> (окремо, перед розкладом).</li>
+<li><b>Таблиця оцінки</b> (PERT E, години і вартість по ролях/пакетах).</li>
+<li><b>Gantt</b> із залежностями, ресурсами й позначеним <b>critical path</b>.</li>
+<li><b>Розрахунок бюджету:</b> base + contingency у межах <b>NTE $50k</b>.</li>
+<li><b>Milestones + буфери</b>.</li>
+<li><b>Roadmap</b> + анотація ≤ 1 стор.</li></ul>
+<p><b>Обмеження та правила</b></p>
+<ul><li>Плануйте на основі <b>наданих оцінок</b> (Estimation Snapshot) — <b>не вигадуйте години</b>.</li>
+<li>Канон бюджету: <b>NTE / BAC = $50k</b>. Клієнтський початковий орієнтир <b>~$45k</b> — це контекст, а не план. <b>Base і contingency порахуйте самі</b> (contingency = NTE − base).</li>
+<li>Не перевантажуйте ресурси понад <b>capacity</b> (враховуйте частку доступності й таймзони).</li>
+<li>Незадані числа позначайте як assumption / open question.</li></ul></div></details>
+
+    <h2>Діаграма Ганта</h2>
+    <figure class="image">
+      <a href="../img/gantt.webp"><img src="../img/gantt.webp" alt="Діаграма Ганта NutriScan MVP: 14 робіт з 07.10.26 по 22.12.26, критичний шлях від OCR/ML-парсингу через камеру, екран результату й Daily Log до ітерації iOS та Android" loading="lazy"></a>
+      <figcaption>Експорт із планувальника від 07.10.26: 14 робіт, 54 дні 6 годин роботи. Червоним позначено критичний шлях. Натисніть на діаграму, щоб відкрити її на весь екран.</figcaption>
+    </figure>
+
+    <h2>Віхи та буфери</h2>
+    <p>Сім віх і три буфери. Канонічні дати задав курс, проміжні віхи й буфери ми розставили самі в межах цих обмежень.</p>
+    <div class="db" data-verbatim><div class="db-head"><div class="db-title">Milestones + Buffers</div><div class="db-views" role="group" aria-label="Подання"><button type="button" aria-pressed="true">Усі</button><button type="button" data-col="Тип" data-match="Milestone">Milestone</button><button type="button" data-col="Тип" data-match="Feeding Buffer">Feeding Buffer</button><button type="button" data-col="Тип" data-match="Project Buffer">Project Buffer</button></div></div><div class="db-scroll"><table><thead><tr><th>Коли</th><th>День</th><th>Назва</th><th>Тип</th><th>Критерій / що означає</th><th>Підстава</th><th>Статус у плані</th></tr></thead><tbody><tr><td>W4</td><td data-value="20">D20</td><td class="title">Design Approved</td><td><span class="tag" data-color="blue">Milestone</span></td><td>UX/UI флоу, екрани та confidence-UI погоджені й достатні для подальшої реалізації.</td><td>WBS 1.2.1; проміжна віха розставлена PM у межах schedule constraints.</td><td><span class="tag" data-color="gray">Робочий план</span></td></tr><tr><td>W7–W8</td><td data-value="31">D31–D40</td><td class="title">Integration / Handoff Buffer</td><td><span class="tag" data-color="orange">Feeding Buffer</span></td><td>Резерв на хендофи між UX / Mobile / Backend / OCR/ML / QA.</td><td>Розподілена команда PST/UTC/GMT; залежності на critical path.</td><td><span class="tag" data-color="gray">Робочий план</span></td></tr><tr><td>W9</td><td data-value="45">D45</td><td class="title">MVP Core Ready</td><td><span class="tag" data-color="blue">Milestone</span></td><td>Наскрізний core flow інтегрований: sign-in → camera → OCR → result/correction → Daily Log.</td><td>Після 1.3.5 Integration iOS+Android.</td><td><span class="tag" data-color="gray">Робочий план</span></td></tr><tr><td>W10</td><td data-value="46">D46–D50</td><td class="title">QA rework / stabilization buffer</td><td><span class="tag" data-color="orange">Feeding Buffer</span></td><td>Резерв на доопрацювання за результатами QA та повторне тестування.</td><td>У Gantt прямо зазначено W10 як buffer / rework за результатами QA.</td><td><span class="tag" data-color="blue">Зафіксовано в Gantt</span></td></tr><tr><td>W11</td><td data-value="54">D54</td><td class="title">Release Candidate Ready</td><td><span class="tag" data-color="blue">Milestone</span></td><td>Основний scope завершений; до freeze залишаються тільки hardening / bug fixes.</td><td>Підготовча віха перед Code Freeze.</td><td><span class="tag" data-color="gray">Робочий план</span></td></tr><tr><td>Кінець W11</td><td data-value="55">D55</td><td class="title">Code Freeze</td><td><span class="tag" data-color="blue">Milestone</span></td><td>Нові feature-зміни зупинено; тільки bug fixes і QA hardening.</td><td>Артефакт 03 / Gantt.</td><td><span class="tag" data-color="green">Канон</span></td></tr><tr><td>W12</td><td data-value="56">D56–D59</td><td class="title">QA hardening + Project Buffer</td><td><span class="tag" data-color="red">Project Buffer</span></td><td>Фінальна стабілізація і спільний запас часу перед Closed Beta.</td><td>Захист кінцевої дати критичного ланцюга.</td><td><span class="tag" data-color="gray">Робочий план</span></td></tr><tr><td>Кінець W12</td><td data-value="60">D60</td><td class="title">Closed Beta Build</td><td><span class="tag" data-color="blue">Milestone</span></td><td>Стабільна beta build готова до внутрішнього тестування.</td><td>Артефакт 03 / Gantt.</td><td><span class="tag" data-color="green">Канон</span></td></tr><tr><td>W13</td><td data-value="65">D65</td><td class="title">Partner Demo</td><td><span class="tag" data-color="blue">Milestone</span></td><td>Демонстрація MVP партнеру.</td><td>Артефакт 03 / Gantt.</td><td><span class="tag" data-color="green">Канон</span></td></tr><tr><td>W13*</td><td data-value="65">D65*</td><td class="title">iOS + Android Release Train</td><td><span class="tag" data-color="blue">Milestone</span></td><td>Обидві платформи випускаються одним release train.</td><td>WBS 1.3.5; точний тиждень release не заданий.</td><td><span class="tag" data-color="yellow">Припущення</span></td></tr></tbody></table></div><div class="db-foot"></div></div>
+    <details class="toggle">
+      <summary>Типи буферів і статусів</summary>
+      <div class="toggle-body"><ul data-verbatim><li>Feeding Buffer - ставиться там, де некритичний ланцюг входить у критичний шлях. Захищає critical path від затримок «збоку».</li><li>Project Buffer - спільний резерв часу в кінці критичного ланцюга перед дедлайном.</li><li>Resource Buffer - завчасний сигнал або резерв доступності ключового ресурсу, щоб він був вільний у момент, коли починається критична задача.</li><li>Канон - задано в умові.</li><li>Робочий план - ми самі спланували в межах канону</li></ul></div>
+    </details>
+
+    <h2>Роадмапа</h2>
+    <figure class="image">
+      <a href="../img/roadmap.webp"><img src="../img/roadmap.webp" alt="Роадмапа MVP: основа на тижнях 1–4, сканування на тижнях 5–9 з готовим OCR-парсингом у середині 7-го, завершення на тижнях 10–12 з code freeze наприкінці 11-го, демо на 13-му тижні" loading="lazy"></a>
+      <figcaption>Роадмапа команди без змін.</figcaption>
+    </figure>
+    <p class="muted small" data-verbatim>* Release Train у W13 — робоче припущення для roadmap: у вихідному Gantt зафіксовано лише одночасний iOS+Android release train, без конкретного тижня.</p>
+
+    <nav class="pager" aria-label="Сторінки проєкту"><a class="prev" href="../dz3/"><span>Назад</span>ДЗ №3. Вимоги</a><a class="next" href="../"><span>Повернутися</span>Огляд проєкту</a></nav>
+    <footer class="page-foot">Командний проєкт курсу DAO PM UA 027, Команда 2.</footer>
+    </article>
+  </div>
+</main>
+</body>
+</html>
