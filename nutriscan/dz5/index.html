@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ДЗ №5. Проєктне оточення · NutriScan MVP</title>
+<meta name="description" content="ДЗ №5 проєкту NutriScan MVP: дошка Jira з WIP-лімітами, control views, аналіз Status Snapshot і висновок PM.">
+<meta name="robots" content="noindex">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ДЗ №5. Проєктне оточення · NutriScan MVP">
+<meta property="og:description" content="ДЗ №5 проєкту NutriScan MVP: дошка Jira з WIP-лімітами, control views, аналіз Status Snapshot і висновок PM.">
+<meta property="og:image" content="https://dreshpack.github.io/nutriscan/img/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23448361' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Ccircle cx='12' cy='12' r='5'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="../../assets/case.css?v=b7093164">
+<script>try{var t=localStorage.getItem("case-theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<script defer src="../../assets/case.js?v=b7093164"></script>
+</head>
+<body>
+<header class="topbar">
+  <nav class="crumbs" aria-label="Навігація"><a href="../">NutriScan MVP</a><span class="sep">/</span><span aria-current="page">ДЗ №5. Проєктне оточення</span></nav>
+  <button class="icon-btn" type="button" data-theme-toggle aria-label="Темна тема"></button>
+</header>
+
+<main class="page layout sub">
+  <div class="page-head">
+    <div class="page-icon c-red" data-icon="chart"></div>
+    <div class="page-eyebrow">Домашнє завдання 5</div>
+    <h1 class="page-title">Проєктне оточення</h1>
+    <dl class="props"><div class="prop"><dt><i data-icon="doc"></i>Проєкт</dt><dd><a href="../">NutriScan MVP</a></dd></div><div class="prop"><dt><i data-icon="building"></i>Курс</dt><dd>DAO PM UA 027</dd></div></dl>
+  </div>
+  <div class="layout-grid">
+    <aside class="side" aria-label="Навігація проєктом">
+      <div class="side-title">NutriScan MVP</div>
+      <nav class="pages"><a href="../">Огляд</a><a href="../dz1/">ДЗ №1. Ініціація</a><a href="../dz2/">ДЗ №2. Структура проєкту</a><a href="../dz3/">ДЗ №3. Вимоги</a><a href="../dz4/">ДЗ №4. Базовий план</a><a href="../dz5/" aria-current="page">ДЗ №5. Проєктне оточення</a></nav>
+      <div class="side-title">На сторінці</div>
+      <nav class="toc"></nav>
+    </aside>
+    <article class="page-body">
+    <nav class="toc" aria-label="Зміст"></nav>
+    <div class="callout">
+      <span class="callout-icon" data-icon="idea"></span>
+      <div class="callout-body">
+        <p><b>Коротко.</b> Курс дав затверджений Sprint Backlog і Status Snapshot на кінець другого спринту. Ми перенесли план у Jira, налаштували workflow із WIP-лімітами, фільтри й дашборд, а потім за ними розібрали знімок: де проєкт відхиляється і що робить PM.</p>
+        <ul><li>Перенесли 18 задач на 865 год у спринти S1–S6 з 15 залежностями; WIP-ліміти: In Progress 3, Blocked 1, Testing 2.</li><li>Зібрали дашборд «NutriScan · Control» на 9 фільтрах: блокери, WIP за ролями, завантаження, план/факт.</li><li>Проєкт відстає за строками: SPI 0,43 за правилом 0/100 і 0,81 за 50/50. Вузькі місця OCR/ML і Mobile стоять на критичному шляху.</li></ul>
+      </div>
+    </div>
+    <div class="callout" data-color="gray"><span class="callout-icon" data-icon="list"></span><div class="callout-body"><p><b>Що треба було здати.</b> Дедлайн 21.10.</p><ul><li>Дошка з workflow, WIP-лімітами, swimlanes і задачами (оцінки + власники) — посилання або скриншот як доказ.</li><li>Control views: фільтри / дашборд — blocked, завантаження за людьми, план/факт.</li><li>Аналіз Status Snapshot: таблиця «сигнал → доказ → рішення».</li><li>Короткий висновок: де проєкт відхиляється і що робить PM.</li><li>Опційно: control-дашборд для стейкхолдера на 3–4 сигнали.</li></ul></div></div>
+
+    <h2>Дошка Jira</h2>
+    <p>Задачі T1–T18 перенесено з Артефакту 01 без змін: 865 год, спринти S1–S6, 15 залежностей. Проєкт Second team nutriScan (SCRUM), team-managed, Scrum. Знімки нижче показують стан на кінець S2 за Status Snapshot.</p>
+    <figure class="image">
+      <a href="../img/dz5/00a-board.webp"><img src="../img/dz5/00a-board.webp" alt="Дошка Jira спринту S2: In Progress — T5, T7, T9; Blocked — T6 із прапорцем; Done — T4" loading="lazy"></a>
+      <figcaption>Дошка S2: In Progress 3 (T5, T7, T9), Blocked 1 (T6 із прапорцем), Done 1 (T4).</figcaption>
+    </figure>
+    <figure class="image">
+      <a href="../img/dz5/00b-backlog.webp"><img src="../img/dz5/00b-backlog.webp" alt="Беклог Jira: спринти S2–S5 із задачами, статусами й оцінками в годинах" loading="lazy"></a>
+      <figcaption>Беклог: спринти S2–S5 з оцінками в годинах.</figcaption>
+    </figure>
+
+    <h3>Workflow і WIP-ліміти</h3>
+    <p>Колонки: To Do → In Progress → Blocked → Testing → Done. Blocked належить до категорії In Progress, тому враховується у WIP.</p>
+    <div class="db"><div class="db-head"><div class="db-title">Колонки дошки</div></div><div class="db-scroll"><table data-nosort><thead><tr><th>Колонка</th><th>WIP</th><th>Чому саме такий ліміт</th></tr></thead><tbody><tr><td class="title">To Do</td><td>—</td><td>Обсяг задає склад спринту</td></tr><tr><td class="title">In Progress</td><td>3</td><td>У кожному спринті плану паралельно працюють щонайбільше 3 ролі (у S2: Mobile, OCR/ML, Backend) за правилом «одна задача на людину». Перевищення означає зайвий WIP: задачу взяли понад план або достроково</td></tr><tr><td class="title">Blocked</td><td>1</td><td>Блокування — сигнал до ескалації, а не черга; друге блокування вже означає системну проблему. Таймзони PST/UTC/GMT додають добу до кожної відповіді</td></tr><tr><td class="title">Testing</td><td>2</td><td>Не накопичувати неперевірене: коли колонка заповнена, спершу доводять розпочате, нове не беруть</td></tr><tr><td class="title">Done</td><td>—</td><td>—</td></tr></tbody></table></div><div class="db-foot"></div></div>
+    <ul>
+      <li>У Mobile і OCR/ML у роботі не більше 1 задачі: Mobile-розробник один, а OCR/ML, зайнятий на 50%, із другою задачею подовжує критичний шлях T6 → T8 → T9. Це контролює фільтр F3.</li>
+      <li>Власника задачі позначає мітка ролі owner-*, бо в Jira один користувач.</li>
+      <li>Swimlanes не налаштовано: у team-managed проєкті рядки групуються лише за виконавцем або епіком, а ролі зберігаються мітками. Розріз за ролями дає гаджет Flow + WIP.</li>
+    </ul>
+
+    <h2>Control views</h2>
+    <p>Дашборд «NutriScan · Control» і 9 збережених фільтрів показують PM flow, блокери, WIP-перевантаження, завантаження за ролями та план/факт. Усі скриншоти показують стан на кінець S2.</p>
+
+    <h3>Блокери і WIP</h3>
+    <figure class="image">
+      <a href="../img/dz5/01-blocked.webp"><img src="../img/dz5/01-blocked.webp" alt="Гаджет Blocked: одна задача, T6 «OCR/ML: парсинг 5 полів (spike)»" loading="lazy"></a>
+      <figcaption><b>Blocked.</b> T6 у статусі Blocked, чекає доступу до OCR API та набору етикеток. Угорі списку те, що стоїть найдовше.</figcaption>
+    </figure>
+    <div class="columns" style="--cols:2">
+      <figure class="image">
+        <a href="../img/dz5/02-flow-wip-po-rolyam.webp"><img src="../img/dz5/02-flow-wip-po-rolyam.webp" alt="Гаджет Flow + WIP: кількість задач у кожному статусі за мітками ролей" loading="lazy"></a>
+        <figcaption><b>Flow + WIP за ролями.</b> У рядках ролі, у стовпцях статуси. У owner-mobile в In Progress 2 задачі; рядок None — це T12 без власника.</figcaption>
+      </figure>
+      <figure class="image">
+        <a href="../img/dz5/09-wip-mobile-ocr-vzyato-dosrochno.webp"><img src="../img/dz5/09-wip-mobile-ocr-vzyato-dosrochno.webp" alt="Гаджети WIP Mobile / OCR із задачами T9 і T5 та «Взято достроково» із задачею T9" loading="lazy"></a>
+        <figcaption><b>WIP Mobile / OCR і «Взято достроково».</b> У Mobile одночасно T5 і T9; T9 взято з S3. Правило «одна задача на роль» перевіряють саме ці два списки.</figcaption>
+      </figure>
+    </div>
+
+    <h3>Завантаження за ролями</h3>
+    <figure class="chart">
+      <div class="chart-title">Mobile і OCR/ML перевантажені вже за планом S2</div>
+      <div class="chart-sub">Оцінка задач S2, списаний факт і capacity ролі за спринт, години</div>
+      <script type="application/json">
+      {"type": "bar", "labels": ["Mobile", "OCR/ML", "Backend"], "unit": " год",
+       "series": [{"name": "План (оцінка)", "color": "red", "data": [130, 60, 60]},
+                  {"name": "Факт", "color": "blue", "data": [100, 15, 35]},
+                  {"name": "Capacity", "color": "gray", "data": [80, 40, 80]}],
+       "alt": "Mobile: план 130 год, факт 100, capacity 80. OCR/ML: план 60, факт 15, capacity 40. Backend: план 60, факт 35, capacity 80."}
+      </script>
+      <figcaption>План і факт узято з гаджетів дашборду нижче. Capacity — припущення: 80 год на людину за спринт, для OCR/ML 40 год.</figcaption>
+    </figure>
+    <div class="columns" style="--cols:2">
+      <figure class="image">
+        <a href="../img/dz5/06-zagruzka-plan.webp"><img src="../img/dz5/06-zagruzka-plan.webp" alt="Кругова діаграма оцінки S2 за ролями: Mobile 130 год, OCR/ML 60, Backend 60, разом 250 год" loading="lazy"></a>
+        <figcaption><b>Завантаження за ролями, план.</b> Оцінка задач S2: Mobile 130 год, OCR/ML 60, Backend 60, разом 250 год. За capacity 80 год (для OCR/ML 40 год) Mobile завантажений на 163%, OCR/ML на 150%.</figcaption>
+      </figure>
+      <figure class="image">
+        <a href="../img/dz5/07-zagruzka-fakt.webp"><img src="../img/dz5/07-zagruzka-fakt.webp" alt="Кругова діаграма списаного часу за ролями: Mobile 100 год, Backend 35, OCR/ML 15, разом 150 год" loading="lazy"></a>
+        <figcaption><b>Завантаження за ролями, факт.</b> Списано в S2: Mobile 100 год, Backend 35, OCR/ML 15. Mobile уже витратив більше, ніж його capacity на весь спринт; OCR/ML стоїть через блокування.</figcaption>
+      </figure>
+    </div>
+
+    <h3>План/факт за задачами</h3>
+    <div class="columns" style="--cols:2">
+      <figure class="image">
+        <a href="../img/dz5/05-plan-fakt-po-zadacham.webp"><img src="../img/dz5/05-plan-fakt-po-zadacham.webp" alt="Таблиця 18 задач: оцінка, списаний час, залишок і Work Ratio" loading="lazy"></a>
+        <figcaption><b>План/факт за задачами.</b> Оцінка, факт, залишок і Work Ratio. У T5 Work Ratio 133%; у T7 58%, хоча за планом вона мала закритися в S2; у T9 18%, бо її розпочали достроково.</figcaption>
+      </figure>
+      <figure class="image">
+        <a href="../img/dz5/08-pererashod-ownership-gap.webp"><img src="../img/dz5/08-pererashod-ownership-gap.webp" alt="Гаджети «Перевитрата» з задачею T5 (45 год оцінки, 60 год факту) і Ownership gap із задачею T12 без мітки власника" loading="lazy"></a>
+        <figcaption><b>Перевитрата й Ownership gap.</b> T5: 60 год при оцінці 45. T12 без власника. Обидва списки мають бути порожніми.</figcaption>
+      </figure>
+    </div>
+
+    <h3>Спринт S2</h3>
+    <div class="columns" style="--cols:2">
+      <figure class="image">
+        <a href="../img/dz5/03-sprint-burndown.webp"><img src="../img/dz5/03-sprint-burndown.webp" alt="Sprint Burndown S2 у годинах: напрямна від 195 год до нуля 3 листопада і червоний стрибок 21 жовтня" loading="lazy"></a>
+        <figcaption><b>Sprint Burndown.</b> Згоряє за Original estimate у момент переходу задачі в Done. Червона вертикаль: T4 → Done (195 − 30 = 165 год) і додавання T9 (+55 год) з різницею 50 секунд: стан знімка внесено в Jira за одну хвилину.</figcaption>
+      </figure>
+      <figure class="image">
+        <a href="../img/dz5/04-sprint-health.webp"><img src="../img/dz5/04-sprint-health.webp" alt="Sprint Health S2: час 5%, робота 12%, scope change 28%, 1 задача з прапорцем" loading="lazy"></a>
+        <figcaption><b>Sprint Health.</b> Час 5%, робота 12% (T4: 30 з 250 год), scope change 28% (T9), 1 задача з прапорцем. Смужка рахує робочі дні по 8 год.</figcaption>
+      </figure>
+    </div>
+    <p class="muted small">Обмеження Jira: гаджети не порівнюють години з capacity, тому це порівняння наведено в підписах вище; правило «1 задача на роль» перевіряє лише фільтр F3. Завантаження показано за ролями, а не за людьми: у Jira один користувач.</p>
+
+    <h2>Аналіз Status Snapshot</h2>
+    <h3>План/факт (EVM у годинах)</h3>
+    <div class="db"><div class="db-scroll"><table><thead><tr><th>Правило обліку EV</th><th>EV, год</th><th>SV, год</th><th>SPI</th><th>CV, год</th><th>CPI</th></tr></thead><tbody><tr><td class="title">0/100 — задача зараховується лише в Done (основне)</td><td>125</td><td>−165</td><td>0,43</td><td>−120</td><td>0,51</td></tr><tr><td class="title">50/50 — розпочата задача зараховується на 50% оцінки</td><td>235</td><td>−55</td><td>0,81</td><td>−10</td><td>0,96</td></tr></tbody></table></div><div class="db-foot"></div></div>
+    <p><b>0/100</b> зараховує задачу лише в Done; <b>50/50</b> зараховує розпочату задачу на половину оцінки, а закриту повністю. Для песимістичної оцінки беремо 0/100: відсоток готовності розпочатих задач ненадійний (у T5 залишок 0 год при відкритій задачі), а 50/50 зараховує роботу, якої може й не бути. Відставання за строками видно за обох правил (SPI нижче 1). Перевитрата за витратами залежить від правила, доведена лише одна: T5, +15 год.</p>
+
+    <h3>Сигнал → доказ → рішення</h3>
+    <p>Вісім сигналів зі знімка, для кожного доказ, рішення PM та обґрунтування.</p>
+    <div class="db" data-verbatim><div class="db-scroll"><table data-nosort><thead><tr><th>Сигнал</th><th>Доказ</th><th>Рішення</th><th>Обґрунтування</th></tr></thead><tbody><tr><td class="title">Bottleneck — вузьке місце OCR/ML</td><td>T6 OCR/ML parsing заблокована; T8 залежить від T6. OCR/ML Engineer доступний на 50% і є спільним ресурсом.</td><td>Unblock + escalate: узгодити доступ до OCR API та набору етикеток, визначити відповідального за доступ і термін вирішення. Запросити OCR/ML на 100% у S2–S3 і розбити T6 та T8 на частини по 40 год і менше (оцінки частин дають виконавці); Mobile працює на заглушці OCR із зафіксованим контрактом відповіді. Якщо 100% не дають — варіанти нижче.</td><td>Без доступу до OCR API та етикеток T6 не може нормально продовжуватися, а T8 залежить від її результату. Обмежена доступність інженера додатково зменшує можливість швидко надолужити затримку. На S2–S3 в OCR/ML 130 год роботи (T6 60 + T8 70) при capacity 80 год за два спринти.</td></tr><tr><td class="title">WIP overload — перевантаження Mobile</td><td>У Snapshot зазначено WIP-ліміт колонки In Progress = 2, але Mobile-розробник одночасно веде T5, T9 і фікс.</td><td>Rebalance: погодити пріоритети й послідовність роботи, обмежити паралельне виконання задач.</td><td>Навіть за 100% доступності один Mobile-розробник не може повноцінно просувати всі задачі одночасно без ризику перемикання контексту та затримок. </td></tr><tr><td class="title">Blocked work — заблокована T6</td><td>T6 має статус Blocked; причина — очікування доступу до OCR API та набору етикеток. У команді різні часові пояси: PST/UTC/GMT.</td><td>Unblock + escalate: організувати підтвердження доступу, визначити контактну особу та погодити час відповіді з урахуванням часових поясів.</td><td>Блокер залежить від зовнішнього підтвердження. Чіткий власник і конкретний термін зменшать затримки через різницю в робочому часі.</td></tr><tr><td class="title">Ownership gap — T12</td><td>T12 Backend privacy consent: власника не призначено.</td><td>Assign owner: призначити відповідального з Backend-команди.</td><td>Без конкретного власника немає людини, яка відповідає за просування задачі, її статус і своєчасне завершення.</td></tr><tr><td class="title">Plan/fact deviation — T5</td><td>T5 Camera + image processing: оцінка 45 год, факт 60 год; примітка «перевитрата». Перевищення становить 15 год, або приблизно 33,3% від оцінки.</td><td>Forecast + re-sequence: з'ясувати причину перевитрати, уточнити залишок роботи та перевірити вплив на T9 і наступні задачі.</td><td>Перевищення оцінки може відсунути залежні роботи. PM потрібно переглянути прогноз, а не просто продовжувати виконання за початковим планом</td></tr><tr><td class="title">T9 розпочато достроково</td><td>T9 Results + manual correction належить до Sprint 3, але вже перебуває в роботі у Snapshot наприкінці Sprint 2. Оцінка — 55 год, факт — 10 год.</td><td>Re-sequence: з'ясувати причину раннього старту та узгодити, чи варто продовжувати T9 зараз, чи пріоритетніше завершити поточну роботу.</td><td>Достроковий старт може бути виправданим, але його потрібно узгодити з пріоритетами Sprint 2 і залежностями T9 від T5 та T8.</td></tr><tr><td class="title">Логіка базового плану</td><td>T9 в одному спринті з T8 (70 год при capacity 40 год), тому в S3 нездійсненна. T13 (критерії приймання) — у S4, після розробки T4–T10. T6 і T8 більші за спринт</td><td>T13 перенести в S2–S3: BA вільний, а критерії потрібні до розробки й тестів. T9 планувати після першої частини T8</td><td>План перевищує доступну capacity спринту: 70 годин роботи не вміщаються у 40 годин. Це створює ризик незавершення задач у межах спринту. Перенесення T13 раніше дасть змогу підготувати критерії приймання до завершення розробки, а послідовне планування T8 і T9 зменшить залежність від ще не готових OCR/ML-результатів і ризик переробок</td></tr><tr><td class="title">Data inconsistency</td><td>У блоці Plan/Fact T5 позначена «done з перевитратою», а на дошці T5 — In Progress (45/60 год). Рядок «T1–T7 завершені (≈290 год)» — це план S1+S2, а не факт: за фактом закриті лише T1–T4.</td><td>Уточнити фактичний статус T5 за Definition of Done; оновити звіт, щоб статуси у звіті й на дошці збігалися.</td><td>Різні статуси однієї задачі створюють недостовірну картину прогресу. Якщо задачі ще In Progress, не можна звітувати про її завершення. PM має перевірити фактичний стан і критерії Definition of Done. Це дасть команді й стейкхолдерам єдину достовірну інформацію для рішень.</td></tr></tbody></table></div><div class="db-foot"></div></div>
+
+    <h3>Якщо OCR/ML на 100% не дають</h3>
+    <p>Рішення ухвалюють спонсор і Product Owner на контрольній точці наприкінці S3: чи закрита T6.</p>
+    <div class="db"><div class="db-head"><div class="db-title">Варіанти на контрольній точці наприкінці S3</div></div><div class="db-scroll"><table data-nosort><thead><tr><th></th><th>А. Увесь функціонал на заглушці</th><th>Б. Скорочення обсягу OCR-аналізу</th></tr></thead><tbody><tr><td class="title">Що робимо</td><td>Mobile робить T9 → T11 → T14 на заглушці із зафіксованим контрактом відповіді OCR. Реальний парсинг підключаємо після T8</td><td>Product Owner скорочує обсяг: менше полів у MVP або менше тюнінгу в T8. Mobile однаково працює на заглушці до готовності OCR</td></tr><tr><td class="title">Строки OCR</td><td>Залишок 115 год при 40 год за спринт: T6 закрита на початку S4, T8 — до кінця S5. Підключення й перевірка реального OCR — S5–S6</td><td>Обсяг скорочується до того, що OCR/ML встигає закрити раніше S5; наскільки — за підсумками spike T6</td></tr><tr><td class="title">Плюси</td><td>Увесь функціонал (5 полів, confidence) зберігається; Mobile не простоює; 6 спринтів теоретично витримуємо</td><td>Є запас на тюнінг і регрес; якість OCR відома раніше</td></tr><tr><td class="title">Мінуси</td><td>Запасу немає: кожен новий день блокування T6 зсуває парсинг за S6. Якість OCR видно лише в S5–S6. Ризик переробки T9 і T10. Підключення реального OCR — нова задача, оцінку дає команда</td><td>Цінність MVP нижча; потрібне рішення Product Owner щодо складу функціоналу</td></tr><tr><td class="title">Коли обирати</td><td>T6 закрита до кінця S3, блокувань більше немає</td><td>T6 до кінця S3 не закрита або spike показав низьку точність</td></tr></tbody></table></div><div class="db-foot"></div></div>
+
+    <h2>Висновок PM</h2>
+    <p>Проєкт відстає від базового плану за строками: SPI 0,43 за песимістичної оцінки (0/100) і 0,81 за 50/50. CPI 0,51–0,96; доведена перевитрата одна: T5, +15 год. Вузькі місця OCR/ML і Mobile стоять на критичному шляху, і за поточного темпу 6 спринтів не витримуємо.</p>
+    <div class="db"><div class="db-head"><div class="db-title">Де проєкт відхиляється</div></div><div class="db-scroll"><table data-nosort><thead><tr><th>Де</th><th>Факт</th><th>Причина</th></tr></thead><tbody><tr><td class="title">OCR/ML</td><td>T6 заблокована, 15 з 60 год. Залишилося 115 год при capacity 40 год за спринт</td><td>Немає доступу до OCR API та набору етикеток; ресурс на 50%; затримки через таймзони</td></tr><tr><td class="title">Mobile</td><td>У S2 заплановано 130 год при capacity 80; T5 +15 год (+33%)</td><td>T9 взято достроково, робота над кількома задачами паралельно</td></tr><tr><td class="title">План спринту</td><td>Закрито 125 з 290 год; T7 не закрита, хоча позначена «за планом»</td><td>Наслідки двох пунктів вище; статус у звіті розходиться з дошкою</td></tr><tr><td class="title">Ownership</td><td>У T12 (privacy consent) немає власника</td><td>Прогалина в призначенні, compliance-ризик до S4</td></tr></tbody></table></div><div class="db-foot"></div></div>
+
+    <h3>Що робить PM</h3>
+    <div class="db"><div class="db-head"><div class="db-title"></div><div class="db-views" role="group" aria-label="Подання"><button type="button" aria-pressed="true">Усі</button><button type="button" data-col="Тип" data-match="Escalate">Escalate</button><button type="button" data-col="Тип" data-match="Unblock">Unblock</button><button type="button" data-col="Тип" data-match="Re-sequence">Re-sequence</button><button type="button" data-col="Тип" data-match="Rebalance">Rebalance</button></div></div><div class="db-scroll"><table><thead><tr><th>Дія</th><th>Тип</th><th>Строк</th></tr></thead><tbody><tr><td class="title">Запитуємо OCR/ML на 100% у S2–S3; T6 і T8 ділимо на частини по 40 год і менше</td><td><span class="tag" data-color="red">Escalate</span></td><td>До планування S3</td></tr><tr><td class="title">Самі запитуємо доступ до OCR API; немає відповіді 24 год — ескалюємо спонсору. Спільне вікно дзвінка в таймзонах. Збір набору етикеток — BA</td><td><span class="tag" data-color="orange">Unblock</span></td><td>24 год</td></tr><tr><td class="title">T9 повертаємо в To Do, Mobile доводить T5; у Mobile в роботі не більше 1 задачі</td><td><span class="tag" data-color="purple">Rebalance / re-sequence</span></td><td>Одразу</td></tr><tr><td class="title">Mobile продовжує T9 на заглушці OCR із зафіксованим контрактом відповіді</td><td><span class="tag" data-color="purple">Re-sequence</span></td><td>Після T5</td></tr><tr><td class="title">Переоцінюємо залишок T5, закладаємо буфер на Mobile-ланцюжок</td><td><span class="tag" data-color="yellow">Буфер</span></td><td>Планування S3</td></tr><tr><td class="title">Залишки T6 і T7 — у S3, T13 — у S2–S3</td><td><span class="tag" data-color="purple">Re-sequence</span></td><td>Планування S3</td></tr><tr><td class="title">Призначаємо власником T12 Backend</td><td><span class="tag" data-color="blue">Rebalance</span></td><td>Одразу</td></tr><tr><td class="title">Оновлюємо прогноз і повідомляємо стейкхолдерів; єдине джерело статусу — дошка</td><td><span class="tag" data-color="gray">Комунікація</span></td><td>Найближчий статус-звіт</td></tr></tbody></table></div><div class="db-foot"></div></div>
+
+    <h3>Що контролюємо далі</h3>
+    <div class="db"><div class="db-scroll"><table data-nosort><thead><tr><th>Показник</th><th>Де дивимося</th><th>Поріг для дії</th></tr></thead><tbody><tr><td class="title">Блокери</td><td>Гаджет Blocked, прапорець Flagged</td><td>Блокер старший за 24 год — ескалація</td></tr><tr><td class="title">WIP за ролями</td><td>WIP Mobile / OCR</td><td>Більше 1 задачі в ролі</td></tr><tr><td class="title">Навантаження</td><td>Завантаження — план і факт</td><td>Більше 100% capacity ролі в спринті</td></tr><tr><td class="title">План/факт</td><td>SPI і CPI за 0/100, перевитрата</td><td>SPI або CPI нижче 0,8; Work Ratio понад 100%</td></tr><tr><td class="title">T6 до кінця S3</td><td>Статус T6</td><td>Не закрита — вибір варіанта А або Б</td></tr></tbody></table></div><div class="db-foot"></div></div>
+
+    <details class="toggle">
+      <summary>Припущення</summary>
+      <div class="toggle-body">
+        <ul>
+          <li>Capacity 80 год на людину за 2-тижневий спринт, OCR/ML — 40 год.</li>
+          <li>AC у годинах — проксі витрат: вартості в артефактах немає.</li>
+          <li>EV основне за правилом 0/100, для порівняння — 50/50.</li>
+          <li>Пороги 24 год і 0,8 — пропозиція PM, а не дані артефактів.</li>
+        </ul>
+      </div>
+    </details>
+
+    <nav class="pager" aria-label="Сторінки проєкту"><a class="prev" href="../dz4/"><span>Назад</span>ДЗ №4. Базовий план</a><a class="next" href="../"><span>Повернутися</span>Огляд проєкту</a></nav>
+    <footer class="page-foot">Командний проєкт курсу DAO PM UA 027, Команда 2.</footer>
+    </article>
+  </div>
+</main>
+</body>
+</html>
