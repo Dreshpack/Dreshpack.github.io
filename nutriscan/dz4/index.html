@@ -46,38 +46,6 @@
       </div>
     </div>
     <div class="callout" data-color="gray"><span class="callout-icon" data-icon="list"></span><div class="callout-body"><p><b>Що треба було здати.</b> Дедлайн 08.10.</p><ul><li>WBS — окремо, перед розкладом.</li><li>Таблиця оцінки PERT: години й вартість за ролями та пакетами робіт.</li><li>Gantt із залежностями, ресурсами й позначеним critical path.</li><li>Бюджет: base + contingency у межах NTE $50k.</li><li>Milestones і буфери.</li><li>Roadmap + анотація ≤ 1 сторінки.</li><li>Опційно: critical path і bottleneck, аргументація для борду щодо beta на 12-му тижні за ~$45k.</li></ul></div></div>
-    <details class="task"><summary>Завдання курсу<span class="tag">курс</span></summary><div class="toggle-body" data-verbatim><p><b>Наскрізний проєкт NutriScan</b></p>
-<p><b>Що тренуємо:</b> перетворити <b>оцінку від команди</b> на реалістичний план — WBS, PERT, розклад із залежностями, розподіл ресурсів за capacity, critical path, milestones, буфери та roadmap.</p>
-<p><b>Головне:</b> ви <b>не визначаєте</b>, скільки годин потрібно Mobile / Backend / OCR-ML.<br>Ви берете <b>Estimation Snapshot від команди</b> (Артефакт 01) і перетворюєте його на план.<br>Години — задані; ваша робота — <b>план, залежності, capacity, бюджет, ризики</b>.</p>
-<p><b>Ситуація в проєкті</b></p>
-<p>Привіт! Вимоги описані (ДЗ №3), scope підтверджено. Крок 4 — перетворити задум на <b>керований базовий план</b> і верхньорівневу дорожню карту NutriScan.</p>
-<p><b>Матеріали (обов'язкові вхідні дані)</b></p>
-<ul><li><b>Артефакт 01 — Estimation Snapshot (3-point від команди)</b> — оцінки O / ML / P по work packages, ставки, non-labor, NTE.</li>
-<li><b>Артефакт 02 — Team Roles, Rates &amp; Capacity</b> — склад команди, ставки, доступність (capacity), таймзони.</li>
-<li><b>Артефакт 03 — Schedule Constraints &amp; Approved MVP Scope v1</b> — підтверджений scope + графічні обмеження (beta до 12-го тижня).</li>
-<li><b>Canonical Project Snapshot</b> — для звірки scope (source of truth).</li></ul>
-<p><b>Core — schedule baseline (обов'язково)</b></p>
-<p><b>Baseline ≠ лише Gantt.</b><br>Мінімальний baseline-пакет: <b>WBS → Gantt → resources/cost → milestones → buffers</b>.</p>
-<ol><li><b>WBS.</b> Побудуйте WBS зі scope (Approved MVP Scope v1) і <b>покажіть її перед Gantt</b> — це окремий результат.</li>
-<li><b>Оцінка (PERT).</b> Для кожного work package порахуйте <b>PERT expected E = (O + 4·ML + P) / 6</b> з Estimation Snapshot; отримайте години та вартість (E × ставка ролі).</li>
-<li><b>Розклад (Gantt).</b> Календарний план: задачі, <b>залежності</b>, призначені ресурси; визначте <b>critical path</b>.</li>
-<li><b>Resources / cost.</b> Розподіліть завантаження за <b>capacity</b> (без перевантаження понад доступність). Порахуйте labor cost + non-labor = <b>base</b>; <b>contingency = NTE − base</b>.</li>
-<li><b>Milestones + buffers.</b> Віхи проєкту та <b>буфери</b> під ризики/невизначеність.</li></ol>
-<p><b>Roadmap (окремо від Gantt)</b></p>
-<p>Зробіть <b>верхньорівневу roadmap</b> із етапами/milestones і логікою руху до <b>beta (12-й тиждень) / demo</b>, + анотація ≤ 1 стор. з аргументацією строків і витрат на певні milestones.</p>
-<ul><li><b>Критерій:</b> Roadmap <b>не дублює</b> Gantt. Gantt = задачі, залежності, ресурси, календар. Roadmap = верхньорівневі етапи/milestones + логіка руху до beta/demo (без задач і залежностей).</li></ul>
-<p><b>Що здати</b></p>
-<ul><li><b>WBS</b> (окремо, перед розкладом).</li>
-<li><b>Таблиця оцінки</b> (PERT E, години і вартість по ролях/пакетах).</li>
-<li><b>Gantt</b> із залежностями, ресурсами й позначеним <b>critical path</b>.</li>
-<li><b>Розрахунок бюджету:</b> base + contingency у межах <b>NTE $50k</b>.</li>
-<li><b>Milestones + буфери</b>.</li>
-<li><b>Roadmap</b> + анотація ≤ 1 стор.</li></ul>
-<p><b>Обмеження та правила</b></p>
-<ul><li>Плануйте на основі <b>наданих оцінок</b> (Estimation Snapshot) — <b>не вигадуйте години</b>.</li>
-<li>Канон бюджету: <b>NTE / BAC = $50k</b>. Клієнтський початковий орієнтир <b>~$45k</b> — це контекст, а не план. <b>Base і contingency порахуйте самі</b> (contingency = NTE − base).</li>
-<li>Не перевантажуйте ресурси понад <b>capacity</b> (враховуйте частку доступності й таймзони).</li>
-<li>Незадані числа позначайте як assumption / open question.</li></ul></div></details>
 
     <h2>Діаграма Ганта</h2>
     <figure class="image">
