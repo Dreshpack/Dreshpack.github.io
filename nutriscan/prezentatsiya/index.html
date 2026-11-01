@@ -1,0 +1,982 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<meta name="description" content="Фінальна презентація проєкту NutriScan MVP: план, криза на 8-му тижні, рішення, trade-offs, результат і рекомендації.">
+
+<title>NutriScan MVP: фінальна презентація</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400..800&display=swap">
+<style>
+html,body{margin:0;height:100%;background:#141614;overflow:hidden}
+#stage{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0;overflow:hidden;background:#FBFAF6}
+section{position:absolute;inset:0;width:1920px;height:1080px;box-sizing:border-box}
+section:not(.on){display:none!important}
+section *{box-sizing:border-box;margin:0}
+section div:not([style*="display:flex"]):not([style*="display:grid"]){display:flex;flex-direction:column}
+section div{min-width:0}
+h1{font-size:96px;font-weight:600;line-height:1.1}h2{font-size:64px;font-weight:600;line-height:1.15}h3{font-size:44px;font-weight:600;line-height:1.2}p{font-size:32px;line-height:1.4}
+ul{padding-left:1.2em}
+table{border-collapse:collapse;table-layout:fixed}
+th,td{padding:.35em .6em;text-align:left;border-bottom:1px solid #d3d1c7;vertical-align:top;line-height:1.3}
+th{font-weight:700;border-bottom:2px solid #2b2a26}
+x-shape{display:block}
+x-shape[kind=diamond]{clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%)}
+x-shape[kind=arrow-right]{clip-path:polygon(0 30%,60% 30%,60% 0,100% 50%,60% 100%,60% 70%,0 70%)}
+.hidden-build{visibility:hidden}
+#ui{position:fixed;right:14px;bottom:12px;display:flex;align-items:center;gap:6px;font:500 14px/1 'Manrope',Arial,sans-serif;color:#2B2A26;background:rgba(251,250,246,.86);border:1px solid rgba(43,42,38,.18);border-radius:10px;padding:5px 7px;opacity:.28;transition:opacity .2s}
+#ui:hover,#ui:focus-within{opacity:1}
+#ui button{all:unset;cursor:pointer;min-width:30px;height:30px;text-align:center;border-radius:7px;line-height:30px}
+#ui button:hover{background:rgba(43,42,38,.1)}
+#ui button:focus-visible{outline:2px solid #1F6FB8}
+#count{min-width:54px;text-align:center}
+</style>
+</head>
+<body>
+<main id="stage">
+<section id="cover" data-transition="fade" style="background:#17302B;color:#FBFAF6;font-family:'Manrope', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:48px">
+<div style="display:flex;flex-direction:column;gap:24px">
+<p style="font-size:28px;color:#9FE1CB">Командний проєкт курсу DAO PM UA 027 · Команда 2</p>
+<h1 style="font-size:120px;font-weight:800;line-height:1.05;color:#FBFAF6">NutriScan MVP</h1>
+<p style="font-size:44px;line-height:1.25;color:#E1F5EE">Від плану до закриття: як ми провели проєкт через кризу</p>
+</div>
+<iframe title="Анімація" style="position:absolute;left:128px;top:822px;width:1664px;height:40px;border:0" srcdoc="&lt;!doctype html&gt;&lt;html&gt;&lt;head&gt;&lt;style&gt;html,body{margin:0;height:100%;background:transparent;overflow:hidden}svg{display:block;width:100%;height:100%}.c{transform-box:fill-box;transform-origin:center}&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;svg viewBox=&quot;0 0 1664 40&quot; fill=&quot;none&quot;&gt;
+&lt;path pathLength=&quot;1&quot; stroke-dasharray=&quot;1&quot; d=&quot;M12 20H305&quot; stroke=&quot;#5DCAA5&quot; stroke-width=&quot;4&quot; data-k=&quot;l&quot; data-d=&quot;500&quot; data-t=&quot;450&quot;/&gt;
+&lt;path pathLength=&quot;1&quot; stroke-dasharray=&quot;1&quot; d=&quot;M305 20H598&quot; stroke=&quot;#F0997B&quot; stroke-width=&quot;4&quot; data-k=&quot;l&quot; data-d=&quot;950&quot; data-t=&quot;450&quot;/&gt;
+&lt;path pathLength=&quot;1&quot; stroke-dasharray=&quot;1&quot; d=&quot;M598 20H890&quot; stroke=&quot;#85B7EB&quot; stroke-width=&quot;4&quot; data-k=&quot;l&quot; data-d=&quot;1400&quot; data-t=&quot;450&quot;/&gt;
+&lt;path pathLength=&quot;1&quot; stroke-dasharray=&quot;1&quot; d=&quot;M890 20H1183&quot; stroke=&quot;#AFA9EC&quot; stroke-width=&quot;4&quot; data-k=&quot;l&quot; data-d=&quot;1850&quot; data-t=&quot;450&quot;/&gt;
+&lt;path pathLength=&quot;1&quot; stroke-dasharray=&quot;1&quot; d=&quot;M1183 20H1476&quot; stroke=&quot;#97C459&quot; stroke-width=&quot;4&quot; data-k=&quot;l&quot; data-d=&quot;2300&quot; data-t=&quot;450&quot;/&gt;
+&lt;circle class=&quot;c&quot; cx=&quot;12&quot; cy=&quot;20&quot; r=&quot;12&quot; fill=&quot;#5DCAA5&quot; data-k=&quot;p&quot; data-d=&quot;350&quot; data-t=&quot;300&quot;/&gt;
+&lt;circle class=&quot;c&quot; cx=&quot;305&quot; cy=&quot;20&quot; r=&quot;12&quot; fill=&quot;#F0997B&quot; data-k=&quot;p&quot; data-d=&quot;850&quot; data-t=&quot;300&quot;/&gt;
+&lt;circle class=&quot;c&quot; cx=&quot;598&quot; cy=&quot;20&quot; r=&quot;12&quot; fill=&quot;#85B7EB&quot; data-k=&quot;p&quot; data-d=&quot;1300&quot; data-t=&quot;300&quot;/&gt;
+&lt;circle class=&quot;c&quot; cx=&quot;890&quot; cy=&quot;20&quot; r=&quot;12&quot; fill=&quot;#AFA9EC&quot; data-k=&quot;p&quot; data-d=&quot;1750&quot; data-t=&quot;300&quot;/&gt;
+&lt;circle class=&quot;c&quot; cx=&quot;1183&quot; cy=&quot;20&quot; r=&quot;12&quot; fill=&quot;#97C459&quot; data-k=&quot;p&quot; data-d=&quot;2200&quot; data-t=&quot;300&quot;/&gt;
+&lt;circle class=&quot;c&quot; cx=&quot;1476&quot; cy=&quot;20&quot; r=&quot;12&quot; fill=&quot;#EFB24F&quot; data-k=&quot;p&quot; data-d=&quot;2650&quot; data-t=&quot;300&quot;/&gt;
+&lt;/svg&gt;&lt;script&gt;
+var A=[].slice.call(document.querySelectorAll(&#x27;[data-k]&#x27;));
+function play(){A.forEach(function(e){e.getAnimations().forEach(function(a){a.cancel()});var k=e.dataset.k;var f=k===&#x27;l&#x27;?[{strokeDashoffset:1},{strokeDashoffset:0}]:[{transform:&#x27;scale(0)&#x27;,opacity:0},{transform:&#x27;scale(1)&#x27;,opacity:1}];e.animate(f,{delay:+e.dataset.d,duration:+e.dataset.t,fill:&#x27;backwards&#x27;,easing:&#x27;cubic-bezier(.2,.8,.2,1)&#x27;})})}
+var on=false;new IntersectionObserver(function(x){var v=x[x.length-1].isIntersecting;if(v&amp;&amp;!on)play();on=v}).observe(document.documentElement);
+&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;"></iframe>
+<div data-build-in="fade 1 auto" style="position:absolute;left:128px;top:868px;width:280px;display:flex;flex-direction:column;gap:8px"><p style="font-size:28px;font-weight:700;color:#FBFAF6">План</p></div>
+<div data-build-in="fade 2 auto" style="position:absolute;left:421px;top:868px;width:280px;display:flex;flex-direction:column;gap:8px"><p style="font-size:28px;font-weight:700;color:#FBFAF6">Що пішло не так</p></div>
+<div data-build-in="fade 3 auto" style="position:absolute;left:714px;top:868px;width:280px;display:flex;flex-direction:column;gap:8px"><p style="font-size:28px;font-weight:700;color:#FBFAF6">Рішення</p></div>
+<div data-build-in="fade 4 auto" style="position:absolute;left:1006px;top:868px;width:280px;display:flex;flex-direction:column;gap:8px"><p style="font-size:28px;font-weight:700;color:#FBFAF6">Trade-offs</p></div>
+<div data-build-in="fade 5 auto" style="position:absolute;left:1299px;top:868px;width:280px;display:flex;flex-direction:column;gap:8px"><p style="font-size:28px;font-weight:700;color:#FBFAF6">Результат</p></div>
+<div data-build-in="fade 6 auto" style="position:absolute;left:1592px;top:868px;width:200px;display:flex;flex-direction:column;gap:8px"><p style="font-size:28px;font-weight:700;color:#FBFAF6">Рекомендації</p></div>
+
+</section>
+<section id="plan-promise" data-transition="magic" style="background:#FBFAF6;color:#2B2A26;font-family:'Manrope', Arial, sans-serif;padding:150px 128px 150px;display:flex;flex-direction:column;gap:28px">
+<div style="position:absolute;left:128px;top:44px;width:1664px;display:flex">
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:28px;height:28px;border-radius:50%;background:#FBFAF6;border:7px solid #0F7A5F"></div><div style="flex:1;height:4px;background:#D3D1C7"></div></div><p style="font-size:24px;font-weight:700;color:#0F7A5F">План</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#D3D1C7"></div><div style="flex:1;height:4px;background:#D3D1C7"></div></div><p style="font-size:24px;color:#6F6D66">Що пішло не так</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#D3D1C7"></div><div style="flex:1;height:4px;background:#D3D1C7"></div></div><p style="font-size:24px;color:#6F6D66">Рішення</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#D3D1C7"></div><div style="flex:1;height:4px;background:#D3D1C7"></div></div><p style="font-size:24px;color:#6F6D66">Trade-offs</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#D3D1C7"></div><div style="flex:1;height:4px;background:#D3D1C7"></div></div><p style="font-size:24px;color:#6F6D66">Результат</p></div>
+<div style="flex:none;width:180px;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#D3D1C7"></div></div><p style="font-size:24px;color:#6F6D66">Рекомендації</p></div>
+</div>
+<div id="metro-dot" style="position:absolute;left:128px;top:44px;width:28px;height:28px;border-radius:50%;background:#FBFAF6;border:7px solid #0F7A5F"></div>
+<iframe title="Анімація" style="position:absolute;left:114px;top:43px;width:56px;height:30px;border:0" srcdoc="&lt;!doctype html&gt;&lt;html&gt;&lt;head&gt;&lt;style&gt;html,body{margin:0;height:100%;background:transparent;overflow:hidden}svg{display:block;width:100%;height:100%;overflow:visible}.g{transform-box:fill-box;transform-origin:left center}.c{transform-box:fill-box;transform-origin:center}&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;svg viewBox=&quot;0 0 56 30&quot; fill=&quot;none&quot;&gt;&lt;g data-k=&quot;t&quot; data-d=&quot;250&quot; data-t=&quot;1500&quot; data-e=&quot;cubic-bezier(.45,.05,.2,1)&quot; data-f=&#x27;[{&quot;transform&quot;:&quot;translateX(-90px)&quot;},{&quot;transform&quot;:&quot;translateX(0px)&quot;}]&#x27;&gt;&lt;rect x=&quot;1&quot; y=&quot;3&quot; width=&quot;54&quot; height=&quot;22&quot; rx=&quot;8&quot; fill=&quot;#0F7A5F&quot;/&gt;&lt;rect x=&quot;8&quot; y=&quot;8&quot; width=&quot;11&quot; height=&quot;8&quot; rx=&quot;2&quot; fill=&quot;#FBFAF6&quot;/&gt;&lt;rect x=&quot;23&quot; y=&quot;8&quot; width=&quot;11&quot; height=&quot;8&quot; rx=&quot;2&quot; fill=&quot;#FBFAF6&quot;/&gt;&lt;rect x=&quot;38&quot; y=&quot;8&quot; width=&quot;11&quot; height=&quot;8&quot; rx=&quot;2&quot; fill=&quot;#FBFAF6&quot;/&gt;&lt;circle cx=&quot;14&quot; cy=&quot;26&quot; r=&quot;3.5&quot; fill=&quot;#2B2A26&quot;/&gt;&lt;circle cx=&quot;42&quot; cy=&quot;26&quot; r=&quot;3.5&quot; fill=&quot;#2B2A26&quot;/&gt;&lt;/g&gt;&lt;/svg&gt;&lt;script&gt;
+var A=[].slice.call(document.querySelectorAll(&#x27;[data-k]&#x27;));
+var K={g:[{transform:&#x27;scaleX(0)&#x27;},{transform:&#x27;scaleX(1)&#x27;}],p:[{transform:&#x27;scale(0)&#x27;,opacity:0},{transform:&#x27;scale(1)&#x27;,opacity:1}],l:[{strokeDashoffset:1},{strokeDashoffset:0}],f:[{opacity:0},{opacity:1}]};
+function play(){A.forEach(function(e){e.getAnimations().forEach(function(a){a.cancel()});var f=e.dataset.f?JSON.parse(e.dataset.f):K[e.dataset.k];e.animate(f,{delay:+e.dataset.d,duration:+e.dataset.t,fill:&#x27;backwards&#x27;,easing:e.dataset.e||&#x27;cubic-bezier(.2,.8,.2,1)&#x27;})})}
+var on=false;new IntersectionObserver(function(x){var v=x[x.length-1].isIntersecting;if(v&amp;&amp;!on)play();on=v}).observe(document.documentElement);
+&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;"></iframe>
+<div style="display:flex;flex-direction:column;gap:8px">
+<p style="font-size:24px;font-weight:700;color:#0F7A5F">План</p>
+<h2 style="font-size:56px;font-weight:700;line-height:1.15;color:#2B2A26">Ми обіцяли MVP за 3 місяці в межах $50k</h2>
+</div>
+<div data-build-in="left 1 auto" style="position:absolute;left:128px;top:284px;width:1664px;display:flex;align-items:stretch;gap:8px">
+<div style="flex:1;background:#E1F5EE;border-radius:12px;padding:16px 12px"><p style="font-size:24px;line-height:1.25;color:#085041">Вхід через email</p></div>
+<x-shape kind="arrow-right" style="flex:none;width:28px;height:16px;align-self:center;background:#6F6D66"></x-shape>
+<div style="flex:1;background:#E1F5EE;border-radius:12px;padding:16px 12px"><p style="font-size:24px;line-height:1.25;color:#085041">Фото етикетки</p></div>
+<x-shape kind="arrow-right" style="flex:none;width:28px;height:16px;align-self:center;background:#6F6D66"></x-shape>
+<div style="flex:1;background:#E1F5EE;border-radius:12px;padding:16px 12px"><p style="font-size:24px;line-height:1.25;color:#085041">OCR/ML розпізнає</p></div>
+<x-shape kind="arrow-right" style="flex:none;width:28px;height:16px;align-self:center;background:#6F6D66"></x-shape>
+<div style="flex:1;background:#E1F5EE;border-radius:12px;padding:16px 12px"><p style="font-size:24px;line-height:1.25;color:#085041">Результат із confidence</p></div>
+<x-shape kind="arrow-right" style="flex:none;width:28px;height:16px;align-self:center;background:#6F6D66"></x-shape>
+<div style="flex:1;background:#E1F5EE;border-radius:12px;padding:16px 12px"><p style="font-size:24px;line-height:1.25;color:#085041">Ручне виправлення</p></div>
+<x-shape kind="arrow-right" style="flex:none;width:28px;height:16px;align-self:center;background:#6F6D66"></x-shape>
+<div style="flex:1;background:#E1F5EE;border-radius:12px;padding:16px 12px"><p style="font-size:24px;line-height:1.25;color:#085041">Коригування порцій</p></div>
+<x-shape kind="arrow-right" style="flex:none;width:28px;height:16px;align-self:center;background:#6F6D66"></x-shape>
+<div style="flex:1;background:#E1F5EE;border-radius:12px;padding:16px 12px"><p style="font-size:24px;line-height:1.25;color:#085041">Запис у Daily Log</p></div>
+</div>
+<div data-build-in="rise 2 auto" style="position:absolute;left:128px;top:408px;width:1664px;height:522px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px">
+<div style="background:#F1EFE8;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:12px">
+<h3 style="font-size:36px;font-weight:700;color:#2B2A26">Час</h3>
+<p style="font-size:56px;font-weight:800;line-height:1.15;color:#0F7A5F">Тиждень 12</p>
+<p style="font-size:32px;line-height:1.4;color:#4A4944">Beta наприкінці тижня 12, партнерське демо на тижні 13. Code freeze наприкінці тижня 11.</p>
+</div>
+<div style="background:#F1EFE8;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:12px">
+<h3 style="font-size:36px;font-weight:700;color:#2B2A26">Гроші</h3>
+<p style="font-size:56px;font-weight:800;line-height:1.15;color:#0F7A5F">NTE $50k</p>
+<p style="font-size:32px;line-height:1.4;color:#4A4944">Base $46 225 + резерв $3 775. Орієнтир клієнта був ≈$45k.</p>
+</div>
+<div style="background:#F1EFE8;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:12px">
+<h3 style="font-size:36px;font-weight:700;color:#2B2A26">Якість</h3>
+<p style="font-size:56px;font-weight:800;line-height:1.15;color:#0F7A5F">2–3 с, ~80%</p>
+<p style="font-size:32px;line-height:1.4;color:#4A4944">Наша пропозиція клієнту: швидкість до результату і правильні значення з першої спроби.</p>
+</div>
+</div>
+
+</section>
+<section id="plan-scope" data-transition="magic" style="background:#FBFAF6;color:#2B2A26;font-family:'Manrope', Arial, sans-serif;padding:150px 128px 150px;display:flex;flex-direction:column;gap:28px">
+<div style="position:absolute;left:128px;top:44px;width:1664px;display:flex">
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:28px;height:28px;border-radius:50%;background:#FBFAF6;border:7px solid #0F7A5F"></div><div style="flex:1;height:4px;background:#D3D1C7"></div></div><p style="font-size:24px;font-weight:700;color:#0F7A5F">План</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#D3D1C7"></div><div style="flex:1;height:4px;background:#D3D1C7"></div></div><p style="font-size:24px;color:#6F6D66">Що пішло не так</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#D3D1C7"></div><div style="flex:1;height:4px;background:#D3D1C7"></div></div><p style="font-size:24px;color:#6F6D66">Рішення</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#D3D1C7"></div><div style="flex:1;height:4px;background:#D3D1C7"></div></div><p style="font-size:24px;color:#6F6D66">Trade-offs</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#D3D1C7"></div><div style="flex:1;height:4px;background:#D3D1C7"></div></div><p style="font-size:24px;color:#6F6D66">Результат</p></div>
+<div style="flex:none;width:180px;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#D3D1C7"></div></div><p style="font-size:24px;color:#6F6D66">Рекомендації</p></div>
+</div>
+<div id="metro-dot" style="position:absolute;left:128px;top:44px;width:28px;height:28px;border-radius:50%;background:#FBFAF6;border:7px solid #0F7A5F"></div>
+<svg aria-label="Потяг на станції" width="56" height="30" viewBox="0 0 56 30" fill="none" style="position:absolute;left:114px;top:43px;width:56px;height:30px"><rect x="1" y="3" width="54" height="22" rx="8" fill="#0F7A5F"/><rect x="8" y="8" width="11" height="8" rx="2" fill="#FBFAF6"/><rect x="23" y="8" width="11" height="8" rx="2" fill="#FBFAF6"/><rect x="38" y="8" width="11" height="8" rx="2" fill="#FBFAF6"/><circle cx="14" cy="26" r="3.5" fill="#2B2A26"/><circle cx="42" cy="26" r="3.5" fill="#2B2A26"/></svg>
+<div style="display:flex;flex-direction:column;gap:8px">
+<p style="font-size:24px;font-weight:700;color:#0F7A5F">План</p>
+<h2 style="font-size:56px;font-weight:700;line-height:1.15;color:#2B2A26">Scope зафіксували заздалегідь: штрихкод поза ним</h2>
+</div>
+<div data-build-in="rise 1 auto" style="position:absolute;left:128px;top:284px;width:1664px;height:492px;display:grid;grid-template-columns:1.15fr 1fr;gap:24px">
+<div style="background:#E1F5EE;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:12px">
+<h3 style="font-size:36px;font-weight:700;color:#085041">У scope: 7 пунктів</h3>
+<ul style="font-size:32px;line-height:1.5;color:#085041">
+<li>Email sign-in і базовий onboarding</li>
+<li>Фото етикетки, OCR-парсинг КБЖУ і порції</li>
+<li>Confidence-попередження і ручне виправлення</li>
+<li>Коригування порцій і перерахунок</li>
+<li>Daily Log та історія сканувань</li>
+<li>Базові analytics і privacy consent</li>
+<li>iOS + Android, один release train</li>
+</ul>
+</div>
+<div style="background:#F1EFE8;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:12px">
+<h3 style="font-size:36px;font-weight:700;color:#2B2A26">Поза scope: головне з 11</h3>
+<ul style="font-size:32px;line-height:1.5;color:#4A4944">
+<li><b><span style="color:#B23A1F">Сканування штрихкоду</span></b></li>
+<li>Текст не англійською</li>
+<li>Поради щодо продуктів</li>
+<li>Інтеграція з іншими застосунками</li>
+<li>Social sharing</li>
+<li>Преміум-акаунт</li>
+</ul>
+</div>
+</div>
+<div data-build-in="rise 2 auto" style="position:absolute;left:128px;bottom:150px;width:1664px;background:#FAECE7;border-radius:12px;padding:20px 32px"><p style="font-size:32px;line-height:1.35;color:#712B13">У слова «scan» два значення: фото етикетки або штрихкод. Тому у вимогах пишемо «сфотографувати етикетку».</p></div>
+
+</section>
+<section id="plan-gantt" data-transition="magic" style="background:#FBFAF6;color:#2B2A26;font-family:'Manrope', Arial, sans-serif;padding:150px 128px 150px;display:flex;flex-direction:column;gap:20px">
+<div style="position:absolute;left:128px;top:44px;width:1664px;display:flex">
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:28px;height:28px;border-radius:50%;background:#FBFAF6;border:7px solid #0F7A5F"></div><div style="flex:1;height:4px;background:#D3D1C7"></div></div><p style="font-size:24px;font-weight:700;color:#0F7A5F">План</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#D3D1C7"></div><div style="flex:1;height:4px;background:#D3D1C7"></div></div><p style="font-size:24px;color:#6F6D66">Що пішло не так</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#D3D1C7"></div><div style="flex:1;height:4px;background:#D3D1C7"></div></div><p style="font-size:24px;color:#6F6D66">Рішення</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#D3D1C7"></div><div style="flex:1;height:4px;background:#D3D1C7"></div></div><p style="font-size:24px;color:#6F6D66">Trade-offs</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#D3D1C7"></div><div style="flex:1;height:4px;background:#D3D1C7"></div></div><p style="font-size:24px;color:#6F6D66">Результат</p></div>
+<div style="flex:none;width:180px;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#D3D1C7"></div></div><p style="font-size:24px;color:#6F6D66">Рекомендації</p></div>
+</div>
+<div id="metro-dot" style="position:absolute;left:128px;top:44px;width:28px;height:28px;border-radius:50%;background:#FBFAF6;border:7px solid #0F7A5F"></div>
+<svg aria-label="Потяг на станції" width="56" height="30" viewBox="0 0 56 30" fill="none" style="position:absolute;left:114px;top:43px;width:56px;height:30px"><rect x="1" y="3" width="54" height="22" rx="8" fill="#0F7A5F"/><rect x="8" y="8" width="11" height="8" rx="2" fill="#FBFAF6"/><rect x="23" y="8" width="11" height="8" rx="2" fill="#FBFAF6"/><rect x="38" y="8" width="11" height="8" rx="2" fill="#FBFAF6"/><circle cx="14" cy="26" r="3.5" fill="#2B2A26"/><circle cx="42" cy="26" r="3.5" fill="#2B2A26"/></svg>
+<div style="display:flex;flex-direction:column;gap:8px">
+<p style="font-size:24px;font-weight:700;color:#0F7A5F">План</p>
+<h2 style="font-size:56px;font-weight:700;line-height:1.15;color:#2B2A26">Критичний шлях: OCR/ML → Mobile → реліз</h2>
+</div>
+<div style="position:absolute;left:128px;top:276px;width:1664px;display:flex;flex-direction:column">
+<div style="display:flex;height:40px;align-items:center"><p style="flex:none;width:340px;font-size:24px;color:#6F6D66">Етап</p><div style="flex:none;width:1324px;display:flex"><div style="flex:none;width:407px;background:#E6F1FB;padding:2px 12px"><p style="font-size:24px;line-height:1.2;color:#0C447C;white-space:nowrap">Основа</p></div><div style="flex:none;width:509px;background:#E1F5EE;padding:2px 12px"><p style="font-size:24px;line-height:1.2;color:#085041;white-space:nowrap">Сканування</p></div><div style="flex:none;width:306px;background:#FAECE7;padding:2px 12px"><p style="font-size:24px;line-height:1.2;color:#712B13;white-space:nowrap">Завершення</p></div><div style="flex:none;width:102px;background:#F1EFE8;padding:2px 8px"><p style="font-size:24px;line-height:1.2;color:#2B2A26;white-space:nowrap">Демо</p></div></div></div>
+<div style="display:flex;height:36px;align-items:center"><p style="flex:none;width:340px;font-size:24px;color:#6F6D66">Тиждень</p><div style="flex:none;width:1324px;display:grid;grid-template-columns:repeat(13, 1fr)"><p style="font-size:24px;text-align:center;color:#6F6D66">1</p><p style="font-size:24px;text-align:center;color:#6F6D66">2</p><p style="font-size:24px;text-align:center;color:#6F6D66">3</p><p style="font-size:24px;text-align:center;color:#6F6D66">4</p><p style="font-size:24px;text-align:center;color:#6F6D66">5</p><p style="font-size:24px;text-align:center;color:#6F6D66">6</p><p style="font-size:24px;text-align:center;color:#6F6D66">7</p><p style="font-size:24px;text-align:center;color:#6F6D66">8</p><p style="font-size:24px;text-align:center;color:#6F6D66">9</p><p style="font-size:24px;text-align:center;color:#6F6D66">10</p><p style="font-size:24px;text-align:center;color:#6F6D66">11</p><p style="font-size:24px;text-align:center;color:#6F6D66">12</p><p style="font-size:24px;text-align:center;color:#6F6D66">13</p></div></div>
+<div style="display:flex;height:40px;align-items:center"><p style="flex:none;width:340px;font-size:24px;line-height:1.2;white-space:nowrap">UX/UI, confidence-UI</p></div>
+<div style="display:flex;height:40px;align-items:center"><p style="flex:none;width:340px;font-size:24px;line-height:1.2;white-space:nowrap">Backend: auth, analytics</p></div>
+<div style="display:flex;height:40px;align-items:center"><p style="flex:none;width:340px;font-size:24px;line-height:1.2;white-space:nowrap">Backend: API, Daily Log</p></div>
+<div style="display:flex;height:40px;align-items:center"><p style="flex:none;width:340px;font-size:24px;line-height:1.2;white-space:nowrap">Онбординг + sign-in</p></div>
+<div style="display:flex;height:40px;align-items:center"><p style="flex:none;width:340px;font-size:24px;font-weight:700;line-height:1.2;white-space:nowrap;color:#B23A1F">OCR/ML-парсинг</p></div>
+<div style="display:flex;height:40px;align-items:center"><p style="flex:none;width:340px;font-size:24px;font-weight:700;line-height:1.2;white-space:nowrap;color:#B23A1F">Камера + обробка фото</p></div>
+<div style="display:flex;height:40px;align-items:center"><p style="flex:none;width:340px;font-size:24px;font-weight:700;line-height:1.2;white-space:nowrap;color:#B23A1F">Екран результату</p></div>
+<div style="display:flex;height:40px;align-items:center"><p style="flex:none;width:340px;font-size:24px;font-weight:700;line-height:1.2;white-space:nowrap;color:#B23A1F">Порції + Daily Log</p></div>
+<div style="display:flex;height:40px;align-items:center"><p style="flex:none;width:340px;font-size:24px;font-weight:700;line-height:1.2;white-space:nowrap;color:#B23A1F">Ітерація iOS + Android</p></div>
+<div style="display:flex;height:40px;align-items:center"><p style="flex:none;width:340px;font-size:24px;line-height:1.2;white-space:nowrap">QA: тести й виконання</p></div>
+<div style="display:flex;height:40px;align-items:center"><p style="flex:none;width:340px;font-size:24px;line-height:1.2;white-space:nowrap">Координація + вимоги</p></div>
+<div style="display:flex;height:40px;align-items:center"><p style="flex:none;width:340px;font-size:24px;line-height:1.2;white-space:nowrap">Буфери</p></div>
+<div style="display:flex;height:40px;align-items:center"><p style="flex:none;width:340px;font-size:24px;line-height:1.2;white-space:nowrap">Віхи</p></div>
+<div style="display:flex;height:40px;align-items:center"><div style="flex:none;width:340px"></div><div style="flex:none;width:1324px;display:flex"><div style="flex:none;width:364px"></div><p style="flex:none;width:90px;font-size:24px;line-height:1.2;white-space:nowrap;color:#4A4944">Design</p><div style="flex:none;width:623px"></div><p style="flex:none;width:90px;font-size:24px;line-height:1.2;white-space:nowrap;color:#4A4944">Freeze</p><div style="flex:none;width:26px"></div><p style="flex:none;width:60px;font-size:24px;line-height:1.2;white-space:nowrap;color:#4A4944">Beta</p><p style="flex:none;width:71px;font-size:24px;line-height:1.2;white-space:nowrap;text-align:right;color:#4A4944">Demo</p></div></div>
+</div>
+<iframe title="Анімація" style="position:absolute;left:468px;top:352px;width:1324px;height:520px;border:0" srcdoc="&lt;!doctype html&gt;&lt;html&gt;&lt;head&gt;&lt;style&gt;html,body{margin:0;height:100%;background:transparent;overflow:hidden}svg{display:block;width:100%;height:100%}.g{transform-box:fill-box;transform-origin:left center}.c{transform-box:fill-box;transform-origin:center}&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;svg viewBox=&quot;0 0 1324 520&quot; fill=&quot;none&quot;&gt;
+&lt;rect class=&quot;g&quot; x=&quot;0&quot; y=&quot;9&quot; width=&quot;349&quot; height=&quot;22&quot; rx=&quot;4&quot; fill=&quot;#9CC4EA&quot; data-k=&quot;g&quot; data-d=&quot;400&quot; data-t=&quot;650&quot;/&gt;
+&lt;rect class=&quot;g&quot; x=&quot;0&quot; y=&quot;49&quot; width=&quot;146&quot; height=&quot;22&quot; rx=&quot;4&quot; fill=&quot;#9CC4EA&quot; data-k=&quot;g&quot; data-d=&quot;550&quot; data-t=&quot;350&quot;/&gt;
+&lt;rect class=&quot;g&quot; x=&quot;131&quot; y=&quot;89&quot; width=&quot;262&quot; height=&quot;22&quot; rx=&quot;4&quot; fill=&quot;#9CC4EA&quot; data-k=&quot;g&quot; data-d=&quot;800&quot; data-t=&quot;500&quot;/&gt;
+&lt;rect class=&quot;g&quot; x=&quot;378&quot; y=&quot;129&quot; width=&quot;73&quot; height=&quot;22&quot; rx=&quot;4&quot; fill=&quot;#9CC4EA&quot; data-k=&quot;g&quot; data-d=&quot;1200&quot; data-t=&quot;250&quot;/&gt;
+&lt;rect class=&quot;g&quot; x=&quot;0&quot; y=&quot;169&quot; width=&quot;655&quot; height=&quot;22&quot; rx=&quot;4&quot; fill=&quot;#C2452A&quot; data-k=&quot;g&quot; data-d=&quot;1500&quot; data-t=&quot;1000&quot;/&gt;
+&lt;path pathLength=&quot;1&quot; stroke-dasharray=&quot;1&quot; d=&quot;M655 180H670V220H684&quot; stroke=&quot;#C2452A&quot; stroke-width=&quot;3&quot; data-k=&quot;l&quot; data-d=&quot;2500&quot; data-t=&quot;220&quot;/&gt;
+&lt;rect class=&quot;g&quot; x=&quot;684&quot; y=&quot;209&quot; width=&quot;116&quot; height=&quot;22&quot; rx=&quot;4&quot; fill=&quot;#C2452A&quot; data-k=&quot;g&quot; data-d=&quot;2700&quot; data-t=&quot;260&quot;/&gt;
+&lt;path pathLength=&quot;1&quot; stroke-dasharray=&quot;1&quot; d=&quot;M795 231V249&quot; stroke=&quot;#C2452A&quot; stroke-width=&quot;3&quot; data-k=&quot;l&quot; data-d=&quot;2960&quot; data-t=&quot;100&quot;/&gt;
+&lt;rect class=&quot;g&quot; x=&quot;800&quot; y=&quot;249&quot; width=&quot;131&quot; height=&quot;22&quot; rx=&quot;4&quot; fill=&quot;#C2452A&quot; data-k=&quot;g&quot; data-d=&quot;3050&quot; data-t=&quot;260&quot;/&gt;
+&lt;path pathLength=&quot;1&quot; stroke-dasharray=&quot;1&quot; d=&quot;M926 271V289&quot; stroke=&quot;#C2452A&quot; stroke-width=&quot;3&quot; data-k=&quot;l&quot; data-d=&quot;3310&quot; data-t=&quot;100&quot;/&gt;
+&lt;rect class=&quot;g&quot; x=&quot;931&quot; y=&quot;289&quot; width=&quot;116&quot; height=&quot;22&quot; rx=&quot;4&quot; fill=&quot;#C2452A&quot; data-k=&quot;g&quot; data-d=&quot;3400&quot; data-t=&quot;260&quot;/&gt;
+&lt;path pathLength=&quot;1&quot; stroke-dasharray=&quot;1&quot; d=&quot;M1040 311V329&quot; stroke=&quot;#C2452A&quot; stroke-width=&quot;3&quot; data-k=&quot;l&quot; data-d=&quot;3660&quot; data-t=&quot;100&quot;/&gt;
+&lt;rect class=&quot;g&quot; x=&quot;1033&quot; y=&quot;329&quot; width=&quot;87&quot; height=&quot;22&quot; rx=&quot;4&quot; fill=&quot;#C2452A&quot; data-k=&quot;g&quot; data-d=&quot;3750&quot; data-t=&quot;260&quot;/&gt;
+&lt;rect class=&quot;g&quot; x=&quot;713&quot; y=&quot;369&quot; width=&quot;407&quot; height=&quot;22&quot; rx=&quot;4&quot; fill=&quot;#9CC4EA&quot; data-k=&quot;g&quot; data-d=&quot;4100&quot; data-t=&quot;500&quot;/&gt;
+&lt;rect class=&quot;g&quot; x=&quot;0&quot; y=&quot;409&quot; width=&quot;1120&quot; height=&quot;22&quot; rx=&quot;4&quot; fill=&quot;#D3D1C7&quot; data-k=&quot;g&quot; data-d=&quot;4100&quot; data-t=&quot;600&quot;/&gt;
+&lt;rect class=&quot;c&quot; x=&quot;611&quot; y=&quot;449&quot; width=&quot;204&quot; height=&quot;22&quot; rx=&quot;4&quot; fill=&quot;#EFB24F&quot; data-k=&quot;p&quot; data-d=&quot;4700&quot; data-t=&quot;320&quot;/&gt;
+&lt;rect class=&quot;c&quot; x=&quot;917&quot; y=&quot;449&quot; width=&quot;102&quot; height=&quot;22&quot; rx=&quot;4&quot; fill=&quot;#EFB24F&quot; data-k=&quot;p&quot; data-d=&quot;4850&quot; data-t=&quot;320&quot;/&gt;
+&lt;rect class=&quot;c&quot; x=&quot;1120&quot; y=&quot;449&quot; width=&quot;102&quot; height=&quot;22&quot; rx=&quot;4&quot; fill=&quot;#EFB24F&quot; data-k=&quot;p&quot; data-d=&quot;5000&quot; data-t=&quot;320&quot;/&gt;
+&lt;path class=&quot;c&quot; d=&quot;M407 489L418 500L407 511L396 500Z&quot; fill=&quot;#2B2A26&quot; data-k=&quot;p&quot; data-d=&quot;5300&quot; data-t=&quot;260&quot;/&gt;
+&lt;path class=&quot;c&quot; d=&quot;M1120 489L1131 500L1120 511L1109 500Z&quot; fill=&quot;#2B2A26&quot; data-k=&quot;p&quot; data-d=&quot;5420&quot; data-t=&quot;260&quot;/&gt;
+&lt;path class=&quot;c&quot; d=&quot;M1222 489L1233 500L1222 511L1211 500Z&quot; fill=&quot;#2B2A26&quot; data-k=&quot;p&quot; data-d=&quot;5540&quot; data-t=&quot;260&quot;/&gt;
+&lt;path class=&quot;c&quot; d=&quot;M1295 489L1306 500L1295 511L1284 500Z&quot; fill=&quot;#2B2A26&quot; data-k=&quot;p&quot; data-d=&quot;5660&quot; data-t=&quot;260&quot;/&gt;
+&lt;/svg&gt;&lt;script&gt;
+var A=[].slice.call(document.querySelectorAll(&#x27;[data-k]&#x27;));
+function play(){A.forEach(function(e){e.getAnimations().forEach(function(a){a.cancel()});var k=e.dataset.k;var f=k===&#x27;l&#x27;?[{strokeDashoffset:1},{strokeDashoffset:0}]:k===&#x27;p&#x27;?[{transform:&#x27;scale(0)&#x27;,opacity:0},{transform:&#x27;scale(1)&#x27;,opacity:1}]:[{transform:&#x27;scaleX(0)&#x27;},{transform:&#x27;scaleX(1)&#x27;}];e.animate(f,{delay:+e.dataset.d,duration:+e.dataset.t,fill:&#x27;backwards&#x27;,easing:&#x27;cubic-bezier(.2,.8,.2,1)&#x27;})})}
+var on=false;new IntersectionObserver(function(x){var v=x[x.length-1].isIntersecting;if(v&amp;&amp;!on)play();on=v}).observe(document.documentElement);
+&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;"></iframe>
+<p style="position:absolute;left:128px;bottom:56px;width:1664px;font-size:24px;color:#6F6D66">Червоним: критичний шлях. Синім: інші роботи. Жовтим: буфери.</p>
+
+</section>
+<section id="plan-buffers" data-transition="magic" style="background:#FBFAF6;color:#2B2A26;font-family:'Manrope', Arial, sans-serif;padding:150px 128px 150px;display:flex;flex-direction:column;gap:28px">
+<div style="position:absolute;left:128px;top:44px;width:1664px;display:flex">
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:28px;height:28px;border-radius:50%;background:#FBFAF6;border:7px solid #0F7A5F"></div><div style="flex:1;height:4px;background:#D3D1C7"></div></div><p style="font-size:24px;font-weight:700;color:#0F7A5F">План</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#D3D1C7"></div><div style="flex:1;height:4px;background:#D3D1C7"></div></div><p style="font-size:24px;color:#6F6D66">Що пішло не так</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#D3D1C7"></div><div style="flex:1;height:4px;background:#D3D1C7"></div></div><p style="font-size:24px;color:#6F6D66">Рішення</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#D3D1C7"></div><div style="flex:1;height:4px;background:#D3D1C7"></div></div><p style="font-size:24px;color:#6F6D66">Trade-offs</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#D3D1C7"></div><div style="flex:1;height:4px;background:#D3D1C7"></div></div><p style="font-size:24px;color:#6F6D66">Результат</p></div>
+<div style="flex:none;width:180px;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#D3D1C7"></div></div><p style="font-size:24px;color:#6F6D66">Рекомендації</p></div>
+</div>
+<div id="metro-dot" style="position:absolute;left:128px;top:44px;width:28px;height:28px;border-radius:50%;background:#FBFAF6;border:7px solid #0F7A5F"></div>
+<svg aria-label="Потяг на станції" width="56" height="30" viewBox="0 0 56 30" fill="none" style="position:absolute;left:114px;top:43px;width:56px;height:30px"><rect x="1" y="3" width="54" height="22" rx="8" fill="#0F7A5F"/><rect x="8" y="8" width="11" height="8" rx="2" fill="#FBFAF6"/><rect x="23" y="8" width="11" height="8" rx="2" fill="#FBFAF6"/><rect x="38" y="8" width="11" height="8" rx="2" fill="#FBFAF6"/><circle cx="14" cy="26" r="3.5" fill="#2B2A26"/><circle cx="42" cy="26" r="3.5" fill="#2B2A26"/></svg>
+<div style="display:flex;flex-direction:column;gap:8px">
+<p style="font-size:24px;font-weight:700;color:#0F7A5F">План</p>
+<h2 style="font-size:56px;font-weight:700;line-height:1.15;color:#2B2A26">Три буфери і резерв під ризики, які ми бачили</h2>
+</div>
+<div data-build-in="rise 1 auto" style="position:absolute;left:128px;top:284px;width:1664px;height:492px;display:grid;grid-template-columns:1.6fr 1fr;gap:24px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<table style="font-size:30px;color:#2B2A26">
+<tr><th style="width:20%">Тиждень</th><th style="width:34%">Буфер</th><th style="width:46%">Навіщо</th></tr>
+<tr><td>7–8</td><td>Integration / Handoff</td><td>Хендофи між UX, Mobile, Backend, OCR/ML, QA</td></tr>
+<tr><td>10</td><td>QA rework</td><td>Доопрацювання за результатами QA</td></tr>
+<tr><td>12</td><td>QA hardening + Project Buffer</td><td>Спільний запас перед Closed Beta</td></tr>
+</table>
+</div>
+<div style="background:#F1EFE8;border-radius:16px;padding:28px 32px;display:flex;flex-direction:column;gap:10px">
+<h3 style="font-size:36px;font-weight:700;color:#2B2A26">Ключові віхи</h3>
+<div style="display:flex;justify-content:space-between;gap:16px"><p style="font-size:30px;color:#4A4944">Design Approved</p><p style="font-size:30px;font-weight:700;white-space:nowrap">тиждень 4</p></div>
+<div style="display:flex;justify-content:space-between;gap:16px"><p style="font-size:30px;color:#4A4944">Release Candidate</p><p style="font-size:30px;font-weight:700;white-space:nowrap">тиждень 11</p></div>
+<div style="display:flex;justify-content:space-between;gap:16px"><p style="font-size:30px;color:#4A4944">Code Freeze</p><p style="font-size:30px;font-weight:700;white-space:nowrap">кінець 11</p></div>
+<div style="display:flex;justify-content:space-between;gap:16px"><p style="font-size:30px;color:#4A4944">Closed Beta</p><p style="font-size:30px;font-weight:700;white-space:nowrap">кінець 12</p></div>
+<div style="display:flex;justify-content:space-between;gap:16px"><p style="font-size:30px;color:#4A4944">Partner Demo</p><p style="font-size:30px;font-weight:700;white-space:nowrap">тиждень 13</p></div>
+</div>
+</div>
+<div data-build-in="rise 2 auto" style="position:absolute;left:128px;bottom:150px;width:1664px;background:#FAECE7;border-radius:12px;padding:20px 32px"><p style="font-size:32px;line-height:1.35;color:#712B13"><b>Слабкі місця були в плані:</b> OCR/ML на 50%, єдиний Mobile. Невизначеність OCR/ML $5 850 більша за весь резерв $3 775.</p></div>
+
+</section>
+<section id="wrong-signals" data-transition="magic" style="background:#FBFAF6;color:#2B2A26;font-family:'Manrope', Arial, sans-serif;padding:150px 128px 150px;display:flex;flex-direction:column;gap:28px">
+<div style="position:absolute;left:128px;top:44px;width:1664px;display:flex">
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#0F7A5F"></div><div style="flex:1;height:4px;background:#0F7A5F"></div></div><p style="font-size:24px;color:#6F6D66">План</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:28px;height:28px;border-radius:50%;background:#FBFAF6;border:7px solid #C2452A"></div><div style="flex:1;height:4px;background:#D3D1C7"></div></div><p style="font-size:24px;font-weight:700;color:#B23A1F">Що пішло не так</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#D3D1C7"></div><div style="flex:1;height:4px;background:#D3D1C7"></div></div><p style="font-size:24px;color:#6F6D66">Рішення</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#D3D1C7"></div><div style="flex:1;height:4px;background:#D3D1C7"></div></div><p style="font-size:24px;color:#6F6D66">Trade-offs</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#D3D1C7"></div><div style="flex:1;height:4px;background:#D3D1C7"></div></div><p style="font-size:24px;color:#6F6D66">Результат</p></div>
+<div style="flex:none;width:180px;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#D3D1C7"></div></div><p style="font-size:24px;color:#6F6D66">Рекомендації</p></div>
+</div>
+<div id="metro-dot" style="position:absolute;left:425px;top:44px;width:28px;height:28px;border-radius:50%;background:#FBFAF6;border:7px solid #C2452A"></div>
+<iframe title="Анімація" style="position:absolute;left:411px;top:43px;width:56px;height:30px;border:0" srcdoc="&lt;!doctype html&gt;&lt;html&gt;&lt;head&gt;&lt;style&gt;html,body{margin:0;height:100%;background:transparent;overflow:hidden}svg{display:block;width:100%;height:100%;overflow:visible}.g{transform-box:fill-box;transform-origin:left center}.c{transform-box:fill-box;transform-origin:center}&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;svg viewBox=&quot;0 0 56 30&quot; fill=&quot;none&quot;&gt;&lt;g data-k=&quot;t&quot; data-d=&quot;250&quot; data-t=&quot;1500&quot; data-e=&quot;cubic-bezier(.45,.05,.2,1)&quot; data-f=&#x27;[{&quot;transform&quot;:&quot;translateX(-297px)&quot;},{&quot;transform&quot;:&quot;translateX(0px)&quot;}]&#x27;&gt;&lt;rect x=&quot;1&quot; y=&quot;3&quot; width=&quot;54&quot; height=&quot;22&quot; rx=&quot;8&quot; fill=&quot;#C2452A&quot;/&gt;&lt;rect x=&quot;8&quot; y=&quot;8&quot; width=&quot;11&quot; height=&quot;8&quot; rx=&quot;2&quot; fill=&quot;#FBFAF6&quot;/&gt;&lt;rect x=&quot;23&quot; y=&quot;8&quot; width=&quot;11&quot; height=&quot;8&quot; rx=&quot;2&quot; fill=&quot;#FBFAF6&quot;/&gt;&lt;rect x=&quot;38&quot; y=&quot;8&quot; width=&quot;11&quot; height=&quot;8&quot; rx=&quot;2&quot; fill=&quot;#FBFAF6&quot;/&gt;&lt;circle cx=&quot;14&quot; cy=&quot;26&quot; r=&quot;3.5&quot; fill=&quot;#2B2A26&quot;/&gt;&lt;circle cx=&quot;42&quot; cy=&quot;26&quot; r=&quot;3.5&quot; fill=&quot;#2B2A26&quot;/&gt;&lt;/g&gt;&lt;/svg&gt;&lt;script&gt;
+var A=[].slice.call(document.querySelectorAll(&#x27;[data-k]&#x27;));
+var K={g:[{transform:&#x27;scaleX(0)&#x27;},{transform:&#x27;scaleX(1)&#x27;}],p:[{transform:&#x27;scale(0)&#x27;,opacity:0},{transform:&#x27;scale(1)&#x27;,opacity:1}],l:[{strokeDashoffset:1},{strokeDashoffset:0}],f:[{opacity:0},{opacity:1}]};
+function play(){A.forEach(function(e){e.getAnimations().forEach(function(a){a.cancel()});var f=e.dataset.f?JSON.parse(e.dataset.f):K[e.dataset.k];e.animate(f,{delay:+e.dataset.d,duration:+e.dataset.t,fill:&#x27;backwards&#x27;,easing:e.dataset.e||&#x27;cubic-bezier(.2,.8,.2,1)&#x27;})})}
+var on=false;new IntersectionObserver(function(x){var v=x[x.length-1].isIntersecting;if(v&amp;&amp;!on)play();on=v}).observe(document.documentElement);
+&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;"></iframe>
+<div style="display:flex;flex-direction:column;gap:8px">
+<p style="font-size:24px;font-weight:700;color:#B23A1F">Що пішло не так</p>
+<h2 style="font-size:56px;font-weight:700;line-height:1.15;color:#2B2A26">Перші сигнали видно вже наприкінці спринту 2</h2>
+</div>
+<div data-build-in="rise 1 auto" style="position:absolute;left:128px;top:284px;width:1664px;height:492px;display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:24px">
+<div style="background:#F1EFE8;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:12px">
+<p style="font-size:56px;font-weight:800;line-height:1.15;color:#B23A1F">0,43</p>
+<h3 style="font-size:36px;font-weight:700;line-height:1.2">SPI за 0/100</h3>
+<p style="font-size:30px;line-height:1.4;color:#4A4944">0,81 за 50/50. Закрито 125 год із 290 за планом.</p>
+</div>
+<div style="background:#F1EFE8;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:12px">
+<p style="font-size:56px;font-weight:800;line-height:1.15;color:#B23A1F">163%</p>
+<h3 style="font-size:36px;font-weight:700;line-height:1.2">Завантаження Mobile</h3>
+<p style="font-size:30px;line-height:1.4;color:#4A4944">130 год у спринті при capacity 80. Кілька задач паралельно.</p>
+</div>
+<div style="background:#F1EFE8;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:12px">
+<p style="font-size:56px;font-weight:800;line-height:1.15;color:#B23A1F">Blocked</p>
+<h3 style="font-size:36px;font-weight:700;line-height:1.2">OCR-парсинг</h3>
+<p style="font-size:30px;line-height:1.4;color:#4A4944">Чекає доступу до OCR API і набору етикеток. Інженер на 50%.</p>
+</div>
+<div style="background:#F1EFE8;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:12px">
+<p style="font-size:56px;font-weight:800;line-height:1.15;color:#B23A1F">0</p>
+<h3 style="font-size:36px;font-weight:700;line-height:1.2">Власників privacy consent</h3>
+<p style="font-size:30px;line-height:1.4;color:#4A4944">Задача без відповідального: compliance-ризик до спринту 4.</p>
+</div>
+</div>
+<div data-build-in="rise 2 auto" style="position:absolute;left:128px;bottom:150px;width:1664px;background:#E6F1FB;border-radius:12px;padding:20px 32px"><p style="font-size:32px;line-height:1.35;color:#0C447C"><b>Що зробили тоді:</b> ескалація доступів за 24 години, запит OCR/ML на 100%, не більше однієї задачі на роль у Mobile.</p></div>
+<iframe title="Анімація" style="position:absolute;left:177px;top:585px;width:300px;height:150px;border:0" srcdoc="&lt;!doctype html&gt;&lt;html&gt;&lt;head&gt;&lt;style&gt;html,body{margin:0;height:100%;background:transparent;overflow:hidden}svg{display:block;width:100%;height:100%;overflow:visible}.g{transform-box:fill-box;transform-origin:left center}.c{transform-box:fill-box;transform-origin:center}&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;svg viewBox=&quot;0 0 300 150&quot; fill=&quot;none&quot;&gt;
+&lt;path pathLength=&quot;1&quot; stroke-dasharray=&quot;1&quot; d=&quot;M30 140A120 120 0 0 1 247.1 69.5&quot; stroke=&quot;#E79A84&quot; stroke-width=&quot;22&quot; data-k=&quot;l&quot; data-d=&quot;900&quot; data-t=&quot;800&quot;/&gt;
+&lt;path pathLength=&quot;1&quot; stroke-dasharray=&quot;1&quot; d=&quot;M247.1 69.5A120 120 0 0 1 270 140&quot; stroke=&quot;#97C459&quot; stroke-width=&quot;22&quot; data-k=&quot;l&quot; data-d=&quot;1700&quot; data-t=&quot;250&quot;/&gt;
+&lt;path d=&quot;M232.7 83.8L261.6 64.1&quot; stroke=&quot;#2B2A26&quot; stroke-width=&quot;4&quot; data-k=&quot;f&quot; data-d=&quot;2000&quot; data-t=&quot;300&quot;/&gt;
+&lt;g style=&quot;transform-origin:150px 140px;transform:rotate(77.4deg)&quot; data-k=&quot;n&quot; data-d=&quot;2100&quot; data-t=&quot;1500&quot; data-e=&quot;cubic-bezier(.3,1.5,.5,1)&quot; data-f=&#x27;[{&quot;transform&quot;:&quot;rotate(0deg)&quot;},{&quot;transform&quot;:&quot;rotate(77.4deg)&quot;}]&#x27;&gt;&lt;path d=&quot;M150 134L48 140L150 146Z&quot; fill=&quot;#2B2A26&quot;/&gt;&lt;/g&gt;
+&lt;circle cx=&quot;150&quot; cy=&quot;140&quot; r=&quot;10&quot; fill=&quot;#2B2A26&quot; class=&quot;c&quot; data-k=&quot;p&quot; data-d=&quot;2000&quot; data-t=&quot;250&quot;/&gt;
+&lt;/svg&gt;&lt;script&gt;
+var A=[].slice.call(document.querySelectorAll(&#x27;[data-k]&#x27;));
+var K={g:[{transform:&#x27;scaleX(0)&#x27;},{transform:&#x27;scaleX(1)&#x27;}],p:[{transform:&#x27;scale(0)&#x27;,opacity:0},{transform:&#x27;scale(1)&#x27;,opacity:1}],l:[{strokeDashoffset:1},{strokeDashoffset:0}],f:[{opacity:0},{opacity:1}]};
+function play(){A.forEach(function(e){e.getAnimations().forEach(function(a){a.cancel()});var f=e.dataset.f?JSON.parse(e.dataset.f):K[e.dataset.k];e.animate(f,{delay:+e.dataset.d,duration:+e.dataset.t,fill:&#x27;backwards&#x27;,easing:e.dataset.e||&#x27;cubic-bezier(.2,.8,.2,1)&#x27;})})}
+var on=false;new IntersectionObserver(function(x){var v=x[x.length-1].isIntersecting;if(v&amp;&amp;!on)play();on=v}).observe(document.documentElement);
+&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;"></iframe>
+<iframe title="Анімація" style="position:absolute;left:578px;top:668px;width:342px;height:44px;border:0" srcdoc="&lt;!doctype html&gt;&lt;html&gt;&lt;head&gt;&lt;style&gt;html,body{margin:0;height:100%;background:transparent;overflow:hidden}svg{display:block;width:100%;height:100%;overflow:visible}.g{transform-box:fill-box;transform-origin:left center}.c{transform-box:fill-box;transform-origin:center}&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;svg viewBox=&quot;0 0 342 44&quot; fill=&quot;none&quot;&gt;
+&lt;rect class=&quot;g&quot; x=&quot;0&quot; y=&quot;6&quot; width=&quot;210&quot; height=&quot;32&quot; fill=&quot;#85B7EB&quot; data-k=&quot;g&quot; data-d=&quot;1200&quot; data-t=&quot;900&quot;/&gt;
+&lt;rect class=&quot;g&quot; x=&quot;212&quot; y=&quot;6&quot; width=&quot;130&quot; height=&quot;32&quot; fill=&quot;#C2452A&quot; data-k=&quot;g&quot; data-d=&quot;2100&quot; data-t=&quot;800&quot;/&gt;
+&lt;path pathLength=&quot;1&quot; stroke-dasharray=&quot;1&quot; d=&quot;M211 0V44&quot; stroke=&quot;#2B2A26&quot; stroke-width=&quot;3&quot; data-k=&quot;l&quot; data-d=&quot;2050&quot; data-t=&quot;250&quot;/&gt;
+&lt;/svg&gt;&lt;script&gt;
+var A=[].slice.call(document.querySelectorAll(&#x27;[data-k]&#x27;));
+var K={g:[{transform:&#x27;scaleX(0)&#x27;},{transform:&#x27;scaleX(1)&#x27;}],p:[{transform:&#x27;scale(0)&#x27;,opacity:0},{transform:&#x27;scale(1)&#x27;,opacity:1}],l:[{strokeDashoffset:1},{strokeDashoffset:0}],f:[{opacity:0},{opacity:1}]};
+function play(){A.forEach(function(e){e.getAnimations().forEach(function(a){a.cancel()});var f=e.dataset.f?JSON.parse(e.dataset.f):K[e.dataset.k];e.animate(f,{delay:+e.dataset.d,duration:+e.dataset.t,fill:&#x27;backwards&#x27;,easing:e.dataset.e||&#x27;cubic-bezier(.2,.8,.2,1)&#x27;})})}
+var on=false;new IntersectionObserver(function(x){var v=x[x.length-1].isIntersecting;if(v&amp;&amp;!on)play();on=v}).observe(document.documentElement);
+&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;"></iframe>
+<p data-build-in="fade 2 auto" style="position:absolute;left:156px;top:738px;width:342px;font-size:24px;text-align:center;color:#4A4944">Поріг дії: SPI нижче 0,8</p>
+<p data-build-in="fade 2 auto" style="position:absolute;left:578px;top:718px;width:342px;font-size:24px;color:#4A4944">Capacity 80 год із 130</p>
+
+</section>
+<section id="wrong-t8" data-transition="magic" style="background:#FBFAF6;color:#2B2A26;font-family:'Manrope', Arial, sans-serif;padding:150px 128px 150px;display:flex;flex-direction:column;gap:28px">
+<div style="position:absolute;left:128px;top:44px;width:1664px;display:flex">
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#0F7A5F"></div><div style="flex:1;height:4px;background:#0F7A5F"></div></div><p style="font-size:24px;color:#6F6D66">План</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:28px;height:28px;border-radius:50%;background:#FBFAF6;border:7px solid #C2452A"></div><div style="flex:1;height:4px;background:#D3D1C7"></div></div><p style="font-size:24px;font-weight:700;color:#B23A1F">Що пішло не так</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#D3D1C7"></div><div style="flex:1;height:4px;background:#D3D1C7"></div></div><p style="font-size:24px;color:#6F6D66">Рішення</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#D3D1C7"></div><div style="flex:1;height:4px;background:#D3D1C7"></div></div><p style="font-size:24px;color:#6F6D66">Trade-offs</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#D3D1C7"></div><div style="flex:1;height:4px;background:#D3D1C7"></div></div><p style="font-size:24px;color:#6F6D66">Результат</p></div>
+<div style="flex:none;width:180px;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#D3D1C7"></div></div><p style="font-size:24px;color:#6F6D66">Рекомендації</p></div>
+</div>
+<div id="metro-dot" style="position:absolute;left:425px;top:44px;width:28px;height:28px;border-radius:50%;background:#FBFAF6;border:7px solid #C2452A"></div>
+<svg aria-label="Потяг на станції" width="56" height="30" viewBox="0 0 56 30" fill="none" style="position:absolute;left:411px;top:43px;width:56px;height:30px"><rect x="1" y="3" width="54" height="22" rx="8" fill="#C2452A"/><rect x="8" y="8" width="11" height="8" rx="2" fill="#FBFAF6"/><rect x="23" y="8" width="11" height="8" rx="2" fill="#FBFAF6"/><rect x="38" y="8" width="11" height="8" rx="2" fill="#FBFAF6"/><circle cx="14" cy="26" r="3.5" fill="#2B2A26"/><circle cx="42" cy="26" r="3.5" fill="#2B2A26"/></svg>
+<div style="display:flex;flex-direction:column;gap:8px">
+<p style="font-size:24px;font-weight:700;color:#B23A1F">Що пішло не так</p>
+<h2 style="font-size:56px;font-weight:700;line-height:1.15;color:#2B2A26">Тиждень 8: відстаємо на тиждень, витрати +$2 300</h2>
+</div>
+<table data-build-in="rise 1 auto" style="position:absolute;left:128px;top:284px;width:1664px;font-size:32px;color:#2B2A26">
+<tr><th style="width:18%">Показник</th><th style="width:27%">План</th><th style="width:30%">Факт</th><th style="width:25%">Відхилення</th></tr>
+<tr><td>Графік</td><td>Спринт 4 завершено</td><td>Завершено не повністю</td><td style="color:#B23A1F">≈1 тиждень позаду</td></tr>
+<tr><td>Витрати</td><td>≈$30 000</td><td>≈$32 300</td><td style="color:#B23A1F">+$2 300</td></tr>
+<tr><td>OCR/ML</td><td>130 год</td><td>150 год</td><td style="color:#B23A1F">+20 год, +15%</td></tr>
+<tr><td>Резерв</td><td>$3 775</td><td>$1 300 уже витрачено</td><td style="color:#B23A1F">−$1 300</td></tr>
+<tr><td>Якість</td><td>Без critical-дефектів</td><td>Critical bug псує записи Daily Log</td><td style="color:#B23A1F">Блокер для beta</td></tr>
+<tr><td>Scope</td><td>Затверджений MVP</td><td>Без змін, CR-007 не погоджено</td><td>Без змін</td></tr>
+</table>
+<div data-build-in="rise 2 auto" style="position:absolute;left:128px;top:831px;width:1664px;background:#FAECE7;border-radius:12px;padding:20px 32px"><p style="font-size:32px;line-height:1.35;color:#712B13"><b>Висновок:</b> scope не змінився, але critical bug загрожує якості й прийманню. Треба оцінити залишок робіт і вартість виправлення.</p></div>
+
+</section>
+<section id="wrong-chain" data-transition="magic" style="background:#FBFAF6;color:#2B2A26;font-family:'Manrope', Arial, sans-serif;padding:150px 128px 150px;display:flex;flex-direction:column;gap:28px">
+<div style="position:absolute;left:128px;top:44px;width:1664px;display:flex">
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#0F7A5F"></div><div style="flex:1;height:4px;background:#0F7A5F"></div></div><p style="font-size:24px;color:#6F6D66">План</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:28px;height:28px;border-radius:50%;background:#FBFAF6;border:7px solid #C2452A"></div><div style="flex:1;height:4px;background:#D3D1C7"></div></div><p style="font-size:24px;font-weight:700;color:#B23A1F">Що пішло не так</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#D3D1C7"></div><div style="flex:1;height:4px;background:#D3D1C7"></div></div><p style="font-size:24px;color:#6F6D66">Рішення</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#D3D1C7"></div><div style="flex:1;height:4px;background:#D3D1C7"></div></div><p style="font-size:24px;color:#6F6D66">Trade-offs</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#D3D1C7"></div><div style="flex:1;height:4px;background:#D3D1C7"></div></div><p style="font-size:24px;color:#6F6D66">Результат</p></div>
+<div style="flex:none;width:180px;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#D3D1C7"></div></div><p style="font-size:24px;color:#6F6D66">Рекомендації</p></div>
+</div>
+<div id="metro-dot" style="position:absolute;left:425px;top:44px;width:28px;height:28px;border-radius:50%;background:#FBFAF6;border:7px solid #C2452A"></div>
+<svg aria-label="Потяг на станції" width="56" height="30" viewBox="0 0 56 30" fill="none" style="position:absolute;left:411px;top:43px;width:56px;height:30px"><rect x="1" y="3" width="54" height="22" rx="8" fill="#C2452A"/><rect x="8" y="8" width="11" height="8" rx="2" fill="#FBFAF6"/><rect x="23" y="8" width="11" height="8" rx="2" fill="#FBFAF6"/><rect x="38" y="8" width="11" height="8" rx="2" fill="#FBFAF6"/><circle cx="14" cy="26" r="3.5" fill="#2B2A26"/><circle cx="42" cy="26" r="3.5" fill="#2B2A26"/></svg>
+<div style="display:flex;flex-direction:column;gap:8px">
+<p style="font-size:24px;font-weight:700;color:#B23A1F">Що пішло не так</p>
+<h2 style="font-size:56px;font-weight:700;line-height:1.15;color:#2B2A26">Чотири удари прийшли в один ланцюг робіт</h2>
+</div>
+<div data-build-in="left 1 auto" style="position:absolute;left:128px;top:284px;width:261px;height:108px;background:#FAECE7;border-radius:12px;padding:16px 14px;display:flex;justify-content:center"><p style="font-size:30px;line-height:1.25;font-weight:700;color:#712B13">OCR-парсинг</p></div>
+<x-shape data-build-in="left 2 auto" kind="arrow-right" style="position:absolute;left:397px;top:329px;width:32px;height:18px;background:#6F6D66"></x-shape>
+<div data-build-in="left 2 auto" style="position:absolute;left:437px;top:284px;width:261px;height:108px;background:#FAECE7;border-radius:12px;padding:16px 14px;display:flex;justify-content:center"><p style="font-size:30px;line-height:1.25;font-weight:700;color:#712B13">Confidence і тюнінг</p></div>
+<x-shape data-build-in="left 3 auto" kind="arrow-right" style="position:absolute;left:706px;top:329px;width:32px;height:18px;background:#6F6D66"></x-shape>
+<div data-build-in="left 3 auto" style="position:absolute;left:746px;top:284px;width:261px;height:108px;background:#FAECE7;border-radius:12px;padding:16px 14px;display:flex;justify-content:center"><p style="font-size:30px;line-height:1.25;font-weight:700;color:#712B13">Екран результату</p></div>
+<x-shape data-build-in="left 4 auto" kind="arrow-right" style="position:absolute;left:1015px;top:329px;width:32px;height:18px;background:#6F6D66"></x-shape>
+<div data-build-in="left 4 auto" style="position:absolute;left:1055px;top:284px;width:261px;height:108px;background:#FAECE7;border-radius:12px;padding:16px 14px;display:flex;justify-content:center"><p style="font-size:30px;line-height:1.25;font-weight:700;color:#712B13">Порції + Daily Log</p></div>
+<x-shape data-build-in="left 5 auto" kind="arrow-right" style="position:absolute;left:1324px;top:329px;width:32px;height:18px;background:#6F6D66"></x-shape>
+<div data-build-in="left 5 auto" style="position:absolute;left:1364px;top:284px;width:261px;height:108px;background:#FAECE7;border-radius:12px;padding:16px 14px;display:flex;justify-content:center"><p style="font-size:30px;line-height:1.25;font-weight:700;color:#712B13">Інтеграція iOS + Android</p></div>
+<x-shape data-build-in="left 6 auto" kind="arrow-right" style="position:absolute;left:1633px;top:329px;width:32px;height:18px;background:#6F6D66"></x-shape>
+<div data-build-in="left 6 auto" style="position:absolute;left:1672px;top:284px;width:120px;height:108px;background:#FAECE7;border-radius:12px;padding:16px 14px;display:flex;justify-content:center"><p style="font-size:30px;line-height:1.25;font-weight:700;color:#712B13">QA</p></div>
+<iframe title="Анімація" style="position:absolute;left:128px;top:284px;width:1664px;height:108px;border:0" srcdoc="&lt;!doctype html&gt;&lt;html&gt;&lt;head&gt;&lt;style&gt;html,body{margin:0;height:100%;background:transparent;overflow:hidden}svg{display:block;width:100%;height:100%;overflow:visible}.g{transform-box:fill-box;transform-origin:left center}.c{transform-box:fill-box;transform-origin:center}&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;svg viewBox=&quot;0 0 1664 108&quot; fill=&quot;none&quot;&gt;&lt;rect id=&quot;r0&quot; x=&quot;3&quot; y=&quot;3&quot; width=&quot;255&quot; height=&quot;102&quot; rx=&quot;12&quot; fill=&quot;#C2452A&quot; fill-opacity=&quot;.14&quot; stroke=&quot;#C2452A&quot; stroke-width=&quot;5&quot; opacity=&quot;0&quot;/&gt;&lt;rect id=&quot;r1&quot; x=&quot;312&quot; y=&quot;3&quot; width=&quot;255&quot; height=&quot;102&quot; rx=&quot;12&quot; fill=&quot;#C2452A&quot; fill-opacity=&quot;.14&quot; stroke=&quot;#C2452A&quot; stroke-width=&quot;5&quot; opacity=&quot;0&quot;/&gt;&lt;rect id=&quot;r2&quot; x=&quot;621&quot; y=&quot;3&quot; width=&quot;255&quot; height=&quot;102&quot; rx=&quot;12&quot; fill=&quot;#C2452A&quot; fill-opacity=&quot;.14&quot; stroke=&quot;#C2452A&quot; stroke-width=&quot;5&quot; opacity=&quot;0&quot;/&gt;&lt;rect id=&quot;r3&quot; x=&quot;930&quot; y=&quot;3&quot; width=&quot;255&quot; height=&quot;102&quot; rx=&quot;12&quot; fill=&quot;#C2452A&quot; fill-opacity=&quot;.14&quot; stroke=&quot;#C2452A&quot; stroke-width=&quot;5&quot; opacity=&quot;0&quot;/&gt;&lt;rect id=&quot;r4&quot; x=&quot;1239&quot; y=&quot;3&quot; width=&quot;255&quot; height=&quot;102&quot; rx=&quot;12&quot; fill=&quot;#C2452A&quot; fill-opacity=&quot;.14&quot; stroke=&quot;#C2452A&quot; stroke-width=&quot;5&quot; opacity=&quot;0&quot;/&gt;&lt;rect id=&quot;r5&quot; x=&quot;1547&quot; y=&quot;3&quot; width=&quot;114&quot; height=&quot;102&quot; rx=&quot;12&quot; fill=&quot;#C2452A&quot; fill-opacity=&quot;.14&quot; stroke=&quot;#C2452A&quot; stroke-width=&quot;5&quot; opacity=&quot;0&quot;/&gt;&lt;circle id=&quot;p&quot; r=&quot;11&quot; cy=&quot;104&quot; fill=&quot;#C2452A&quot; opacity=&quot;0&quot;/&gt;&lt;/svg&gt;&lt;script&gt;
+var H={7:[0,1],8:[2,3,4],9:[3,5],10:[0,1,2,3,4,5]};var X=[130,440,750,1058,1366,1604];
+function reset(){[0,1,2,3,4,5].forEach(function(i){var r=document.getElementById(&#x27;r&#x27;+i);r.getAnimations().forEach(function(a){a.cancel()});r.setAttribute(&#x27;opacity&#x27;,&#x27;0&#x27;)});document.getElementById(&#x27;p&#x27;).setAttribute(&#x27;opacity&#x27;,&#x27;0&#x27;)}
+addEventListener(&#x27;message&#x27;,function(e){var d=e.data||{};if(d.deckReset){reset();return}var t=H[d.deckStep];if(!t)return;
+t.forEach(function(i,n){var r=document.getElementById(&#x27;r&#x27;+i);r.setAttribute(&#x27;opacity&#x27;,&#x27;1&#x27;);r.animate([{opacity:0},{opacity:1,strokeWidth:&#x27;12px&#x27;},{opacity:1,strokeWidth:&#x27;5px&#x27;}],{delay:250+n*220,duration:600,fill:&#x27;backwards&#x27;})});
+var p=document.getElementById(&#x27;p&#x27;),a=X[t[0]],b=X[t[t.length-1]];p.animate([{opacity:0,transform:&#x27;translateX(&#x27;+a+&#x27;px)&#x27;},{opacity:1,transform:&#x27;translateX(&#x27;+a+&#x27;px)&#x27;,offset:.1},{opacity:1,transform:&#x27;translateX(&#x27;+b+&#x27;px)&#x27;,offset:.9},{opacity:0,transform:&#x27;translateX(&#x27;+b+&#x27;px)&#x27;}],{duration:300+t.length*220,easing:&#x27;linear&#x27;})});
+&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;"></iframe>
+<div data-build-in="drop 7" style="position:absolute;left:128px;top:420px;width:398px;height:390px;background:#F1EFE8;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:12px">
+<h3 style="font-size:36px;font-weight:700;line-height:1.2">OCR/ML +20 год</h3>
+<p style="font-size:30px;line-height:1.4;color:#4A4944">150 год проти 130. Інженер на 50%, раніше блокували доступи.</p>
+<p style="font-size:24px;line-height:1.3;font-weight:700;color:#B23A1F">Б’є по: OCR-парсинг, confidence</p>
+</div>
+<div data-build-in="drop 8" style="position:absolute;left:550px;top:420px;width:398px;height:390px;background:#F1EFE8;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:12px">
+<h3 style="font-size:36px;font-weight:700;line-height:1.2">Mobile вибув на 2 тижні</h3>
+<p style="font-size:30px;line-height:1.4;color:#4A4944">Тижні 7–8. Розробник один, дублера немає.</p>
+<p style="font-size:24px;line-height:1.3;font-weight:700;color:#B23A1F">Б’є по: екран, порції, інтеграція</p>
+</div>
+<div data-build-in="drop 9" style="position:absolute;left:972px;top:420px;width:398px;height:390px;background:#F1EFE8;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:12px">
+<h3 style="font-size:36px;font-weight:700;line-height:1.2">Critical bug</h3>
+<p style="font-size:30px;line-height:1.4;color:#4A4944">Ручне виправлення значень псує записи Daily Log.</p>
+<p style="font-size:24px;line-height:1.3;font-weight:700;color:#B23A1F">Б’є по: Daily Log, QA</p>
+</div>
+<div data-build-in="drop 10" style="position:absolute;left:1394px;top:420px;width:398px;height:390px;background:#F1EFE8;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:12px">
+<h3 style="font-size:36px;font-weight:700;line-height:1.2">CR-007: штрихкод</h3>
+<p style="font-size:30px;line-height:1.4;color:#4A4944">110 год, $5 950 без ліцензії, ~+2 тижні. Подав Sponsor.</p>
+<p style="font-size:24px;line-height:1.3;font-weight:700;color:#B23A1F">Б’є по: Backend, Mobile, OCR/ML, QA</p>
+</div>
+
+</section>
+<section id="fix-actions" data-transition="magic" style="background:#FBFAF6;color:#2B2A26;font-family:'Manrope', Arial, sans-serif;padding:150px 128px 150px;display:flex;flex-direction:column;gap:28px">
+<div style="position:absolute;left:128px;top:44px;width:1664px;display:flex">
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#0F7A5F"></div><div style="flex:1;height:4px;background:#0F7A5F"></div></div><p style="font-size:24px;color:#6F6D66">План</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#C2452A"></div><div style="flex:1;height:4px;background:#C2452A"></div></div><p style="font-size:24px;color:#6F6D66">Що пішло не так</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:28px;height:28px;border-radius:50%;background:#FBFAF6;border:7px solid #1F6FB8"></div><div style="flex:1;height:4px;background:#D3D1C7"></div></div><p style="font-size:24px;font-weight:700;color:#1F6FB8">Рішення</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#D3D1C7"></div><div style="flex:1;height:4px;background:#D3D1C7"></div></div><p style="font-size:24px;color:#6F6D66">Trade-offs</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#D3D1C7"></div><div style="flex:1;height:4px;background:#D3D1C7"></div></div><p style="font-size:24px;color:#6F6D66">Результат</p></div>
+<div style="flex:none;width:180px;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#D3D1C7"></div></div><p style="font-size:24px;color:#6F6D66">Рекомендації</p></div>
+</div>
+<div id="metro-dot" style="position:absolute;left:722px;top:44px;width:28px;height:28px;border-radius:50%;background:#FBFAF6;border:7px solid #1F6FB8"></div>
+<iframe title="Анімація" style="position:absolute;left:708px;top:43px;width:56px;height:30px;border:0" srcdoc="&lt;!doctype html&gt;&lt;html&gt;&lt;head&gt;&lt;style&gt;html,body{margin:0;height:100%;background:transparent;overflow:hidden}svg{display:block;width:100%;height:100%;overflow:visible}.g{transform-box:fill-box;transform-origin:left center}.c{transform-box:fill-box;transform-origin:center}&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;svg viewBox=&quot;0 0 56 30&quot; fill=&quot;none&quot;&gt;&lt;g data-k=&quot;t&quot; data-d=&quot;250&quot; data-t=&quot;1500&quot; data-e=&quot;cubic-bezier(.45,.05,.2,1)&quot; data-f=&#x27;[{&quot;transform&quot;:&quot;translateX(-297px)&quot;},{&quot;transform&quot;:&quot;translateX(0px)&quot;}]&#x27;&gt;&lt;rect x=&quot;1&quot; y=&quot;3&quot; width=&quot;54&quot; height=&quot;22&quot; rx=&quot;8&quot; fill=&quot;#1F6FB8&quot;/&gt;&lt;rect x=&quot;8&quot; y=&quot;8&quot; width=&quot;11&quot; height=&quot;8&quot; rx=&quot;2&quot; fill=&quot;#FBFAF6&quot;/&gt;&lt;rect x=&quot;23&quot; y=&quot;8&quot; width=&quot;11&quot; height=&quot;8&quot; rx=&quot;2&quot; fill=&quot;#FBFAF6&quot;/&gt;&lt;rect x=&quot;38&quot; y=&quot;8&quot; width=&quot;11&quot; height=&quot;8&quot; rx=&quot;2&quot; fill=&quot;#FBFAF6&quot;/&gt;&lt;circle cx=&quot;14&quot; cy=&quot;26&quot; r=&quot;3.5&quot; fill=&quot;#2B2A26&quot;/&gt;&lt;circle cx=&quot;42&quot; cy=&quot;26&quot; r=&quot;3.5&quot; fill=&quot;#2B2A26&quot;/&gt;&lt;/g&gt;&lt;/svg&gt;&lt;script&gt;
+var A=[].slice.call(document.querySelectorAll(&#x27;[data-k]&#x27;));
+var K={g:[{transform:&#x27;scaleX(0)&#x27;},{transform:&#x27;scaleX(1)&#x27;}],p:[{transform:&#x27;scale(0)&#x27;,opacity:0},{transform:&#x27;scale(1)&#x27;,opacity:1}],l:[{strokeDashoffset:1},{strokeDashoffset:0}],f:[{opacity:0},{opacity:1}]};
+function play(){A.forEach(function(e){e.getAnimations().forEach(function(a){a.cancel()});var f=e.dataset.f?JSON.parse(e.dataset.f):K[e.dataset.k];e.animate(f,{delay:+e.dataset.d,duration:+e.dataset.t,fill:&#x27;backwards&#x27;,easing:e.dataset.e||&#x27;cubic-bezier(.2,.8,.2,1)&#x27;})})}
+var on=false;new IntersectionObserver(function(x){var v=x[x.length-1].isIntersecting;if(v&amp;&amp;!on)play();on=v}).observe(document.documentElement);
+&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;"></iframe>
+<div style="display:flex;flex-direction:column;gap:8px">
+<p style="font-size:24px;font-weight:700;color:#1F6FB8">Рішення</p>
+<h2 style="font-size:56px;font-weight:700;line-height:1.15;color:#2B2A26">Три рішення в порядку пріоритету</h2>
+</div>
+<div data-build-in="rise 1 auto" style="position:absolute;left:128px;top:284px;width:1664px;height:646px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px">
+<div style="background:#E6F1FB;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:14px">
+<p style="font-size:56px;font-weight:800;line-height:1.1;color:#1F6FB8">1</p>
+<h3 style="font-size:36px;font-weight:700;line-height:1.2;color:#0C447C">Critical bug першим</h3>
+<p style="font-size:32px;line-height:1.4;color:#0C447C">P0, stop-ship. Перші 1–2 дні тижня 9 Mobile і Backend шукають причину, далі фікс і регресія від QA.</p>
+<p style="font-size:32px;line-height:1.4;color:#0C447C">Робимо це до Daily Log, щоб його не переробляти.</p>
+</div>
+<div style="background:#E6F1FB;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:14px">
+<p style="font-size:56px;font-weight:800;line-height:1.1;color:#1F6FB8">2</p>
+<h3 style="font-size:36px;font-weight:700;line-height:1.2;color:#0C447C">Овертайм, а не другий Mobile</h3>
+<p style="font-size:32px;line-height:1.4;color:#0C447C">Різницю ~26 год закриває овертайм, по 13 год на тиждень.</p>
+<p style="font-size:32px;line-height:1.4;color:#0C447C">Новачок за 4 тижні не встигне, а вводити його довелося б тому самому Mobile.</p>
+</div>
+<div style="background:#E6F1FB;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:14px">
+<p style="font-size:56px;font-weight:800;line-height:1.1;color:#1F6FB8">3</p>
+<h3 style="font-size:36px;font-weight:700;line-height:1.2;color:#0C447C">OCR: прийняти перевитрату</h3>
+<p style="font-size:32px;line-height:1.4;color:#0C447C">20 год × $65 = $1 300, уже покрито резервом.</p>
+<p style="font-size:32px;line-height:1.4;color:#0C447C">150 год у межах нашої оцінки 85–175. Нової роботи немає.</p>
+</div>
+</div>
+
+</section>
+<section id="fix-mobile" data-transition="magic" style="background:#FBFAF6;color:#2B2A26;font-family:'Manrope', Arial, sans-serif;padding:150px 128px 150px;display:flex;flex-direction:column;gap:28px">
+<div style="position:absolute;left:128px;top:44px;width:1664px;display:flex">
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#0F7A5F"></div><div style="flex:1;height:4px;background:#0F7A5F"></div></div><p style="font-size:24px;color:#6F6D66">План</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#C2452A"></div><div style="flex:1;height:4px;background:#C2452A"></div></div><p style="font-size:24px;color:#6F6D66">Що пішло не так</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:28px;height:28px;border-radius:50%;background:#FBFAF6;border:7px solid #1F6FB8"></div><div style="flex:1;height:4px;background:#D3D1C7"></div></div><p style="font-size:24px;font-weight:700;color:#1F6FB8">Рішення</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#D3D1C7"></div><div style="flex:1;height:4px;background:#D3D1C7"></div></div><p style="font-size:24px;color:#6F6D66">Trade-offs</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#D3D1C7"></div><div style="flex:1;height:4px;background:#D3D1C7"></div></div><p style="font-size:24px;color:#6F6D66">Результат</p></div>
+<div style="flex:none;width:180px;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#D3D1C7"></div></div><p style="font-size:24px;color:#6F6D66">Рекомендації</p></div>
+</div>
+<div id="metro-dot" style="position:absolute;left:722px;top:44px;width:28px;height:28px;border-radius:50%;background:#FBFAF6;border:7px solid #1F6FB8"></div>
+<svg aria-label="Потяг на станції" width="56" height="30" viewBox="0 0 56 30" fill="none" style="position:absolute;left:708px;top:43px;width:56px;height:30px"><rect x="1" y="3" width="54" height="22" rx="8" fill="#1F6FB8"/><rect x="8" y="8" width="11" height="8" rx="2" fill="#FBFAF6"/><rect x="23" y="8" width="11" height="8" rx="2" fill="#FBFAF6"/><rect x="38" y="8" width="11" height="8" rx="2" fill="#FBFAF6"/><circle cx="14" cy="26" r="3.5" fill="#2B2A26"/><circle cx="42" cy="26" r="3.5" fill="#2B2A26"/></svg>
+<div style="display:flex;flex-direction:column;gap:8px">
+<p style="font-size:24px;font-weight:700;color:#1F6FB8">Рішення</p>
+<h2 style="font-size:56px;font-weight:700;line-height:1.15;color:#2B2A26">Тижні 9–10: Mobile має 106 год роботи при 80</h2>
+</div>
+<h3 style="position:absolute;left:128px;top:284px;width:880px;font-size:36px;font-weight:700">Потрібно: 106 год</h3>
+<div data-build-in="left 1 auto" style="position:absolute;left:128px;top:336px;width:166px;height:64px;background:#85B7EB;display:flex;align-items:center;justify-content:center"><p style="font-size:32px;font-weight:700;color:#0C447C">20</p></div>
+<div data-build-in="left 2 auto" style="position:absolute;left:296px;top:336px;width:133px;height:64px;background:#C2452A;display:flex;align-items:center;justify-content:center"><p style="font-size:32px;font-weight:700;color:#FBFAF6">16</p></div>
+<div data-build-in="left 3 auto" style="position:absolute;left:431px;top:336px;width:374px;height:64px;background:#378ADD;display:flex;align-items:center;justify-content:center"><p style="font-size:32px;font-weight:700;color:#042C53">45</p></div>
+<div data-build-in="left 4 auto" style="position:absolute;left:807px;top:336px;width:207px;height:64px;background:#185FA5;display:flex;align-items:center;justify-content:center"><p style="font-size:32px;font-weight:700;color:#FBFAF6">25</p></div>
+<p style="position:absolute;left:128px;top:410px;width:886px;font-size:24px;line-height:1.35;color:#4A4944">20 залишок екрана результату · 16 фікс бага · 45 порції + Daily Log · 25 інтеграція iOS + Android</p>
+<h3 style="position:absolute;left:128px;top:486px;width:880px;font-size:36px;font-weight:700">Доступно: 80 год + овертайм</h3>
+<iframe title="Анімація" style="position:absolute;left:128px;top:538px;width:900px;height:64px;border:0" srcdoc="&lt;!doctype html&gt;&lt;html&gt;&lt;head&gt;&lt;style&gt;html,body{margin:0;height:100%;background:transparent;overflow:hidden}svg{display:block;width:100%;height:100%;overflow:visible}.g{transform-box:fill-box;transform-origin:left center}.c{transform-box:fill-box;transform-origin:center}&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;svg viewBox=&quot;0 0 900 64&quot; fill=&quot;none&quot;&gt;
+&lt;rect class=&quot;g&quot; x=&quot;0&quot; y=&quot;0&quot; width=&quot;664&quot; height=&quot;64&quot; fill=&quot;#D3D1C7&quot; data-k=&quot;g&quot; data-d=&quot;2900&quot; data-t=&quot;1100&quot; data-e=&quot;linear&quot;/&gt;
+&lt;rect class=&quot;g&quot; x=&quot;666&quot; y=&quot;0&quot; width=&quot;220&quot; height=&quot;64&quot; fill=&quot;#EFB24F&quot; data-k=&quot;g&quot; data-d=&quot;4000&quot; data-t=&quot;700&quot; data-e=&quot;linear&quot;/&gt;
+&lt;path pathLength=&quot;1&quot; stroke-dasharray=&quot;1&quot; d=&quot;M665 -6V70&quot; stroke=&quot;#2B2A26&quot; stroke-width=&quot;3&quot; data-k=&quot;l&quot; data-d=&quot;3900&quot; data-t=&quot;200&quot;/&gt;
+&lt;/svg&gt;&lt;script&gt;
+var A=[].slice.call(document.querySelectorAll(&#x27;[data-k]&#x27;));
+var K={g:[{transform:&#x27;scaleX(0)&#x27;},{transform:&#x27;scaleX(1)&#x27;}],p:[{transform:&#x27;scale(0)&#x27;,opacity:0},{transform:&#x27;scale(1)&#x27;,opacity:1}],l:[{strokeDashoffset:1},{strokeDashoffset:0}],f:[{opacity:0},{opacity:1}]};
+function play(){A.forEach(function(e){e.getAnimations().forEach(function(a){a.cancel()});var f=e.dataset.f?JSON.parse(e.dataset.f):K[e.dataset.k];e.animate(f,{delay:+e.dataset.d,duration:+e.dataset.t,fill:&#x27;backwards&#x27;,easing:e.dataset.e||&#x27;cubic-bezier(.2,.8,.2,1)&#x27;})})}
+var on=false;new IntersectionObserver(function(x){var v=x[x.length-1].isIntersecting;if(v&amp;&amp;!on)play();on=v}).observe(document.documentElement);
+&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;"></iframe>
+<div style="position:absolute;left:128px;top:538px;width:664px;height:64px;display:flex;align-items:center;justify-content:center"><p style="font-size:32px;font-weight:700;color:#2B2A26">80 год capacity</p></div>
+<div style="position:absolute;left:794px;top:538px;width:220px;height:64px;display:flex;align-items:center;justify-content:center"><p style="font-size:32px;font-weight:700;color:#412402">+26 год</p></div>
+<div data-build-in="rise 5" style="position:absolute;left:128px;top:622px;width:886px;background:#F1EFE8;border-radius:12px;padding:18px 24px;display:flex;flex-direction:column;gap:8px">
+<div style="display:flex;justify-content:space-between;gap:16px"><p style="font-size:30px;color:#4A4944">Фікс бага, 16 год × $55</p><p style="font-size:30px;font-weight:700">$880</p></div>
+<div style="display:flex;justify-content:space-between;gap:16px"><p style="font-size:30px;color:#4A4944">Надбавка за овертайм, 26 год × $27,5</p><p style="font-size:30px;font-weight:700">$715</p></div>
+<div style="display:flex;justify-content:space-between;gap:16px"><p style="font-size:30px;font-weight:700">Разом</p><p style="font-size:30px;font-weight:700">≈$1 600</p></div>
+</div>
+<div data-build-in="right 6" style="position:absolute;left:1046px;top:284px;width:746px;height:560px;background:#FAECE7;border-radius:16px;padding:28px 32px;display:flex;flex-direction:column;gap:16px">
+<h3 style="font-size:36px;font-weight:700;color:#712B13">Якщо не спрацює</h3>
+<p style="font-size:30px;line-height:1.35;color:#712B13"><b>Фікс понад 24 год або немає овертайму:</b> інтеграція на тиждень 11, паралельно з QA, і попереджаємо спонсора.</p>
+<p style="font-size:30px;line-height:1.35;color:#712B13"><b>Кінець тижня 10, роботи не закриті:</b> історію після beta через change request або management reserve.</p>
+<p style="font-size:30px;line-height:1.35;color:#712B13"><b>Витрати понад $1 700:</b> це вже поза повноваженнями PM, рішення за спонсором.</p>
+</div>
+<p style="position:absolute;left:128px;bottom:56px;width:1664px;font-size:24px;color:#6F6D66">Контрольні точки: кінець тижнів 9 і 10</p>
+
+</section>
+<section id="fix-cr007" data-transition="magic" style="background:#FBFAF6;color:#2B2A26;font-family:'Manrope', Arial, sans-serif;padding:150px 128px 150px;display:flex;flex-direction:column;gap:28px">
+<div style="position:absolute;left:128px;top:44px;width:1664px;display:flex">
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#0F7A5F"></div><div style="flex:1;height:4px;background:#0F7A5F"></div></div><p style="font-size:24px;color:#6F6D66">План</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#C2452A"></div><div style="flex:1;height:4px;background:#C2452A"></div></div><p style="font-size:24px;color:#6F6D66">Що пішло не так</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:28px;height:28px;border-radius:50%;background:#FBFAF6;border:7px solid #1F6FB8"></div><div style="flex:1;height:4px;background:#D3D1C7"></div></div><p style="font-size:24px;font-weight:700;color:#1F6FB8">Рішення</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#D3D1C7"></div><div style="flex:1;height:4px;background:#D3D1C7"></div></div><p style="font-size:24px;color:#6F6D66">Trade-offs</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#D3D1C7"></div><div style="flex:1;height:4px;background:#D3D1C7"></div></div><p style="font-size:24px;color:#6F6D66">Результат</p></div>
+<div style="flex:none;width:180px;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#D3D1C7"></div></div><p style="font-size:24px;color:#6F6D66">Рекомендації</p></div>
+</div>
+<div id="metro-dot" style="position:absolute;left:722px;top:44px;width:28px;height:28px;border-radius:50%;background:#FBFAF6;border:7px solid #1F6FB8"></div>
+<svg aria-label="Потяг на станції" width="56" height="30" viewBox="0 0 56 30" fill="none" style="position:absolute;left:708px;top:43px;width:56px;height:30px"><rect x="1" y="3" width="54" height="22" rx="8" fill="#1F6FB8"/><rect x="8" y="8" width="11" height="8" rx="2" fill="#FBFAF6"/><rect x="23" y="8" width="11" height="8" rx="2" fill="#FBFAF6"/><rect x="38" y="8" width="11" height="8" rx="2" fill="#FBFAF6"/><circle cx="14" cy="26" r="3.5" fill="#2B2A26"/><circle cx="42" cy="26" r="3.5" fill="#2B2A26"/></svg>
+<div style="display:flex;flex-direction:column;gap:8px">
+<p style="font-size:24px;font-weight:700;color:#1F6FB8">Рішення</p>
+<h2 style="font-size:56px;font-weight:700;line-height:1.15;color:#2B2A26">CR-007: у Phase 2 за чіткими умовами</h2>
+</div>
+<div data-build-in="rise 1 auto" style="position:absolute;left:128px;top:284px;width:1664px;height:646px;display:grid;grid-template-columns:1.1fr 1fr;gap:24px">
+<table style="font-size:30px;color:#2B2A26">
+<tr><th style="width:24%">Вимір</th><th style="width:76%">Вплив штрихкоду на beta</th></tr>
+<tr><td>Scope</td><td>Нова функція поза Approved MVP Scope v1</td></tr>
+<tr><td>Час</td><td>~+2 тижні: beta на кінець тижня 14, уже після демо</td></tr>
+<tr><td>Cost</td><td>$5 950 за працю + ліцензія, ціна невідома</td></tr>
+<tr><td>Capacity</td><td>+30 год для єдиного Mobile, який уже відстає</td></tr>
+<tr><td>Ризик</td><td>Сторонній API, дані без OCR-confidence</td></tr>
+</table>
+<div style="display:flex;flex-direction:column;gap:20px">
+<div style="background:#E6F1FB;border-radius:16px;padding:24px 28px;display:flex;flex-direction:column;gap:10px">
+<h3 style="font-size:36px;font-weight:700;color:#0C447C">Переглядаємо, коли</h3>
+<ul style="font-size:30px;line-height:1.4;color:#0C447C">
+<li>Є ціна й умови ліцензії</li>
+<li>Beta прийнята, critical bug закрито</li>
+<li>Sponsor погоджує бюджет і дату Phase 2</li>
+<li>Є додатковий мобільний ресурс</li>
+</ul>
+</div>
+<div style="background:#F1EFE8;border-radius:16px;padding:24px 28px;display:flex;flex-direction:column;gap:10px">
+<h3 style="font-size:36px;font-weight:700">У beta лише на наших умовах</h3>
+<p style="font-size:30px;line-height:1.4;color:#4A4944">До кінця тижня 9: окремий бюджет понад NTE, beta на тиждень 14 з переносом демо, ціна ліцензії й доступ до API.</p>
+</div>
+</div>
+</div>
+
+</section>
+<section id="fix-comms" data-transition="magic" style="background:#FBFAF6;color:#2B2A26;font-family:'Manrope', Arial, sans-serif;padding:150px 128px 150px;display:flex;flex-direction:column;gap:28px">
+<div style="position:absolute;left:128px;top:44px;width:1664px;display:flex">
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#0F7A5F"></div><div style="flex:1;height:4px;background:#0F7A5F"></div></div><p style="font-size:24px;color:#6F6D66">План</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#C2452A"></div><div style="flex:1;height:4px;background:#C2452A"></div></div><p style="font-size:24px;color:#6F6D66">Що пішло не так</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:28px;height:28px;border-radius:50%;background:#FBFAF6;border:7px solid #1F6FB8"></div><div style="flex:1;height:4px;background:#D3D1C7"></div></div><p style="font-size:24px;font-weight:700;color:#1F6FB8">Рішення</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#D3D1C7"></div><div style="flex:1;height:4px;background:#D3D1C7"></div></div><p style="font-size:24px;color:#6F6D66">Trade-offs</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#D3D1C7"></div><div style="flex:1;height:4px;background:#D3D1C7"></div></div><p style="font-size:24px;color:#6F6D66">Результат</p></div>
+<div style="flex:none;width:180px;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#D3D1C7"></div></div><p style="font-size:24px;color:#6F6D66">Рекомендації</p></div>
+</div>
+<div id="metro-dot" style="position:absolute;left:722px;top:44px;width:28px;height:28px;border-radius:50%;background:#FBFAF6;border:7px solid #1F6FB8"></div>
+<svg aria-label="Потяг на станції" width="56" height="30" viewBox="0 0 56 30" fill="none" style="position:absolute;left:708px;top:43px;width:56px;height:30px"><rect x="1" y="3" width="54" height="22" rx="8" fill="#1F6FB8"/><rect x="8" y="8" width="11" height="8" rx="2" fill="#FBFAF6"/><rect x="23" y="8" width="11" height="8" rx="2" fill="#FBFAF6"/><rect x="38" y="8" width="11" height="8" rx="2" fill="#FBFAF6"/><circle cx="14" cy="26" r="3.5" fill="#2B2A26"/><circle cx="42" cy="26" r="3.5" fill="#2B2A26"/></svg>
+<div style="display:flex;flex-direction:column;gap:8px">
+<p style="font-size:24px;font-weight:700;color:#1F6FB8">Рішення</p>
+<h2 style="font-size:56px;font-weight:700;line-height:1.15;color:#2B2A26">Кожна аудиторія отримала своє повідомлення</h2>
+</div>
+<div data-build-in="rise 1 auto" style="position:absolute;left:128px;top:284px;width:1664px;height:646px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px">
+<div style="background:#F1EFE8;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:14px">
+<h3 style="font-size:36px;font-weight:700;line-height:1.2">Sponsor</h3>
+<p style="font-size:24px;font-weight:700;color:#1F6FB8">Статус, вплив, потрібне рішення</p>
+<p style="font-size:32px;line-height:1.4;color:#4A4944">Відстаємо на 1 тиждень, витрати +$2,3k. Дедлайн тижня 12 фіксований.</p>
+<p style="font-size:32px;line-height:1.4;color:#4A4944">CR-007 коштує ~$6k і +2 тижні. Рекомендуємо відкласти.</p>
+</div>
+<div style="background:#F1EFE8;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:14px">
+<h3 style="font-size:36px;font-weight:700;line-height:1.2">Product</h3>
+<p style="font-size:24px;font-weight:700;color:#1F6FB8">Scope і trade-offs</p>
+<p style="font-size:32px;line-height:1.4;color:#4A4944">Штрихкод не входив у MVP, зараз він зірве реліз.</p>
+<p style="font-size:32px;line-height:1.4;color:#4A4944">Фокус на стабілізації OCR і critical bug, щоб показати демо вчасно.</p>
+</div>
+<div style="background:#F1EFE8;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:14px">
+<h3 style="font-size:36px;font-weight:700;line-height:1.2">Team</h3>
+<p style="font-size:24px;font-weight:700;color:#1F6FB8">Дії, власники, наступні кроки</p>
+<p style="font-size:32px;line-height:1.4;color:#4A4944">Mobile вибув, OCR +20 год, critical bug у Daily Log.</p>
+<p style="font-size:32px;line-height:1.4;color:#4A4944">Daily sync, QA на OCR, перевірка багу. Scope без штрихкоду.</p>
+</div>
+</div>
+
+</section>
+<section id="tradeoff-options" data-transition="magic" style="background:#FBFAF6;color:#2B2A26;font-family:'Manrope', Arial, sans-serif;padding:150px 128px 150px;display:flex;flex-direction:column;gap:28px">
+<div style="position:absolute;left:128px;top:44px;width:1664px;display:flex">
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#0F7A5F"></div><div style="flex:1;height:4px;background:#0F7A5F"></div></div><p style="font-size:24px;color:#6F6D66">План</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#C2452A"></div><div style="flex:1;height:4px;background:#C2452A"></div></div><p style="font-size:24px;color:#6F6D66">Що пішло не так</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#1F6FB8"></div><div style="flex:1;height:4px;background:#1F6FB8"></div></div><p style="font-size:24px;color:#6F6D66">Рішення</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:28px;height:28px;border-radius:50%;background:#FBFAF6;border:7px solid #5B4FC0"></div><div style="flex:1;height:4px;background:#D3D1C7"></div></div><p style="font-size:24px;font-weight:700;color:#5B4FC0">Trade-offs</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#D3D1C7"></div><div style="flex:1;height:4px;background:#D3D1C7"></div></div><p style="font-size:24px;color:#6F6D66">Результат</p></div>
+<div style="flex:none;width:180px;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#D3D1C7"></div></div><p style="font-size:24px;color:#6F6D66">Рекомендації</p></div>
+</div>
+<div id="metro-dot" style="position:absolute;left:1018px;top:44px;width:28px;height:28px;border-radius:50%;background:#FBFAF6;border:7px solid #5B4FC0"></div>
+<iframe title="Анімація" style="position:absolute;left:1004px;top:43px;width:56px;height:30px;border:0" srcdoc="&lt;!doctype html&gt;&lt;html&gt;&lt;head&gt;&lt;style&gt;html,body{margin:0;height:100%;background:transparent;overflow:hidden}svg{display:block;width:100%;height:100%;overflow:visible}.g{transform-box:fill-box;transform-origin:left center}.c{transform-box:fill-box;transform-origin:center}&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;svg viewBox=&quot;0 0 56 30&quot; fill=&quot;none&quot;&gt;&lt;g data-k=&quot;t&quot; data-d=&quot;250&quot; data-t=&quot;1500&quot; data-e=&quot;cubic-bezier(.45,.05,.2,1)&quot; data-f=&#x27;[{&quot;transform&quot;:&quot;translateX(-296px)&quot;},{&quot;transform&quot;:&quot;translateX(0px)&quot;}]&#x27;&gt;&lt;rect x=&quot;1&quot; y=&quot;3&quot; width=&quot;54&quot; height=&quot;22&quot; rx=&quot;8&quot; fill=&quot;#5B4FC0&quot;/&gt;&lt;rect x=&quot;8&quot; y=&quot;8&quot; width=&quot;11&quot; height=&quot;8&quot; rx=&quot;2&quot; fill=&quot;#FBFAF6&quot;/&gt;&lt;rect x=&quot;23&quot; y=&quot;8&quot; width=&quot;11&quot; height=&quot;8&quot; rx=&quot;2&quot; fill=&quot;#FBFAF6&quot;/&gt;&lt;rect x=&quot;38&quot; y=&quot;8&quot; width=&quot;11&quot; height=&quot;8&quot; rx=&quot;2&quot; fill=&quot;#FBFAF6&quot;/&gt;&lt;circle cx=&quot;14&quot; cy=&quot;26&quot; r=&quot;3.5&quot; fill=&quot;#2B2A26&quot;/&gt;&lt;circle cx=&quot;42&quot; cy=&quot;26&quot; r=&quot;3.5&quot; fill=&quot;#2B2A26&quot;/&gt;&lt;/g&gt;&lt;/svg&gt;&lt;script&gt;
+var A=[].slice.call(document.querySelectorAll(&#x27;[data-k]&#x27;));
+var K={g:[{transform:&#x27;scaleX(0)&#x27;},{transform:&#x27;scaleX(1)&#x27;}],p:[{transform:&#x27;scale(0)&#x27;,opacity:0},{transform:&#x27;scale(1)&#x27;,opacity:1}],l:[{strokeDashoffset:1},{strokeDashoffset:0}],f:[{opacity:0},{opacity:1}]};
+function play(){A.forEach(function(e){e.getAnimations().forEach(function(a){a.cancel()});var f=e.dataset.f?JSON.parse(e.dataset.f):K[e.dataset.k];e.animate(f,{delay:+e.dataset.d,duration:+e.dataset.t,fill:&#x27;backwards&#x27;,easing:e.dataset.e||&#x27;cubic-bezier(.2,.8,.2,1)&#x27;})})}
+var on=false;new IntersectionObserver(function(x){var v=x[x.length-1].isIntersecting;if(v&amp;&amp;!on)play();on=v}).observe(document.documentElement);
+&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;"></iframe>
+<div style="display:flex;flex-direction:column;gap:8px">
+<p style="font-size:24px;font-weight:700;color:#5B4FC0">Trade-offs</p>
+<h2 style="font-size:56px;font-weight:700;line-height:1.15;color:#2B2A26">Чому defer, а не accept чи reject</h2>
+</div>
+<table data-build-in="rise 1 auto" style="position:absolute;left:128px;top:284px;width:1664px;font-size:32px;color:#2B2A26">
+<tr><th style="width:22%">Критерій</th><th style="width:26%">Accept у beta</th><th style="width:26%;color:#5B4FC0">Defer: обрано</th><th style="width:26%">Reject</th></tr>
+<tr><td>Дедлайн</td><td>Зрив: ≈тиждень 14</td><td style="color:#5B4FC0">Тиждень 12</td><td>Тиждень 12</td></tr>
+<tr><td>Бюджет</td><td>≈$54,5k + ліцензія</td><td style="color:#5B4FC0">≈$48,5k</td><td>≈$48,5k</td></tr>
+<tr><td>Mobile</td><td>Дефіцит, без дублера</td><td style="color:#5B4FC0">Пріоритети без змін</td><td>Пріоритети без змін</td></tr>
+<tr><td>Ризик для демо</td><td>Високий</td><td style="color:#5B4FC0">Низький</td><td>Низький</td></tr>
+<tr><td>Цінність</td><td>Штрихкод у beta, але ризик якості</td><td style="color:#5B4FC0">У roadmap з оцінкою</td><td>Втрачається</td></tr>
+<tr><td>Sponsor</td><td>Ризик зриву обіцянок</td><td style="color:#5B4FC0">Запит визнано, є дата перегляду</td><td>Може сприйматись як відмова</td></tr>
+</table>
+<p style="position:absolute;left:128px;bottom:56px;width:1664px;font-size:24px;color:#6F6D66">Прогноз: допущення PM</p>
+
+</section>
+<section id="tradeoff-charts" data-transition="magic" style="background:#FBFAF6;color:#2B2A26;font-family:'Manrope', Arial, sans-serif;padding:150px 128px 150px;display:flex;flex-direction:column;gap:28px">
+<div style="position:absolute;left:128px;top:44px;width:1664px;display:flex">
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#0F7A5F"></div><div style="flex:1;height:4px;background:#0F7A5F"></div></div><p style="font-size:24px;color:#6F6D66">План</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#C2452A"></div><div style="flex:1;height:4px;background:#C2452A"></div></div><p style="font-size:24px;color:#6F6D66">Що пішло не так</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#1F6FB8"></div><div style="flex:1;height:4px;background:#1F6FB8"></div></div><p style="font-size:24px;color:#6F6D66">Рішення</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:28px;height:28px;border-radius:50%;background:#FBFAF6;border:7px solid #5B4FC0"></div><div style="flex:1;height:4px;background:#D3D1C7"></div></div><p style="font-size:24px;font-weight:700;color:#5B4FC0">Trade-offs</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#D3D1C7"></div><div style="flex:1;height:4px;background:#D3D1C7"></div></div><p style="font-size:24px;color:#6F6D66">Результат</p></div>
+<div style="flex:none;width:180px;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#D3D1C7"></div></div><p style="font-size:24px;color:#6F6D66">Рекомендації</p></div>
+</div>
+<div id="metro-dot" style="position:absolute;left:1018px;top:44px;width:28px;height:28px;border-radius:50%;background:#FBFAF6;border:7px solid #5B4FC0"></div>
+<svg aria-label="Потяг на станції" width="56" height="30" viewBox="0 0 56 30" fill="none" style="position:absolute;left:1004px;top:43px;width:56px;height:30px"><rect x="1" y="3" width="54" height="22" rx="8" fill="#5B4FC0"/><rect x="8" y="8" width="11" height="8" rx="2" fill="#FBFAF6"/><rect x="23" y="8" width="11" height="8" rx="2" fill="#FBFAF6"/><rect x="38" y="8" width="11" height="8" rx="2" fill="#FBFAF6"/><circle cx="14" cy="26" r="3.5" fill="#2B2A26"/><circle cx="42" cy="26" r="3.5" fill="#2B2A26"/></svg>
+<div style="display:flex;flex-direction:column;gap:8px">
+<p style="font-size:24px;font-weight:700;color:#5B4FC0">Trade-offs</p>
+<h2 style="font-size:56px;font-weight:700;line-height:1.15;color:#2B2A26">Accept ламає і бюджет, і строк</h2>
+</div>
+<div style="position:absolute;left:128px;top:284px;width:816px;height:536px;background:#F1EFE8;border-radius:16px"></div>
+<div style="position:absolute;left:976px;top:284px;width:816px;height:536px;background:#F1EFE8;border-radius:16px"></div>
+<h3 style="position:absolute;left:160px;top:312px;width:752px;font-size:36px;font-weight:700">Прогноз вартості</h3>
+<p style="position:absolute;left:160px;top:370px;width:752px;font-size:30px;color:#4A4944">NTE: $50,0k</p>
+<p style="position:absolute;left:160px;top:466px;width:752px;font-size:30px;color:#4A4944">Без CR-007: ≈$48,5k</p>
+<p style="position:absolute;left:160px;top:562px;width:752px;font-size:30px;font-weight:700;color:#B23A1F">З CR-007, лише праця: ≈$54,5k</p>
+<p style="position:absolute;left:160px;top:704px;width:752px;font-size:30px;line-height:1.35;color:#4A4944">Ліцензія штрихкоду ще зверху: ціна невідома. Перевищення ≈$4,5k до неї.</p>
+<iframe title="Анімація" style="position:absolute;left:160px;top:370px;width:752px;height:320px;border:0" srcdoc="&lt;!doctype html&gt;&lt;html&gt;&lt;head&gt;&lt;style&gt;html,body{margin:0;height:100%;background:transparent;overflow:hidden}svg{display:block;width:100%;height:100%}.g{transform-box:fill-box;transform-origin:left center}&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;svg viewBox=&quot;0 0 752 320&quot; fill=&quot;none&quot;&gt;
+&lt;rect class=&quot;g&quot; x=&quot;0&quot; y=&quot;46&quot; width=&quot;600&quot; height=&quot;40&quot; fill=&quot;#A8A69C&quot; data-k=&quot;g&quot; data-d=&quot;400&quot; data-t=&quot;800&quot;/&gt;
+&lt;rect class=&quot;g&quot; x=&quot;0&quot; y=&quot;142&quot; width=&quot;582&quot; height=&quot;40&quot; fill=&quot;#5B4FC0&quot; data-k=&quot;g&quot; data-d=&quot;1300&quot; data-t=&quot;800&quot;/&gt;
+&lt;rect class=&quot;g&quot; x=&quot;0&quot; y=&quot;238&quot; width=&quot;600&quot; height=&quot;40&quot; fill=&quot;#5B4FC0&quot; data-k=&quot;g&quot; data-d=&quot;2200&quot; data-t=&quot;800&quot;/&gt;
+&lt;rect class=&quot;g&quot; x=&quot;602&quot; y=&quot;238&quot; width=&quot;52&quot; height=&quot;40&quot; fill=&quot;#C2452A&quot; data-k=&quot;g&quot; data-d=&quot;3000&quot; data-t=&quot;500&quot;/&gt;
+&lt;path pathLength=&quot;1&quot; stroke-dasharray=&quot;1&quot; d=&quot;M601 30V300&quot; stroke=&quot;#2B2A26&quot; stroke-width=&quot;3&quot; data-k=&quot;l&quot; data-d=&quot;1100&quot; data-t=&quot;500&quot;/&gt;
+&lt;/svg&gt;&lt;script&gt;
+var A=[].slice.call(document.querySelectorAll(&#x27;[data-k]&#x27;));
+function play(){A.forEach(function(e){e.getAnimations().forEach(function(a){a.cancel()});var k=e.dataset.k;var f=k===&#x27;l&#x27;?[{strokeDashoffset:1},{strokeDashoffset:0}]:[{transform:&#x27;scaleX(0)&#x27;},{transform:&#x27;scaleX(1)&#x27;}];e.animate(f,{delay:+e.dataset.d,duration:+e.dataset.t,fill:&#x27;backwards&#x27;,easing:&#x27;cubic-bezier(.3,.7,.2,1)&#x27;})})}
+var on=false;new IntersectionObserver(function(x){var v=x[x.length-1].isIntersecting;if(v&amp;&amp;!on)play();on=v}).observe(document.documentElement);
+&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;"></iframe>
+<h3 style="position:absolute;left:1008px;top:312px;width:752px;font-size:36px;font-weight:700">Коли готова beta</h3>
+<div style="position:absolute;left:1008px;top:366px;width:700px;display:grid;grid-template-columns:repeat(7, 1fr)"><p style="font-size:24px;text-align:center;color:#6F6D66">8</p><p style="font-size:24px;text-align:center;color:#6F6D66">9</p><p style="font-size:24px;text-align:center;color:#6F6D66">10</p><p style="font-size:24px;text-align:center;color:#6F6D66">11</p><p style="font-size:24px;text-align:center;color:#6F6D66">12</p><p style="font-size:24px;text-align:center;color:#6F6D66">13</p><p style="font-size:24px;text-align:center;color:#6F6D66">14</p></div>
+<p style="position:absolute;left:1008px;top:414px;width:752px;font-size:30px;color:#4A4944">Партнерське демо: тиждень 13</p>
+<p style="position:absolute;left:1008px;top:510px;width:752px;font-size:30px;color:#4A4944">Defer: кінець тижня 12</p>
+<p style="position:absolute;left:1008px;top:606px;width:752px;font-size:30px;font-weight:700;color:#B23A1F">Accept: кінець тижня 14</p>
+<p style="position:absolute;left:1008px;top:752px;width:752px;font-size:30px;line-height:1.35;color:#4A4944">За accept beta готова вже після демо.</p>
+<iframe title="Анімація" style="position:absolute;left:1008px;top:414px;width:700px;height:330px;border:0" srcdoc="&lt;!doctype html&gt;&lt;html&gt;&lt;head&gt;&lt;style&gt;html,body{margin:0;height:100%;background:transparent;overflow:hidden}svg{display:block;width:100%;height:100%}.g{transform-box:fill-box;transform-origin:left center}.c{transform-box:fill-box;transform-origin:center}&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;svg viewBox=&quot;0 0 700 330&quot; fill=&quot;none&quot;&gt;
+&lt;rect class=&quot;c&quot; x=&quot;500&quot; y=&quot;46&quot; width=&quot;100&quot; height=&quot;40&quot; fill=&quot;#EFB24F&quot; data-k=&quot;p&quot; data-d=&quot;500&quot; data-t=&quot;400&quot;/&gt;
+&lt;rect class=&quot;g&quot; x=&quot;0&quot; y=&quot;142&quot; width=&quot;500&quot; height=&quot;40&quot; fill=&quot;#5B4FC0&quot; data-k=&quot;g&quot; data-d=&quot;1000&quot; data-t=&quot;1200&quot;/&gt;
+&lt;rect class=&quot;g&quot; x=&quot;0&quot; y=&quot;238&quot; width=&quot;700&quot; height=&quot;40&quot; fill=&quot;#C2452A&quot; data-k=&quot;g&quot; data-d=&quot;2300&quot; data-t=&quot;1680&quot;/&gt;
+&lt;/svg&gt;&lt;script&gt;
+var A=[].slice.call(document.querySelectorAll(&#x27;[data-k]&#x27;));
+function play(){A.forEach(function(e){e.getAnimations().forEach(function(a){a.cancel()});var k=e.dataset.k;var f=k===&#x27;p&#x27;?[{transform:&#x27;scale(0)&#x27;,opacity:0},{transform:&#x27;scale(1)&#x27;,opacity:1}]:[{transform:&#x27;scaleX(0)&#x27;},{transform:&#x27;scaleX(1)&#x27;}];e.animate(f,{delay:+e.dataset.d,duration:+e.dataset.t,fill:&#x27;backwards&#x27;,easing:&#x27;linear&#x27;})})}
+var on=false;new IntersectionObserver(function(x){var v=x[x.length-1].isIntersecting;if(v&amp;&amp;!on)play();on=v}).observe(document.documentElement);
+&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;"></iframe>
+<p style="position:absolute;left:128px;bottom:56px;width:1664px;font-size:24px;color:#6F6D66">Прогноз: допущення PM, решта робіт за планом</p>
+
+</section>
+<section id="tradeoff-ledger" data-transition="magic" style="background:#FBFAF6;color:#2B2A26;font-family:'Manrope', Arial, sans-serif;padding:150px 128px 150px;display:flex;flex-direction:column;gap:28px">
+<div style="position:absolute;left:128px;top:44px;width:1664px;display:flex">
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#0F7A5F"></div><div style="flex:1;height:4px;background:#0F7A5F"></div></div><p style="font-size:24px;color:#6F6D66">План</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#C2452A"></div><div style="flex:1;height:4px;background:#C2452A"></div></div><p style="font-size:24px;color:#6F6D66">Що пішло не так</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#1F6FB8"></div><div style="flex:1;height:4px;background:#1F6FB8"></div></div><p style="font-size:24px;color:#6F6D66">Рішення</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:28px;height:28px;border-radius:50%;background:#FBFAF6;border:7px solid #5B4FC0"></div><div style="flex:1;height:4px;background:#D3D1C7"></div></div><p style="font-size:24px;font-weight:700;color:#5B4FC0">Trade-offs</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#D3D1C7"></div><div style="flex:1;height:4px;background:#D3D1C7"></div></div><p style="font-size:24px;color:#6F6D66">Результат</p></div>
+<div style="flex:none;width:180px;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#D3D1C7"></div></div><p style="font-size:24px;color:#6F6D66">Рекомендації</p></div>
+</div>
+<div id="metro-dot" style="position:absolute;left:1018px;top:44px;width:28px;height:28px;border-radius:50%;background:#FBFAF6;border:7px solid #5B4FC0"></div>
+<svg aria-label="Потяг на станції" width="56" height="30" viewBox="0 0 56 30" fill="none" style="position:absolute;left:1004px;top:43px;width:56px;height:30px"><rect x="1" y="3" width="54" height="22" rx="8" fill="#5B4FC0"/><rect x="8" y="8" width="11" height="8" rx="2" fill="#FBFAF6"/><rect x="23" y="8" width="11" height="8" rx="2" fill="#FBFAF6"/><rect x="38" y="8" width="11" height="8" rx="2" fill="#FBFAF6"/><circle cx="14" cy="26" r="3.5" fill="#2B2A26"/><circle cx="42" cy="26" r="3.5" fill="#2B2A26"/></svg>
+<div style="display:flex;flex-direction:column;gap:8px">
+<p style="font-size:24px;font-weight:700;color:#5B4FC0">Trade-offs</p>
+<h2 style="font-size:56px;font-weight:700;line-height:1.15;color:#2B2A26">Кожне рішення мало свою ціну</h2>
+</div>
+<table data-build-in="rise 1 auto" style="position:absolute;left:128px;top:284px;width:1664px;font-size:32px;color:#2B2A26">
+<tr><th style="width:30%">Рішення</th><th style="width:33%">Що отримали</th><th style="width:37%;color:#B23A1F">Чим заплатили</th></tr>
+<tr><td>Баг першим</td><td>Не переробляємо Daily Log</td><td style="color:#B23A1F">≈$440 надбавки за овертайм</td></tr>
+<tr><td>Овертайм замість другого Mobile</td><td>Без введення новачка за 4 тижні</td><td style="color:#B23A1F">$715 надбавки, усе тримається на одній людині</td></tr>
+<tr><td>Штрихкод у Phase 2</td><td>Тиждень 12, NTE і цілісність даних</td><td style="color:#B23A1F">Без «вау» й аргументу проти конкурента на демо</td></tr>
+<tr><td>Стиснули полірування</td><td>Надолужили тиждень відставання</td><td style="color:#B23A1F">2 дефекти Low у Phase 2 (зв’язок не доведено)</td></tr>
+<tr><td>Витратили резерв</td><td>Втримались у NTE</td><td style="color:#B23A1F">$2 475 із $3 775, залишилось $1 300</td></tr>
+</table>
+
+</section>
+<section id="result-scorecard" data-transition="magic" style="background:#FBFAF6;color:#2B2A26;font-family:'Manrope', Arial, sans-serif;padding:150px 128px 150px;display:flex;flex-direction:column;gap:28px">
+<div style="position:absolute;left:128px;top:44px;width:1664px;display:flex">
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#0F7A5F"></div><div style="flex:1;height:4px;background:#0F7A5F"></div></div><p style="font-size:24px;color:#6F6D66">План</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#C2452A"></div><div style="flex:1;height:4px;background:#C2452A"></div></div><p style="font-size:24px;color:#6F6D66">Що пішло не так</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#1F6FB8"></div><div style="flex:1;height:4px;background:#1F6FB8"></div></div><p style="font-size:24px;color:#6F6D66">Рішення</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#5B4FC0"></div><div style="flex:1;height:4px;background:#5B4FC0"></div></div><p style="font-size:24px;color:#6F6D66">Trade-offs</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:28px;height:28px;border-radius:50%;background:#FBFAF6;border:7px solid #4E7A16"></div><div style="flex:1;height:4px;background:#D3D1C7"></div></div><p style="font-size:24px;font-weight:700;color:#4E7A16">Результат</p></div>
+<div style="flex:none;width:180px;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#D3D1C7"></div></div><p style="font-size:24px;color:#6F6D66">Рекомендації</p></div>
+</div>
+<div id="metro-dot" style="position:absolute;left:1315px;top:44px;width:28px;height:28px;border-radius:50%;background:#FBFAF6;border:7px solid #4E7A16"></div>
+<iframe title="Анімація" style="position:absolute;left:1301px;top:43px;width:56px;height:30px;border:0" srcdoc="&lt;!doctype html&gt;&lt;html&gt;&lt;head&gt;&lt;style&gt;html,body{margin:0;height:100%;background:transparent;overflow:hidden}svg{display:block;width:100%;height:100%;overflow:visible}.g{transform-box:fill-box;transform-origin:left center}.c{transform-box:fill-box;transform-origin:center}&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;svg viewBox=&quot;0 0 56 30&quot; fill=&quot;none&quot;&gt;&lt;g data-k=&quot;t&quot; data-d=&quot;250&quot; data-t=&quot;1500&quot; data-e=&quot;cubic-bezier(.45,.05,.2,1)&quot; data-f=&#x27;[{&quot;transform&quot;:&quot;translateX(-297px)&quot;},{&quot;transform&quot;:&quot;translateX(0px)&quot;}]&#x27;&gt;&lt;rect x=&quot;1&quot; y=&quot;3&quot; width=&quot;54&quot; height=&quot;22&quot; rx=&quot;8&quot; fill=&quot;#4E7A16&quot;/&gt;&lt;rect x=&quot;8&quot; y=&quot;8&quot; width=&quot;11&quot; height=&quot;8&quot; rx=&quot;2&quot; fill=&quot;#FBFAF6&quot;/&gt;&lt;rect x=&quot;23&quot; y=&quot;8&quot; width=&quot;11&quot; height=&quot;8&quot; rx=&quot;2&quot; fill=&quot;#FBFAF6&quot;/&gt;&lt;rect x=&quot;38&quot; y=&quot;8&quot; width=&quot;11&quot; height=&quot;8&quot; rx=&quot;2&quot; fill=&quot;#FBFAF6&quot;/&gt;&lt;circle cx=&quot;14&quot; cy=&quot;26&quot; r=&quot;3.5&quot; fill=&quot;#2B2A26&quot;/&gt;&lt;circle cx=&quot;42&quot; cy=&quot;26&quot; r=&quot;3.5&quot; fill=&quot;#2B2A26&quot;/&gt;&lt;/g&gt;&lt;/svg&gt;&lt;script&gt;
+var A=[].slice.call(document.querySelectorAll(&#x27;[data-k]&#x27;));
+var K={g:[{transform:&#x27;scaleX(0)&#x27;},{transform:&#x27;scaleX(1)&#x27;}],p:[{transform:&#x27;scale(0)&#x27;,opacity:0},{transform:&#x27;scale(1)&#x27;,opacity:1}],l:[{strokeDashoffset:1},{strokeDashoffset:0}],f:[{opacity:0},{opacity:1}]};
+function play(){A.forEach(function(e){e.getAnimations().forEach(function(a){a.cancel()});var f=e.dataset.f?JSON.parse(e.dataset.f):K[e.dataset.k];e.animate(f,{delay:+e.dataset.d,duration:+e.dataset.t,fill:&#x27;backwards&#x27;,easing:e.dataset.e||&#x27;cubic-bezier(.2,.8,.2,1)&#x27;})})}
+var on=false;new IntersectionObserver(function(x){var v=x[x.length-1].isIntersecting;if(v&amp;&amp;!on)play();on=v}).observe(document.documentElement);
+&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;"></iframe>
+<div style="display:flex;flex-direction:column;gap:8px">
+<p style="font-size:24px;font-weight:700;color:#4E7A16">Фактичний результат</p>
+<h2 style="font-size:56px;font-weight:700;line-height:1.15;color:#2B2A26">Beta вчасно, у межах NTE, scope повністю</h2>
+</div>
+<div data-build-in="pop 1 auto" style="position:absolute;left:128px;top:284px;width:398px;height:300px;background:#EAF3DE;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:10px">
+<p style="font-size:56px;font-weight:800;line-height:1.15;color:#3B6D11;white-space:nowrap">Тиждень 12</p>
+<h3 style="font-size:36px;font-weight:700;line-height:1.2;color:#27500A">Beta вчасно</h3>
+<p style="font-size:30px;line-height:1.4;color:#27500A">На тижні 8 було −1 тиждень, надолужено.</p>
+</div>
+<div data-build-in="pop 2 auto" style="position:absolute;left:550px;top:284px;width:398px;height:300px;background:#EAF3DE;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:10px">
+<p style="font-size:56px;font-weight:800;line-height:1.15;color:#3B6D11">$48,7k</p>
+<h3 style="font-size:36px;font-weight:700;line-height:1.2;color:#27500A">Вартість</h3>
+<p style="font-size:30px;line-height:1.4;color:#27500A">97,4% від NTE $50k. +$2,5k до base.</p>
+</div>
+<div data-build-in="pop 3 auto" style="position:absolute;left:972px;top:284px;width:398px;height:300px;background:#EAF3DE;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:10px">
+<p style="font-size:56px;font-weight:800;line-height:1.15;color:#3B6D11">7 із 7</p>
+<h3 style="font-size:36px;font-weight:700;line-height:1.2;color:#27500A">Пунктів scope</h3>
+<p style="font-size:30px;line-height:1.4;color:#27500A">Жодної зміни scope за проєкт.</p>
+</div>
+<div data-build-in="pop 4 auto" style="position:absolute;left:1394px;top:284px;width:398px;height:300px;background:#EAF3DE;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:10px">
+<p style="font-size:56px;font-weight:800;line-height:1.15;color:#3B6D11">2 Low</p>
+<h3 style="font-size:36px;font-weight:700;line-height:1.2;color:#27500A">Відкриті дефекти</h3>
+<p style="font-size:30px;line-height:1.4;color:#27500A">High і Critical немає. Sign-off отримано.</p>
+</div>
+<h3 data-build-in="fade 5 auto" style="position:absolute;left:128px;top:616px;width:1664px;font-size:36px;font-weight:700">Чим закінчились кризові події</h3>
+<div data-build-in="rise 6 auto" style="position:absolute;left:128px;top:672px;width:398px;height:190px;background:#F1EFE8;border-radius:12px;padding:18px 24px;display:flex;flex-direction:column;gap:6px"><p style="font-size:30px;font-weight:700;line-height:1.25">Mobile вибув</p><p style="font-size:24px;line-height:1.3;color:#4A4944">Повернувся, овертайм виплачено. Закрито</p></div>
+<div data-build-in="rise 6 auto" style="position:absolute;left:550px;top:672px;width:398px;height:190px;background:#F1EFE8;border-radius:12px;padding:18px 24px;display:flex;flex-direction:column;gap:6px"><p style="font-size:30px;font-weight:700;line-height:1.25">OCR +20 год</p><p style="font-size:24px;line-height:1.3;color:#4A4944">OCR/ML завершив залучення. Закрито</p></div>
+<div data-build-in="rise 6 auto" style="position:absolute;left:972px;top:672px;width:398px;height:190px;background:#F1EFE8;border-radius:12px;padding:18px 24px;display:flex;flex-direction:column;gap:6px"><p style="font-size:30px;font-weight:700;line-height:1.25">Critical bug</p><p style="font-size:24px;line-height:1.3;color:#4A4944">Виправлено, дані перевірено. Закрито</p></div>
+<div data-build-in="rise 6 auto" style="position:absolute;left:1394px;top:672px;width:398px;height:190px;background:#F1EFE8;border-radius:12px;padding:18px 24px;display:flex;flex-direction:column;gap:6px"><p style="font-size:30px;font-weight:700;line-height:1.25">CR-007</p><p style="font-size:24px;line-height:1.3;color:#4A4944">Очікування зафіксовано. Відкладено в Phase 2</p></div>
+
+</section>
+<section id="result-cost" data-transition="magic" style="background:#FBFAF6;color:#2B2A26;font-family:'Manrope', Arial, sans-serif;padding:150px 128px 150px;display:flex;flex-direction:column;gap:28px">
+<div style="position:absolute;left:128px;top:44px;width:1664px;display:flex">
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#0F7A5F"></div><div style="flex:1;height:4px;background:#0F7A5F"></div></div><p style="font-size:24px;color:#6F6D66">План</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#C2452A"></div><div style="flex:1;height:4px;background:#C2452A"></div></div><p style="font-size:24px;color:#6F6D66">Що пішло не так</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#1F6FB8"></div><div style="flex:1;height:4px;background:#1F6FB8"></div></div><p style="font-size:24px;color:#6F6D66">Рішення</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#5B4FC0"></div><div style="flex:1;height:4px;background:#5B4FC0"></div></div><p style="font-size:24px;color:#6F6D66">Trade-offs</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:28px;height:28px;border-radius:50%;background:#FBFAF6;border:7px solid #4E7A16"></div><div style="flex:1;height:4px;background:#D3D1C7"></div></div><p style="font-size:24px;font-weight:700;color:#4E7A16">Результат</p></div>
+<div style="flex:none;width:180px;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#D3D1C7"></div></div><p style="font-size:24px;color:#6F6D66">Рекомендації</p></div>
+</div>
+<div id="metro-dot" style="position:absolute;left:1315px;top:44px;width:28px;height:28px;border-radius:50%;background:#FBFAF6;border:7px solid #4E7A16"></div>
+<svg aria-label="Потяг на станції" width="56" height="30" viewBox="0 0 56 30" fill="none" style="position:absolute;left:1301px;top:43px;width:56px;height:30px"><rect x="1" y="3" width="54" height="22" rx="8" fill="#4E7A16"/><rect x="8" y="8" width="11" height="8" rx="2" fill="#FBFAF6"/><rect x="23" y="8" width="11" height="8" rx="2" fill="#FBFAF6"/><rect x="38" y="8" width="11" height="8" rx="2" fill="#FBFAF6"/><circle cx="14" cy="26" r="3.5" fill="#2B2A26"/><circle cx="42" cy="26" r="3.5" fill="#2B2A26"/></svg>
+<div style="display:flex;flex-direction:column;gap:8px">
+<p style="font-size:24px;font-weight:700;color:#4E7A16">Фактичний результат</p>
+<h2 style="font-size:56px;font-weight:700;line-height:1.15;color:#2B2A26">Вартість: вище base, але в межах NTE</h2>
+</div>
+<p style="position:absolute;left:128px;top:284px;width:880px;font-size:32px;color:#4A4944">Орієнтир клієнта: $45,0k</p>
+<p style="position:absolute;left:128px;top:386px;width:880px;font-size:32px;color:#4A4944">Base: $46,2k</p>
+<p style="position:absolute;left:128px;top:488px;width:880px;font-size:32px;font-weight:700;color:#3B6D11">Факт: $48,7k</p>
+<p style="position:absolute;left:128px;top:590px;width:880px;font-size:32px;color:#4A4944">NTE: $50,0k</p>
+<iframe title="Анімація" style="position:absolute;left:128px;top:284px;width:880px;height:420px;border:0" srcdoc="&lt;!doctype html&gt;&lt;html&gt;&lt;head&gt;&lt;style&gt;html,body{margin:0;height:100%;background:transparent;overflow:hidden}svg{display:block;width:100%;height:100%}.g{transform-box:fill-box;transform-origin:left center}&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;svg viewBox=&quot;0 0 880 420&quot; fill=&quot;none&quot;&gt;
+&lt;rect class=&quot;g&quot; x=&quot;0&quot; y=&quot;48&quot; width=&quot;765&quot; height=&quot;44&quot; fill=&quot;#D3D1C7&quot; data-k=&quot;g&quot; data-d=&quot;350&quot; data-t=&quot;700&quot;/&gt;
+&lt;rect class=&quot;g&quot; x=&quot;0&quot; y=&quot;150&quot; width=&quot;785&quot; height=&quot;44&quot; fill=&quot;#A8A69C&quot; data-k=&quot;g&quot; data-d=&quot;800&quot; data-t=&quot;700&quot;/&gt;
+&lt;rect class=&quot;g&quot; x=&quot;0&quot; y=&quot;252&quot; width=&quot;828&quot; height=&quot;44&quot; fill=&quot;#4E7A16&quot; data-k=&quot;g&quot; data-d=&quot;1250&quot; data-t=&quot;800&quot;/&gt;
+&lt;rect class=&quot;g&quot; x=&quot;0&quot; y=&quot;354&quot; width=&quot;850&quot; height=&quot;44&quot; fill=&quot;#D3D1C7&quot; data-k=&quot;g&quot; data-d=&quot;1800&quot; data-t=&quot;700&quot;/&gt;
+&lt;/svg&gt;&lt;script&gt;
+var A=[].slice.call(document.querySelectorAll(&#x27;[data-k]&#x27;));
+function play(){A.forEach(function(e){e.getAnimations().forEach(function(a){a.cancel()});e.animate([{transform:&#x27;scaleX(0)&#x27;},{transform:&#x27;scaleX(1)&#x27;}],{delay:+e.dataset.d,duration:+e.dataset.t,fill:&#x27;backwards&#x27;,easing:&#x27;cubic-bezier(.2,.8,.2,1)&#x27;})})}
+var on=false;new IntersectionObserver(function(x){var v=x[x.length-1].isIntersecting;if(v&amp;&amp;!on)play();on=v}).observe(document.documentElement);
+&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;"></iframe>
+<div data-build-in="pop 1 auto" style="position:absolute;left:1050px;top:284px;width:363px;background:#EAF3DE;border-radius:12px;padding:20px 24px"><p style="font-size:56px;font-weight:800;line-height:1.15;color:#3B6D11">0,95</p><p style="font-size:30px;color:#27500A">CPI</p></div>
+<div data-build-in="pop 2 auto" style="position:absolute;left:1429px;top:284px;width:363px;background:#EAF3DE;border-radius:12px;padding:20px 24px"><p style="font-size:56px;font-weight:800;line-height:1.15;color:#3B6D11">1,0</p><p style="font-size:30px;color:#27500A">SPI</p></div>
+<div data-build-in="rise 3 auto" style="position:absolute;left:1050px;top:442px;width:742px;background:#F1EFE8;border-radius:12px;padding:20px 24px;display:flex;flex-direction:column;gap:8px">
+<div style="display:flex;justify-content:space-between;gap:16px"><p style="font-size:30px;color:#4A4944">CV</p><p style="font-size:30px;font-weight:700">−$2 475</p></div>
+<div style="display:flex;justify-content:space-between;gap:16px"><p style="font-size:30px;color:#4A4944">Резерв використано</p><p style="font-size:30px;font-weight:700">≈66%</p></div>
+<div style="display:flex;justify-content:space-between;gap:16px"><p style="font-size:30px;color:#4A4944">Залишок резерву</p><p style="font-size:30px;font-weight:700">$1 300</p></div>
+</div>
+<p data-build-in="fade 4 auto" style="position:absolute;left:1050px;top:660px;width:742px;font-size:24px;line-height:1.35;color:#4A4944">EV рахуємо від base. Від NTE вийшло б CPI ≈1,03, але це ховає використання резерву.</p>
+<p data-build-in="fade 5 auto" style="position:absolute;left:1050px;top:742px;width:742px;font-size:30px;font-weight:700;color:#2B2A26">Резерв: $3 775 → $1 300</p>
+<iframe title="Анімація" style="position:absolute;left:1050px;top:792px;width:742px;height:70px;border:0" srcdoc="&lt;!doctype html&gt;&lt;html&gt;&lt;head&gt;&lt;style&gt;html,body{margin:0;height:100%;background:transparent;overflow:hidden}svg{display:block;width:100%;height:100%;overflow:visible}.g{transform-box:fill-box;transform-origin:left center}.c{transform-box:fill-box;transform-origin:center}&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;svg viewBox=&quot;0 0 742 70&quot; fill=&quot;none&quot;&gt;
+&lt;rect x=&quot;2&quot; y=&quot;2&quot; width=&quot;704&quot; height=&quot;66&quot; rx=&quot;12&quot; stroke=&quot;#4A4944&quot; stroke-width=&quot;4&quot;/&gt;
+&lt;rect x=&quot;710&quot; y=&quot;20&quot; width=&quot;14&quot; height=&quot;30&quot; rx=&quot;4&quot; fill=&quot;#4A4944&quot;/&gt;
+&lt;rect class=&quot;g&quot; x=&quot;10&quot; y=&quot;10&quot; width=&quot;238&quot; height=&quot;50&quot; rx=&quot;7&quot; fill=&quot;#EFB24F&quot; data-k=&quot;n&quot; data-d=&quot;2800&quot; data-t=&quot;1900&quot; data-e=&quot;ease-in-out&quot; data-f=&#x27;[{&quot;transform&quot;:&quot;scaleX(2.89)&quot;,&quot;fill&quot;:&quot;#4E7A16&quot;},{&quot;transform&quot;:&quot;scaleX(1)&quot;,&quot;fill&quot;:&quot;#EFB24F&quot;}]&#x27;/&gt;
+&lt;/svg&gt;&lt;script&gt;
+var A=[].slice.call(document.querySelectorAll(&#x27;[data-k]&#x27;));
+var K={g:[{transform:&#x27;scaleX(0)&#x27;},{transform:&#x27;scaleX(1)&#x27;}],p:[{transform:&#x27;scale(0)&#x27;,opacity:0},{transform:&#x27;scale(1)&#x27;,opacity:1}],l:[{strokeDashoffset:1},{strokeDashoffset:0}],f:[{opacity:0},{opacity:1}]};
+function play(){A.forEach(function(e){e.getAnimations().forEach(function(a){a.cancel()});var f=e.dataset.f?JSON.parse(e.dataset.f):K[e.dataset.k];e.animate(f,{delay:+e.dataset.d,duration:+e.dataset.t,fill:&#x27;backwards&#x27;,easing:e.dataset.e||&#x27;cubic-bezier(.2,.8,.2,1)&#x27;})})}
+var on=false;new IntersectionObserver(function(x){var v=x[x.length-1].isIntersecting;if(v&amp;&amp;!on)play();on=v}).observe(document.documentElement);
+&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;"></iframe>
+<p style="position:absolute;left:128px;bottom:56px;width:1664px;font-size:24px;color:#6F6D66">EVM: розрахунок PM</p>
+
+</section>
+<section id="result-success" data-transition="magic" style="background:#FBFAF6;color:#2B2A26;font-family:'Manrope', Arial, sans-serif;padding:150px 128px 150px;display:flex;flex-direction:column;gap:28px">
+<div style="position:absolute;left:128px;top:44px;width:1664px;display:flex">
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#0F7A5F"></div><div style="flex:1;height:4px;background:#0F7A5F"></div></div><p style="font-size:24px;color:#6F6D66">План</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#C2452A"></div><div style="flex:1;height:4px;background:#C2452A"></div></div><p style="font-size:24px;color:#6F6D66">Що пішло не так</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#1F6FB8"></div><div style="flex:1;height:4px;background:#1F6FB8"></div></div><p style="font-size:24px;color:#6F6D66">Рішення</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#5B4FC0"></div><div style="flex:1;height:4px;background:#5B4FC0"></div></div><p style="font-size:24px;color:#6F6D66">Trade-offs</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:28px;height:28px;border-radius:50%;background:#FBFAF6;border:7px solid #4E7A16"></div><div style="flex:1;height:4px;background:#D3D1C7"></div></div><p style="font-size:24px;font-weight:700;color:#4E7A16">Результат</p></div>
+<div style="flex:none;width:180px;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#D3D1C7"></div></div><p style="font-size:24px;color:#6F6D66">Рекомендації</p></div>
+</div>
+<div id="metro-dot" style="position:absolute;left:1315px;top:44px;width:28px;height:28px;border-radius:50%;background:#FBFAF6;border:7px solid #4E7A16"></div>
+<svg aria-label="Потяг на станції" width="56" height="30" viewBox="0 0 56 30" fill="none" style="position:absolute;left:1301px;top:43px;width:56px;height:30px"><rect x="1" y="3" width="54" height="22" rx="8" fill="#4E7A16"/><rect x="8" y="8" width="11" height="8" rx="2" fill="#FBFAF6"/><rect x="23" y="8" width="11" height="8" rx="2" fill="#FBFAF6"/><rect x="38" y="8" width="11" height="8" rx="2" fill="#FBFAF6"/><circle cx="14" cy="26" r="3.5" fill="#2B2A26"/><circle cx="42" cy="26" r="3.5" fill="#2B2A26"/></svg>
+<div style="display:flex;flex-direction:column;gap:8px">
+<p style="font-size:24px;font-weight:700;color:#4E7A16">Фактичний результат</p>
+<h2 style="font-size:56px;font-weight:700;line-height:1.15;color:#2B2A26">Проєктний успіх є, продуктовий ще не виміряний</h2>
+</div>
+<div data-build-in="rise 1 auto" style="position:absolute;left:128px;top:284px;width:1664px;height:492px;display:grid;grid-template-columns:1.1fr 1fr;gap:24px">
+<div style="background:#EAF3DE;border-radius:16px;padding:28px 32px;display:flex;flex-direction:column;gap:14px">
+<h3 style="font-size:36px;font-weight:700;color:#27500A">Project success: 4 критерії</h3>
+<p style="font-size:32px;line-height:1.35;color:#27500A"><b>Scope, виконано:</b> повний флоу на iOS і Android</p>
+<p style="font-size:32px;line-height:1.35;color:#27500A"><b>Time, виконано:</b> beta наприкінці тижня 12</p>
+<p style="font-size:32px;line-height:1.35;color:#27500A"><b>Cost, з відхиленням:</b> +8,2% до орієнтира ≈$45k, у межах NTE</p>
+<p style="font-size:32px;line-height:1.35;color:#27500A"><b>Quality, виконано:</b> критичних дефектів немає, sign-off є</p>
+</div>
+<div style="background:#F1EFE8;border-radius:16px;padding:28px 32px;display:flex;flex-direction:column;gap:14px">
+<h3 style="font-size:36px;font-weight:700">Product success: 3 критерії</h3>
+<p style="font-size:32px;line-height:1.35;color:#4A4944"><b>Довіра, не виміряно:</b> інструмент не визначено</p>
+<p style="font-size:32px;line-height:1.35;color:#4A4944"><b>Повторне використання, не виміряно:</b> даних ще немає</p>
+<p style="font-size:32px;line-height:1.35;color:#4A4944"><b>Результат демо, попереду:</b> партнерське демо на тижні 13</p>
+</div>
+</div>
+<div data-build-in="rise 2 auto" style="position:absolute;left:128px;bottom:150px;width:1664px;background:#FAECE7;border-radius:12px;padding:20px 32px"><p style="font-size:32px;line-height:1.35;color:#712B13"><b>Ще не закрито:</b> передача результатів частково; отримувач, дати й власники handover потребують уточнення.</p></div>
+
+</section>
+<section id="rec-keep" data-transition="magic" style="background:#FBFAF6;color:#2B2A26;font-family:'Manrope', Arial, sans-serif;padding:150px 128px 150px;display:flex;flex-direction:column;gap:28px">
+<div style="position:absolute;left:128px;top:44px;width:1664px;display:flex">
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#0F7A5F"></div><div style="flex:1;height:4px;background:#0F7A5F"></div></div><p style="font-size:24px;color:#6F6D66">План</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#C2452A"></div><div style="flex:1;height:4px;background:#C2452A"></div></div><p style="font-size:24px;color:#6F6D66">Що пішло не так</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#1F6FB8"></div><div style="flex:1;height:4px;background:#1F6FB8"></div></div><p style="font-size:24px;color:#6F6D66">Рішення</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#5B4FC0"></div><div style="flex:1;height:4px;background:#5B4FC0"></div></div><p style="font-size:24px;color:#6F6D66">Trade-offs</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#4E7A16"></div><div style="flex:1;height:4px;background:#4E7A16"></div></div><p style="font-size:24px;color:#6F6D66">Результат</p></div>
+<div style="flex:none;width:180px;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:28px;height:28px;border-radius:50%;background:#FBFAF6;border:7px solid #A8650A"></div></div><p style="font-size:24px;font-weight:700;color:#95590A">Рекомендації</p></div>
+</div>
+<div id="metro-dot" style="position:absolute;left:1612px;top:44px;width:28px;height:28px;border-radius:50%;background:#FBFAF6;border:7px solid #A8650A"></div>
+<iframe title="Анімація" style="position:absolute;left:1598px;top:43px;width:56px;height:30px;border:0" srcdoc="&lt;!doctype html&gt;&lt;html&gt;&lt;head&gt;&lt;style&gt;html,body{margin:0;height:100%;background:transparent;overflow:hidden}svg{display:block;width:100%;height:100%;overflow:visible}.g{transform-box:fill-box;transform-origin:left center}.c{transform-box:fill-box;transform-origin:center}&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;svg viewBox=&quot;0 0 56 30&quot; fill=&quot;none&quot;&gt;&lt;g data-k=&quot;t&quot; data-d=&quot;250&quot; data-t=&quot;1500&quot; data-e=&quot;cubic-bezier(.45,.05,.2,1)&quot; data-f=&#x27;[{&quot;transform&quot;:&quot;translateX(-297px)&quot;},{&quot;transform&quot;:&quot;translateX(0px)&quot;}]&#x27;&gt;&lt;rect x=&quot;1&quot; y=&quot;3&quot; width=&quot;54&quot; height=&quot;22&quot; rx=&quot;8&quot; fill=&quot;#A8650A&quot;/&gt;&lt;rect x=&quot;8&quot; y=&quot;8&quot; width=&quot;11&quot; height=&quot;8&quot; rx=&quot;2&quot; fill=&quot;#FBFAF6&quot;/&gt;&lt;rect x=&quot;23&quot; y=&quot;8&quot; width=&quot;11&quot; height=&quot;8&quot; rx=&quot;2&quot; fill=&quot;#FBFAF6&quot;/&gt;&lt;rect x=&quot;38&quot; y=&quot;8&quot; width=&quot;11&quot; height=&quot;8&quot; rx=&quot;2&quot; fill=&quot;#FBFAF6&quot;/&gt;&lt;circle cx=&quot;14&quot; cy=&quot;26&quot; r=&quot;3.5&quot; fill=&quot;#2B2A26&quot;/&gt;&lt;circle cx=&quot;42&quot; cy=&quot;26&quot; r=&quot;3.5&quot; fill=&quot;#2B2A26&quot;/&gt;&lt;/g&gt;&lt;/svg&gt;&lt;script&gt;
+var A=[].slice.call(document.querySelectorAll(&#x27;[data-k]&#x27;));
+var K={g:[{transform:&#x27;scaleX(0)&#x27;},{transform:&#x27;scaleX(1)&#x27;}],p:[{transform:&#x27;scale(0)&#x27;,opacity:0},{transform:&#x27;scale(1)&#x27;,opacity:1}],l:[{strokeDashoffset:1},{strokeDashoffset:0}],f:[{opacity:0},{opacity:1}]};
+function play(){A.forEach(function(e){e.getAnimations().forEach(function(a){a.cancel()});var f=e.dataset.f?JSON.parse(e.dataset.f):K[e.dataset.k];e.animate(f,{delay:+e.dataset.d,duration:+e.dataset.t,fill:&#x27;backwards&#x27;,easing:e.dataset.e||&#x27;cubic-bezier(.2,.8,.2,1)&#x27;})})}
+var on=false;new IntersectionObserver(function(x){var v=x[x.length-1].isIntersecting;if(v&amp;&amp;!on)play();on=v}).observe(document.documentElement);
+&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;"></iframe>
+<div style="display:flex;flex-direction:column;gap:8px">
+<p style="font-size:24px;font-weight:700;color:#95590A">Рекомендації</p>
+<h2 style="font-size:56px;font-weight:700;line-height:1.15;color:#2B2A26">Що варто повторити в наступному проєкті</h2>
+</div>
+<div data-build-in="rise 1 auto" style="position:absolute;left:128px;top:284px;width:1664px;height:646px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px">
+<div style="background:#FAEEDA;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:16px">
+<h3 style="font-size:36px;font-weight:700;line-height:1.2;color:#633806">Називати ризик заздалегідь</h3>
+<p style="font-size:32px;line-height:1.4;color:#633806">Ризик OCR/ML ми побачили ще в WBS, і він справдився в межах оцінки.</p>
+<p style="font-size:30px;line-height:1.4;font-weight:700;color:#633806">Пакети з широким діапазоном оцінки тримаємо на окремому моніторингу.</p>
+</div>
+<div style="background:#FAEEDA;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:16px">
+<h3 style="font-size:36px;font-weight:700;line-height:1.2;color:#633806">Change control без винятків</h3>
+<p style="font-size:32px;line-height:1.4;color:#633806">CR-007 розглянуто, оцінено й відкладено. Scope не розширився мовчки.</p>
+<p style="font-size:30px;line-height:1.4;font-weight:700;color:#633806">Процес CR є в кожному проєкті, навіть коли запит іде від Sponsor.</p>
+</div>
+<div style="background:#FAEEDA;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:16px">
+<h3 style="font-size:36px;font-weight:700;line-height:1.2;color:#633806">Втрата даних завжди P0</h3>
+<p style="font-size:32px;line-height:1.4;color:#633806">Баг закрили першим, і проєкт втримав дедлайн і NTE.</p>
+<p style="font-size:30px;line-height:1.4;font-weight:700;color:#633806">Для багів із втратою даних одразу ставимо P0 і stop-ship.</p>
+</div>
+</div>
+
+</section>
+<section id="rec-change" data-transition="magic" style="background:#FBFAF6;color:#2B2A26;font-family:'Manrope', Arial, sans-serif;padding:150px 128px 150px;display:flex;flex-direction:column;gap:28px">
+<div style="position:absolute;left:128px;top:44px;width:1664px;display:flex">
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#0F7A5F"></div><div style="flex:1;height:4px;background:#0F7A5F"></div></div><p style="font-size:24px;color:#6F6D66">План</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#C2452A"></div><div style="flex:1;height:4px;background:#C2452A"></div></div><p style="font-size:24px;color:#6F6D66">Що пішло не так</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#1F6FB8"></div><div style="flex:1;height:4px;background:#1F6FB8"></div></div><p style="font-size:24px;color:#6F6D66">Рішення</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#5B4FC0"></div><div style="flex:1;height:4px;background:#5B4FC0"></div></div><p style="font-size:24px;color:#6F6D66">Trade-offs</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#4E7A16"></div><div style="flex:1;height:4px;background:#4E7A16"></div></div><p style="font-size:24px;color:#6F6D66">Результат</p></div>
+<div style="flex:none;width:180px;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:28px;height:28px;border-radius:50%;background:#FBFAF6;border:7px solid #A8650A"></div></div><p style="font-size:24px;font-weight:700;color:#95590A">Рекомендації</p></div>
+</div>
+<div id="metro-dot" style="position:absolute;left:1612px;top:44px;width:28px;height:28px;border-radius:50%;background:#FBFAF6;border:7px solid #A8650A"></div>
+<svg aria-label="Потяг на станції" width="56" height="30" viewBox="0 0 56 30" fill="none" style="position:absolute;left:1598px;top:43px;width:56px;height:30px"><rect x="1" y="3" width="54" height="22" rx="8" fill="#A8650A"/><rect x="8" y="8" width="11" height="8" rx="2" fill="#FBFAF6"/><rect x="23" y="8" width="11" height="8" rx="2" fill="#FBFAF6"/><rect x="38" y="8" width="11" height="8" rx="2" fill="#FBFAF6"/><circle cx="14" cy="26" r="3.5" fill="#2B2A26"/><circle cx="42" cy="26" r="3.5" fill="#2B2A26"/></svg>
+<div style="display:flex;flex-direction:column;gap:8px">
+<p style="font-size:24px;font-weight:700;color:#95590A">Рекомендації</p>
+<h2 style="font-size:56px;font-weight:700;line-height:1.15;color:#2B2A26">Що зробити інакше наступного разу</h2>
+</div>
+<table data-build-in="rise 1 auto" style="position:absolute;left:128px;top:284px;width:1664px;font-size:32px;color:#2B2A26">
+<tr><th style="width:14%">Вплив</th><th style="width:40%">Що сталося</th><th style="width:46%">Що робимо</th></tr>
+<tr><td style="color:#B23A1F">Високий</td><td>Один Mobile вибув: −1 тиждень</td><td>Заздалегідь визначити дублера або контрактора</td></tr>
+<tr><td style="color:#B23A1F">Високий</td><td>Ризики вдарили в один ланцюг</td><td>Мати на ньому запас часу або грошей</td></tr>
+<tr><td style="color:#B23A1F">Високий</td><td>OCR/ML блокували доступи, ресурс на 50%</td><td>Доступи й тестові дані як умова старту spike</td></tr>
+<tr><td style="color:#95590A">Середній</td><td>Резерв описано різними числами</td><td>Єдине джерело правди, розмір з урахуванням O–P</td></tr>
+<tr><td style="color:#95590A">Середній</td><td>«Scan» лишився двозначним до CR-007</td><td>Глосарій у scope baseline, підтвердження на ініціації</td></tr>
+<tr><td style="color:#95590A">Середній</td><td>KPI і NFR не затверджені</td><td>Цілі за MBO до старту: KPI, власник, метод</td></tr>
+</table>
+
+</section>
+<section id="rec-next" data-transition="magic" style="background:#FBFAF6;color:#2B2A26;font-family:'Manrope', Arial, sans-serif;padding:150px 128px 150px;display:flex;flex-direction:column;gap:28px">
+<div style="position:absolute;left:128px;top:44px;width:1664px;display:flex">
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#0F7A5F"></div><div style="flex:1;height:4px;background:#0F7A5F"></div></div><p style="font-size:24px;color:#6F6D66">План</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#C2452A"></div><div style="flex:1;height:4px;background:#C2452A"></div></div><p style="font-size:24px;color:#6F6D66">Що пішло не так</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#1F6FB8"></div><div style="flex:1;height:4px;background:#1F6FB8"></div></div><p style="font-size:24px;color:#6F6D66">Рішення</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#5B4FC0"></div><div style="flex:1;height:4px;background:#5B4FC0"></div></div><p style="font-size:24px;color:#6F6D66">Trade-offs</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:20px;height:20px;border-radius:50%;background:#4E7A16"></div><div style="flex:1;height:4px;background:#4E7A16"></div></div><p style="font-size:24px;color:#6F6D66">Результат</p></div>
+<div style="flex:none;width:180px;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;height:28px"><div style="width:28px;height:28px;border-radius:50%;background:#FBFAF6;border:7px solid #A8650A"></div></div><p style="font-size:24px;font-weight:700;color:#95590A">Рекомендації</p></div>
+</div>
+<div id="metro-dot" style="position:absolute;left:1612px;top:44px;width:28px;height:28px;border-radius:50%;background:#FBFAF6;border:7px solid #A8650A"></div>
+<svg aria-label="Потяг на станції" width="56" height="30" viewBox="0 0 56 30" fill="none" style="position:absolute;left:1598px;top:43px;width:56px;height:30px"><rect x="1" y="3" width="54" height="22" rx="8" fill="#A8650A"/><rect x="8" y="8" width="11" height="8" rx="2" fill="#FBFAF6"/><rect x="23" y="8" width="11" height="8" rx="2" fill="#FBFAF6"/><rect x="38" y="8" width="11" height="8" rx="2" fill="#FBFAF6"/><circle cx="14" cy="26" r="3.5" fill="#2B2A26"/><circle cx="42" cy="26" r="3.5" fill="#2B2A26"/></svg>
+<div style="display:flex;flex-direction:column;gap:8px">
+<p style="font-size:24px;font-weight:700;color:#95590A">Рекомендації</p>
+<h2 style="font-size:56px;font-weight:700;line-height:1.15;color:#2B2A26">Що вирішити до демо і що взяти в Phase 2</h2>
+</div>
+<div data-build-in="rise 1 auto" style="position:absolute;left:128px;top:284px;width:1664px;height:646px;display:grid;grid-template-columns:1fr 1fr;gap:24px">
+<div style="background:#FAECE7;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:14px">
+<h3 style="font-size:36px;font-weight:700;color:#712B13">Рекомендуємо вирішити до демо</h3>
+<p style="font-size:32px;line-height:1.35;color:#712B13"><b>Персональні дані:</b> власник, зберігання, юрисдикція</p>
+<p style="font-size:32px;line-height:1.35;color:#712B13"><b>Інфраструктура:</b> хостинг оплачено на 3 місяці, ключі OCR API й акаунти магазинів</p>
+<p style="font-size:32px;line-height:1.35;color:#712B13"><b>Handover:</b> отримувач, дати, власники, підпис</p>
+<p style="font-size:32px;line-height:1.35;color:#712B13"><b>Демо:</b> «scan» називаємо лише фото етикетки</p>
+</div>
+<div style="background:#FAEEDA;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:14px">
+<h3 style="font-size:36px;font-weight:700;color:#633806">Backlog для Phase 2</h3>
+<p style="font-size:32px;line-height:1.35;color:#633806"><b>Штрихкод (CR-007):</b> ціна ліцензії, уточнена оцінка, окремий бюджет</p>
+<p style="font-size:32px;line-height:1.35;color:#633806"><b>Мультимовні етикетки</b> і allergen flags</p>
+<p style="font-size:32px;line-height:1.35;color:#633806"><b>Дефекти:</b> сортування історії сканувань, краш OCR на глянцевих вигнутих етикетках</p>
+<p style="font-size:32px;line-height:1.35;color:#633806"><b>Вимірювання:</b> довіра і повторне використання</p>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:56px;width:1664px;font-size:24px;color:#6F6D66">Склад команди Phase 2 не визначено</p>
+
+</section>
+<section id="closing" data-transition="fade" style="background:#17302B;color:#FBFAF6;font-family:'Manrope', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;justify-content:space-between;gap:48px">
+<div data-build-in="rise 1 auto" style="position:absolute;left:128px;top:128px;width:1664px;display:flex;flex-direction:column;gap:32px">
+<p style="font-size:28px;color:#9FE1CB">Підсумок</p>
+<h2 style="font-size:96px;font-weight:800;line-height:1.1;color:#FBFAF6">Beta вчасно. $48,7k при NTE $50k. MVP повністю.</h2>
+<p style="font-size:44px;line-height:1.25;color:#E1F5EE">Головний урок: критичний ланцюг на одній людині потребує запасу ще до старту.</p>
+</div>
+<div data-build-in="fade 2 auto" style="position:absolute;left:128px;bottom:128px;width:1664px;display:flex;justify-content:space-between;align-items:flex-end;gap:48px">
+<p style="font-size:44px;font-weight:700;color:#FBFAF6">Дякуємо! Ваші питання?</p>
+<p style="font-size:28px;color:#BFD8D5">dreshpack.github.io/nutriscan</p>
+</div>
+
+</section>
+</main>
+<nav id="ui" aria-label="Керування презентацією">
+<button id="prev" aria-label="Назад">←</button><span id="count"></span><button id="next" aria-label="Далі">→</button><button id="full" aria-label="На весь екран">⛶</button>
+</nav>
+<script>
+(function(){
+var stage=document.getElementById('stage');
+var slides=[].slice.call(stage.querySelectorAll(':scope>section'));
+var EASE='cubic-bezier(.2,.8,.2,1)';
+var FX={fade:[{opacity:0},{opacity:1}],
+ rise:[{opacity:0,transform:'translateY(56px)'},{opacity:1,transform:'none'}],
+ drop:[{opacity:0,transform:'translateY(-120px)'},{opacity:1,transform:'translateY(12px)',offset:.7},{opacity:1,transform:'none'}],
+ left:[{opacity:0,transform:'translateX(-140px)'},{opacity:1,transform:'none'}],
+ right:[{opacity:0,transform:'translateX(140px)'},{opacity:1,transform:'none'}],
+ scale:[{opacity:0,transform:'scale(.82)'},{opacity:1,transform:'none'}],
+ pop:[{opacity:0,transform:'scale(.6)'},{opacity:1,transform:'scale(1.05)',offset:.7},{opacity:1,transform:'none'}]};
+var BUILD_MS=500,AUTO_GAP=120,FIRST_AUTO=450;
+var cur=-1,step=0,timer=null,steps=[];
+function parse(sec){var map={};[].forEach.call(sec.children,function(el){var v=el.getAttribute('data-build-in');if(!v)return;var a=v.trim().split(/\s+/),o=+a.filter(function(x){return /^\d+$/.test(x)})[0]||1;(map[o]=map[o]||{order:o,auto:false,items:[]});map[o].items.push({el:el,fx:a[0]});if(a.indexOf('auto')>=0)map[o].auto=true});return Object.keys(map).map(Number).sort(function(a,b){return a-b}).map(function(k){return map[k]})}
+function post(sec,msg){[].forEach.call(sec.querySelectorAll('iframe'),function(f){if(f.contentWindow)f.contentWindow.postMessage(msg,'*')})}
+function reveal(s,instant){s.items.forEach(function(it){it.el.classList.remove('hidden-build');it.el.getAnimations().forEach(function(a){a.cancel()});if(!instant)it.el.animate(FX[it.fx]||FX.fade,{duration:it.fx==='drop'||it.fx==='pop'?620:BUILD_MS,easing:EASE,fill:'backwards'})});post(slides[cur],{deckStep:s.order})}
+function schedule(){clearTimeout(timer);timer=null;var n=steps[step];if(n&&n.auto)timer=setTimeout(function(){timer=null;reveal(n);step++;schedule()},step===0?FIRST_AUTO:BUILD_MS+AUTO_GAP)}
+function show(i,atEnd){i=Math.max(0,Math.min(slides.length-1,i));clearTimeout(timer);timer=null;
+ if(cur>=0&&cur!==i)slides[cur].classList.remove('on');
+ cur=i;var sec=slides[i];sec.classList.add('on');steps=parse(sec);step=0;post(sec,{deckReset:true});
+ steps.forEach(function(s){s.items.forEach(function(it){it.el.getAnimations().forEach(function(a){a.cancel()});it.el.classList.add('hidden-build')})});
+ if(atEnd){steps.forEach(function(s){reveal(s,true)});step=steps.length}else{sec.animate([{opacity:0},{opacity:1}],{duration:320,easing:'ease-out'});schedule()}
+ document.getElementById('count').textContent=(i+1)+' / '+slides.length;
+ try{history.replaceState(null,'','#slide-'+(i+1))}catch(e){}}
+function next(){if(step<steps.length){reveal(steps[step]);step++;schedule();return}if(cur<slides.length-1)show(cur+1)}
+function prev(){if(cur>0)show(cur-1,true)}
+function fit(){var k=Math.min(innerWidth/1920,innerHeight/1080);stage.style.transform='translate('+Math.round((innerWidth-1920*k)/2)+'px,'+Math.round((innerHeight-1080*k)/2)+'px) scale('+k+')'}
+function full(){var d=document;if(d.fullscreenElement)d.exitFullscreen();else if(d.documentElement.requestFullscreen)d.documentElement.requestFullscreen()}
+addEventListener('resize',fit);fit();
+addEventListener('keydown',function(e){if(e.metaKey||e.ctrlKey||e.altKey)return;var k=e.key;if(k==='ArrowRight'||k==='PageDown'||k===' '||k==='Enter'){if(e.target.tagName==='BUTTON'&&(k===' '||k==='Enter'))return;e.preventDefault();next()}else if(k==='ArrowLeft'||k==='PageUp'){e.preventDefault();prev()}else if(k==='Home')show(0);else if(k==='End')show(slides.length-1);else if(k==='f'||k==='F')full()});
+stage.addEventListener('click',next);
+document.getElementById('next').addEventListener('click',next);
+document.getElementById('prev').addEventListener('click',prev);
+document.getElementById('full').addEventListener('click',full);
+var tx=null;addEventListener('touchstart',function(e){tx=e.touches[0].clientX},{passive:true});
+addEventListener('touchend',function(e){if(tx===null)return;var d=e.changedTouches[0].clientX-tx;tx=null;if(d<-50)next();else if(d>50)prev()},{passive:true});
+var m=/^#slide-(\d+)$/.exec(location.hash);show(m?+m[1]-1:0);
+})();
+</script>
+</body>
+</html>
